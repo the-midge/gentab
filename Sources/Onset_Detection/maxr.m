@@ -5,7 +5,8 @@ function [xi,yi,hc] = maxr(a)
 %               [xi,yi,hc] = maxr(a)
 %
 %  Calls max() followed by qint() for quadratic interpolation.
-%
+%   COMMENTAIRE:
+%       utilisé dans peakdet2.
    [m,n] = size(a);
    if m==1, a=a'; t=m; m=n; n=t; end;
    [y,x] = max(a);

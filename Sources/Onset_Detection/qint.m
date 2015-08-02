@@ -7,6 +7,8 @@ function [p,y,a] = qint(ym1,y0,yp1)
 %       of a parabolic fit through three points.
 %       The parabola is given by y(x) = a*(x-p)^2+b,
 %       where y(-1)=ym1, y(0)=y0, y(1)=yp1.
+%   COMMENT:
+%       Utilisé dans peakdet2.
 
    p = (yp1 - ym1)/(2*(2*y0 - yp1 - ym1));
    if nargout>1

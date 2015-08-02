@@ -13,7 +13,7 @@
 
 %% Définition des paramètres de prétraitement
 % Degré de lissage
-degre_lissage=5;
+degre_lissage=10;
 %Paramètres de la stft
 N=2^11; h=441;   %fonctionne bien pour h=441
 
@@ -59,7 +59,7 @@ peaks(round(loc))=1;
 %peaks=peaks+detection_silences(sf, 1);
 
 %% Fin de l'algorithme
-% visualisation des résultats
+% Visualisation des résultats
 figure(2),plot(t, [sf max(sf)*peaks ones(size(sf))*seuil])  % à modifier légèrement pour un seuil variable
 
 clear N h ecart_minimal sensibilite degre_lissage

@@ -57,9 +57,9 @@ liste_notes_groupees=set(liste_notes_groupees, 'VarNames', {['DureeDeLaNote'], [
 tempos_candidats=sort(tempos_candidats);
 tempo= determinationTempo( liste_notes_groupees, tempos_candidats )
 
-notes_normees_modifiees= correction_double_croche_pointee( notes_normees, classe_double_croche, tempo, ecart, Fs );
+% notes_normees= correction_double_croche_pointee( notes_normees, classe_double_croche, tempo, ecart, Fs );
 %% Création du vecteur contenant toutes les types de notes joués dans l'ordre
 liste_note=[];
 for(i=[1:length(notes_normees)])
-    liste_note=[liste_note;[tab_nom_duree_notes((classe_double_croche-notes_normees_modifiees(i))*2+1)]];
+    liste_note=[liste_note;[tab_nom_duree_notes((classe_double_croche-notes_normees(i))*2+1)]];
 end
