@@ -1,0 +1,1459 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Généré par Microsoft Visio, SVG Export Schéma fonctionnel générateur partition.svg Page-1 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="8.26772in" height="11.6929in"
+		viewBox="0 0 595.276 841.89" xml:space="preserve" color-interpolation-filters="sRGB" class="st16">
+	<v:documentProperties v:langID="1036" v:metric="true" v:viewMarkup="false">
+		<v:userDefs>
+			<v:ud v:nameU="msvSubprocessMaster" v:prompt="" v:val="VT4(Box)"/>
+			<v:ud v:nameU="msvNoAutoConnect" v:val="VT0(1):26"/>
+		</v:userDefs>
+	</v:documentProperties>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:#73ae42;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5;visibility:hidden}
+		.st2 {fill:#73ae42;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
+		.st3 {fill:#4271c6;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
+		.st4 {fill:#5b9bd5;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
+		.st5 {fill:#ffffff;font-family:Calibri;font-size:0.666664em}
+		.st6 {fill:#ffffff;stroke:#5b9bd5;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
+		.st7 {stroke:#5692c9;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
+		.st8 {fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
+		.st9 {fill:#5b9bd5;font-family:Calibri;font-size:0.666664em}
+		.st10 {fill:#5b9bd5;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.25}
+		.st11 {stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
+		.st12 {stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.25}
+		.st13 {marker-end:url(#mrkr4-182);stroke:#5692c9;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
+		.st14 {fill:#5692c9;fill-opacity:1;stroke:#5692c9;stroke-opacity:1;stroke-width:0.16556291390728}
+		.st15 {fill:#5b9bd5;font-family:Calibri;font-size:1.00001em}
+		.st16 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<defs id="Markers">
+		<g id="lend4">
+			<path d="M 2 1 L 0 0 L 2 -1 L 2 1 " style="stroke:none"/>
+		</g>
+		<marker id="mrkr4-182" class="st14" v:arrowType="4" v:arrowSize="2" v:setback="12.08" refX="-12.08" orient="auto"
+				markerUnits="strokeWidth" overflow="visible">
+			<use xlink:href="#lend4" transform="scale(-6.04,-6.04) "/>
+		</marker>
+	</defs>
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<v:userDefs>
+			<v:ud v:nameU="msvThemeOrder" v:val="VT0(0):26"/>
+		</v:userDefs>
+		<title>Page 1</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
+				v:shadowOffsetY="-8.50394"/>
+		<v:layer v:name="Lien" v:index="0"/>
+		<v:layer v:name="Conteneur" v:index="1"/>
+		<g id="group176-1" transform="translate(14.1732,-449.055)" v:mID="176" v:groupContext="group" v:layerMember="1">
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+				<v:ud v:nameU="msvStructureType" v:prompt="" v:val="VT4(Container)"/>
+				<v:ud v:nameU="msvSDContainerMargin" v:prompt="" v:val="VT0(0.11811023622047):24"/>
+				<v:ud v:nameU="msvSDContainerResize" v:prompt="" v:val="VT0(1):26"/>
+				<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(1):26"/>
+				<v:ud v:nameU="msvSDHeadingStyleCount" v:prompt="" v:val="VT0(4):26"/>
+				<v:ud v:nameU="Embellishment" v:prompt="" v:val="VT4(2)"/>
+				<v:ud v:nameU="MultiFormat" v:prompt="" v:val="VT0(0):26"/>
+				<v:ud v:nameU="msvShapeCategories" v:prompt="" v:val="VT4(ContainerStyleDefaults)"/>
+				<v:ud v:nameU="msvSDContainerStyleCount" v:prompt="" v:val="VT0(14):26"/>
+				<v:ud v:nameU="msvSDContainerLocked" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="msvSDContainerNoHighlight" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="msvSDContainerNoRibbon" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="msvSDContainerRequiredCategories" v:prompt="" v:val="VT0(0):26"/>
+				<v:ud v:nameU="msvSDContainerExcludedCategories" v:prompt="" v:val="VT4(DoNotContain)"/>
+				<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(0):26"/>
+				<v:ud v:nameU="MultiFormat" v:prompt="" v:val="VT0(1):26"/>
+			</v:userDefs>
+			<title>Angles</title>
+			<g id="shape176-2" v:mID="176" v:groupContext="groupContent" v:layerMember="1">
+				<rect x="0" y="473.386" width="552.756" height="368.504" class="st1"/>
+			</g>
+			<g id="group177-4" transform="translate(552.756,1315.28) rotate(180)" v:mID="177" v:groupContext="group"
+					v:layerMember="1">
+				<v:userDefs>
+					<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(1):26"/>
+					<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(0):26"/>
+				</v:userDefs>
+				<title>Feuille.177</title>
+				<g id="shape178-5" v:mID="178" v:groupContext="shape" v:layerMember="1">
+					<title>Feuille.178</title>
+					<v:userDefs>
+						<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(1):26"/>
+						<v:ud v:nameU="Embellishment" v:prompt="" v:val="VT4(2)"/>
+						<v:ud v:nameU="Margin" v:prompt="" v:val="VT0(0.11811023622047):24"/>
+						<v:ud v:nameU="HdrHgt" v:prompt="" v:val="VT0(0.31116263699002):1"/>
+						<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(0):26"/>
+						<v:ud v:nameU="HdrHgt" v:prompt="" v:val="VT0(0.27777777777778):3"/>
+					</v:userDefs>
+					<path d="M0 841.89 L12.76 841.89 L12.76 839.76 L2.13 839.76 L2.13 829.13 L0 829.13 L0 841.89 Z" class="st2"/>
+				</g>
+				<g id="shape179-7" v:mID="179" v:groupContext="shape" v:layerMember="1" transform="translate(540,-355.748)">
+					<title>Feuille.179</title>
+					<v:userDefs>
+						<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(1):26"/>
+						<v:ud v:nameU="Embellishment" v:prompt="" v:val="VT4(2)"/>
+						<v:ud v:nameU="MultiFormat" v:prompt="" v:val="VT0(0):26"/>
+						<v:ud v:nameU="Margin" v:prompt="" v:val="VT0(0.11811023622047):24"/>
+						<v:ud v:nameU="HdrHgt" v:prompt="" v:val="VT0(0.31116263699002):1"/>
+						<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(0):26"/>
+						<v:ud v:nameU="MultiFormat" v:prompt="" v:val="VT0(1):26"/>
+						<v:ud v:nameU="HdrHgt" v:prompt="" v:val="VT0(0.27777777777778):3"/>
+					</v:userDefs>
+				</g>
+				<g id="shape180-9" v:mID="180" v:groupContext="shape" v:layerMember="1" transform="translate(540,-355.748)">
+					<title>Feuille.180</title>
+					<v:userDefs>
+						<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(1):26"/>
+						<v:ud v:nameU="Embellishment" v:prompt="" v:val="VT4(2)"/>
+						<v:ud v:nameU="Margin" v:prompt="" v:val="VT0(0.11811023622047):24"/>
+						<v:ud v:nameU="HdrHgt" v:prompt="" v:val="VT0(0.31116263699002):1"/>
+						<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(0):26"/>
+						<v:ud v:nameU="HdrHgt" v:prompt="" v:val="VT0(0.27777777777778):3"/>
+					</v:userDefs>
+					<path d="M12.76 829.13 L0 829.13 L0 831.26 L10.63 831.26 L10.63 841.89 L12.76 841.89 L12.76 829.13 Z"
+							class="st2"/>
+				</g>
+				<g id="shape181-11" v:mID="181" v:groupContext="shape" v:layerMember="1">
+					<title>Feuille.181</title>
+					<v:userDefs>
+						<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(1):26"/>
+						<v:ud v:nameU="Embellishment" v:prompt="" v:val="VT4(2)"/>
+						<v:ud v:nameU="MultiFormat" v:prompt="" v:val="VT0(0):26"/>
+						<v:ud v:nameU="Margin" v:prompt="" v:val="VT0(0.11811023622047):24"/>
+						<v:ud v:nameU="HdrHgt" v:prompt="" v:val="VT0(0.31116263699002):1"/>
+						<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(0):26"/>
+						<v:ud v:nameU="MultiFormat" v:prompt="" v:val="VT0(1):26"/>
+						<v:ud v:nameU="HdrHgt" v:prompt="" v:val="VT0(0.27777777777778):3"/>
+					</v:userDefs>
+					<path d="M552.76 841.89 L540 841.89 L540 839.76 L550.63 839.76 L550.63 829.13 L552.76 829.13 L552.76 841.89 ZM0
+								 473.39 L0 486.14 L2.13 486.14 L2.13 475.51 L12.76 475.51 L12.76 473.39 L0 473.39 Z" class="st3"/>
+				</g>
+				<g id="shape182-13" v:mID="182" v:groupContext="shape" v:layerMember="1" transform="translate(540,0)">
+					<title>Feuille.182</title>
+					<v:userDefs>
+						<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(1):26"/>
+						<v:ud v:nameU="Embellishment" v:prompt="" v:val="VT4(2)"/>
+						<v:ud v:nameU="MultiFormat" v:prompt="" v:val="VT0(0):26"/>
+						<v:ud v:nameU="Margin" v:prompt="" v:val="VT0(0.11811023622047):24"/>
+						<v:ud v:nameU="HdrHgt" v:prompt="" v:val="VT0(0.31116263699002):1"/>
+						<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(0):26"/>
+						<v:ud v:nameU="MultiFormat" v:prompt="" v:val="VT0(1):26"/>
+						<v:ud v:nameU="HdrHgt" v:prompt="" v:val="VT0(0.27777777777778):3"/>
+					</v:userDefs>
+				</g>
+				<g id="shape177-15" v:mID="177" v:groupContext="groupContent" v:layerMember="1">
+					<rect x="0" y="473.386" width="552.756" height="368.504" class="st1"/>
+				</g>
+			</g>
+			<g id="shape183-17" v:mID="183" v:groupContext="shape" v:layerMember="1" transform="translate(0,-346.1)">
+				<title>Feuille.183</title>
+				<desc>Titre</desc>
+				<v:userDefs>
+					<v:ud v:nameU="msvStructureType" v:prompt="" v:val="VT4(Heading)"/>
+					<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(1):26"/>
+					<v:ud v:nameU="msvSDContainerHeadingEdge" v:prompt="" v:val="VT4(Bottom)"/>
+					<v:ud v:nameU="BackFillColor" v:prompt="" v:val="VT5(#96afcf)"/>
+					<v:ud v:nameU="BackLineColor" v:prompt="" v:val="VT5(#1f477d)"/>
+					<v:ud v:nameU="BackCharColor" v:prompt="" v:val="VT5(#000000)"/>
+					<v:ud v:nameU="DarkerColor" v:prompt="" v:val="VT5(#000000)"/>
+					<v:ud v:nameU="msvSDHeadingStyle" v:prompt="" v:val="VT0(0):26"/>
+					<v:ud v:nameU="msvSDContainerHeadingEdge" v:prompt="" v:val="VT4()"/>
+					<v:ud v:nameU="BackFillColor" v:prompt="" v:val="VT5(#73ae42)"/>
+					<v:ud v:nameU="BackLineColor" v:prompt="" v:val="VT5(#ffffff)"/>
+					<v:ud v:nameU="BackCharColor" v:prompt="" v:val="VT5(#ffffff)"/>
+					<v:ud v:nameU="DarkerColor" v:prompt="" v:val="VT5(#73ae42)"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="276.378" cy="830.688" width="552.76" height="22.4037"/>
+				<rect x="0" y="819.486" width="552.756" height="22.4037" class="st1"/>
+			</g>
+		</g>
+		<g id="shape19-19" v:mID="19" v:groupContext="shape" transform="translate(233.858,-763.937)">
+			<title>Feuille.19</title>
+		</g>
+		<g id="group113-20" transform="translate(425.197,-722.835)" v:mID="113" v:groupContext="group">
+			<title>Feuille.113</title>
+			<g id="shape14-21" v:mID="14" v:groupContext="shape">
+				<title>Case redim. automatique.14</title>
+				<desc>Analyse de la composition rythmique</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="65.1969" cy="830.551" width="130.35" height="17.6036"/>
+				<rect x="0" y="819.213" width="130.394" height="22.6772" class="st4"/>
+				<text x="4.93" y="832.95" class="st5" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>Analyse de la composition rythmique</text>			</g>
+			<g id="group112-24" transform="translate(0.566929,-21.2598)" v:mID="112" v:groupContext="group">
+				<title>Feuille.112</title>
+				<g id="shape93-25" v:mID="93" v:groupContext="shape">
+					<title>Feuille.93</title>
+					<rect x="0" y="788.031" width="129.827" height="53.8583" class="st6"/>
+				</g>
+				<g id="group111-27" transform="translate(7.05597,-11.3386)" v:mID="111" v:groupContext="group">
+					<title>Feuille.111</title>
+					<g id="shape94-28" v:mID="94" v:groupContext="shape" transform="translate(842.062,806.457) rotate(90)">
+						<title>Feuille.94</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape95-31" v:mID="95" v:groupContext="shape" transform="translate(854.148,806.457) rotate(90)">
+						<title>Feuille.95</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape96-34" v:mID="96" v:groupContext="shape" transform="translate(875.982,806.457) rotate(90)">
+						<title>Feuille.96</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape97-37" v:mID="97" v:groupContext="shape" transform="translate(886.708,806.457) rotate(90)">
+						<title>Feuille.97</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape98-40" v:mID="98" v:groupContext="shape" transform="translate(891.305,806.457) rotate(90)">
+						<title>Feuille.98</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape99-43" v:mID="99" v:groupContext="shape" transform="translate(897.433,806.457) rotate(90)">
+						<title>Feuille.99</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape100-46" v:mID="100" v:groupContext="shape" transform="translate(917.736,806.457) rotate(90)">
+						<title>Feuille.100</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape101-49" v:mID="101" v:groupContext="shape" transform="translate(929.227,806.457) rotate(90)">
+						<title>Feuille.101</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape102-52" v:mID="102" v:groupContext="shape" transform="translate(947.231,806.457) rotate(90)">
+						<title>Feuille.102</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape103-55" v:mID="103" v:groupContext="shape" transform="translate(0,-10.2047)">
+						<title>Feuille.103</title>
+						<desc>C</desc>
+						<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+						<v:textRect cx="7.08661" cy="836.362" width="14.18" height="11.0551"/>
+						<rect x="0" y="830.835" width="14.1732" height="11.0551" class="st8"/>
+						<text x="4.95" y="838.76" class="st9" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>C</text>					</g>
+					<g id="shape104-58" v:mID="104" v:groupContext="shape" transform="translate(16.4716,-10.2047)">
+						<title>Feuille.104</title>
+						<desc>N</desc>
+						<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+						<v:textRect cx="7.08661" cy="836.362" width="14.18" height="11.0551"/>
+						<rect x="0" y="830.835" width="14.1732" height="11.0551" class="st8"/>
+						<text x="4.5" y="838.76" class="st9" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>N</text>					</g>
+					<g id="shape105-61" v:mID="105" v:groupContext="shape" transform="translate(32.9432,-10.2047)">
+						<title>Feuille.105</title>
+						<desc>C</desc>
+						<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+						<v:textRect cx="7.08661" cy="836.362" width="14.18" height="11.0551"/>
+						<rect x="0" y="830.835" width="14.1732" height="11.0551" class="st8"/>
+						<text x="4.95" y="838.76" class="st9" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>C</text>					</g>
+					<g id="shape106-64" v:mID="106" v:groupContext="shape" transform="translate(40.2213,-10.2047)">
+						<title>Feuille.106</title>
+						<desc>D</desc>
+						<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+						<v:textRect cx="7.08661" cy="836.362" width="14.18" height="11.0551"/>
+						<rect x="0" y="830.835" width="14.1732" height="11.0551" class="st8"/>
+						<text x="4.63" y="838.76" class="st9" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>D</text>					</g>
+					<g id="shape107-67" v:mID="107" v:groupContext="shape" transform="translate(44.818,-10.2047)">
+						<title>Feuille.107</title>
+						<desc>D</desc>
+						<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+						<v:textRect cx="7.08661" cy="836.362" width="14.18" height="11.0551"/>
+						<rect x="0" y="830.835" width="14.1732" height="11.0551" class="st8"/>
+						<text x="4.63" y="838.76" class="st9" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>D</text>					</g>
+					<g id="shape108-70" v:mID="108" v:groupContext="shape" transform="translate(58.9913,-10.2047)">
+						<title>Feuille.108</title>
+						<desc>N</desc>
+						<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+						<v:textRect cx="7.08661" cy="836.362" width="14.18" height="11.0551"/>
+						<rect x="0" y="830.835" width="14.1732" height="11.0551" class="st8"/>
+						<text x="4.5" y="838.76" class="st9" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>N</text>					</g>
+					<g id="shape109-73" v:mID="109" v:groupContext="shape" transform="translate(73.1645,-10.2047)">
+						<title>Feuille.109</title>
+						<desc>C</desc>
+						<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+						<v:textRect cx="7.08661" cy="836.362" width="14.18" height="11.0551"/>
+						<rect x="0" y="830.835" width="14.1732" height="11.0551" class="st8"/>
+						<text x="4.95" y="838.76" class="st9" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>C</text>					</g>
+					<g id="shape110-76" v:mID="110" v:groupContext="shape" transform="translate(89.6361,-10.2047)">
+						<title>Feuille.110</title>
+						<desc>N</desc>
+						<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+						<v:textRect cx="7.08661" cy="836.362" width="14.18" height="11.0551"/>
+						<rect x="0" y="830.835" width="14.1732" height="11.0551" class="st8"/>
+						<text x="4.5" y="838.76" class="st9" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>N</text>					</g>
+				</g>
+			</g>
+		</g>
+		<g id="group114-79" transform="translate(291.802,-722.835)" v:mID="114" v:groupContext="group">
+			<title>Feuille.114</title>
+			<g id="group90-80" transform="translate(0,-18.8976)" v:mID="90" v:groupContext="group">
+				<title>Feuille.90</title>
+				<g id="group87-81" v:mID="87" v:groupContext="group">
+					<title>Feuille.87</title>
+					<g id="shape16-82" v:mID="16" v:groupContext="shape">
+						<title>Feuille.16</title>
+						<rect x="0" y="782.835" width="113.386" height="59.0551" class="st6"/>
+					</g>
+					<g id="group43-84" transform="translate(12.2835,-7.08661)" v:mID="43" v:groupContext="group">
+						<title>Feuille.43</title>
+						<g id="shape22-85" v:mID="22" v:groupContext="shape" transform="translate(5.2458E-014,-3.77953)">
+							<title>Croix</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape23-87" v:mID="23" v:groupContext="shape" transform="translate(4.72441,1.13687E-013)">
+							<title>Croix.23</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape24-89" v:mID="24" v:groupContext="shape" transform="translate(9.44882,-5.66929)">
+							<title>Croix.24</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape25-91" v:mID="25" v:groupContext="shape" transform="translate(14.1732,-0.944882)">
+							<title>Croix.25</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape26-93" v:mID="26" v:groupContext="shape" transform="translate(18.8976,-3.77953)">
+							<title>Croix.26</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape27-95" v:mID="27" v:groupContext="shape" transform="translate(865.512,827.244) rotate(90)">
+							<title>Croix.27</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape28-97" v:mID="28" v:groupContext="shape" transform="translate(868.346,831.969) rotate(90)">
+							<title>Croix.28</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape29-99" v:mID="29" v:groupContext="shape" transform="translate(65.1969,1657.56) rotate(180)">
+							<title>Croix.29</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape30-101" v:mID="30" v:groupContext="shape" transform="translate(60.4724,1653.78) rotate(180)">
+							<title>Croix.30</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape31-103" v:mID="31" v:groupContext="shape" transform="translate(55.748,1659.45) rotate(180)">
+							<title>Croix.31</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape32-105" v:mID="32" v:groupContext="shape" transform="translate(51.0236,1654.72) rotate(180)">
+							<title>Croix.32</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape33-107" v:mID="33" v:groupContext="shape" transform="translate(46.2992,1657.56) rotate(180)">
+							<title>Croix.33</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape34-109" v:mID="34" v:groupContext="shape" transform="translate(-800.315,826.535) rotate(-90)">
+							<title>Croix.34</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape35-111" v:mID="35" v:groupContext="shape" transform="translate(-803.15,821.811) rotate(-90)">
+							<title>Croix.35</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape36-113" v:mID="36" v:groupContext="shape" transform="translate(64.252,-38.0315)">
+							<title>Croix.36</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape37-115" v:mID="37" v:groupContext="shape" transform="translate(68.9764,-34.252)">
+							<title>Croix.37</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape38-117" v:mID="38" v:groupContext="shape" transform="translate(73.7008,-39.9213)">
+							<title>Croix.38</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape39-119" v:mID="39" v:groupContext="shape" transform="translate(78.4252,-35.1969)">
+							<title>Croix.39</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape40-121" v:mID="40" v:groupContext="shape" transform="translate(83.1496,-38.0315)">
+							<title>Croix.40</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape41-123" v:mID="41" v:groupContext="shape" transform="translate(929.764,792.992) rotate(90)">
+							<title>Croix.41</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+						<g id="shape42-125" v:mID="42" v:groupContext="shape" transform="translate(932.598,797.717) rotate(90)">
+							<title>Croix.42</title>
+							<v:userDefs>
+								<v:ud v:nameU="ScaleFactor" v:val="VT0(1):26"/>
+								<v:ud v:nameU="ControlX1" v:val="VT0(0):26"/>
+								<v:ud v:nameU="ControlY1" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlX2" v:val="VT0(0.66929133858268):24"/>
+								<v:ud v:nameU="ControlY2" v:val="VT0(0):26"/>
+								<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+								<v:ud v:nameU="LockBars" v:prompt="" v:val="VT0(1):5"/>
+								<v:ud v:nameU="ControlY1" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+								<v:ud v:nameU="ControlX2" v:prompt="" v:val="VT0(0.04658792832021):1"/>
+							</v:userDefs>
+							<path d="M0 838.54 L3.35 838.54 L3.35 841.89 L4.2 841.89 L4.2 838.54 L7.56 838.54 L7.56 837.69 L4.2 837.69
+										 L4.2 834.33 L3.35 834.33 L3.35 837.69 L0 837.69 L0 838.54 Z" class="st10"/>
+						</g>
+					</g>
+					<g id="group77-127" transform="translate(5.90551,-3.30709)" v:mID="77" v:groupContext="group">
+						<title>Feuille.77</title>
+						<g id="shape74-128" v:mID="74" v:groupContext="shape" transform="translate(0,-3.15071)">
+							<title>Feuille.74</title>
+							<path d="M0 841.89 L103.7 841.89" class="st7"/>
+						</g>
+						<g id="shape75-131" v:mID="75" v:groupContext="shape"
+								transform="translate(517.077,105.299) rotate(29.8156)">
+							<title>Feuille.75</title>
+							<path d="M0 841.89 L6.02 841.89" class="st7"/>
+						</g>
+						<g id="shape76-134" v:mID="76" v:groupContext="shape"
+								transform="translate(522.296,1569.19) rotate(150.184)">
+							<title>Feuille.76</title>
+							<path d="M0 841.89 L6.34 841.89" class="st7"/>
+						</g>
+					</g>
+					<g id="group78-137" transform="translate(-832.441,834.803) rotate(-90)" v:mID="78" v:groupContext="group">
+						<title>Feuille.78</title>
+						<g id="shape79-138" v:mID="79" v:groupContext="shape" transform="translate(0,-3.15071)">
+							<title>Feuille.79</title>
+							<path d="M0 841.89 L47.24 841.89" class="st7"/>
+						</g>
+						<g id="shape80-141" v:mID="80" v:groupContext="shape" transform="translate(703.88,311.84) rotate(51.5157)">
+							<title>Feuille.80</title>
+							<path d="M0 841.89 L3.82 841.89" class="st7"/>
+						</g>
+						<g id="shape81-144" v:mID="81" v:groupContext="shape"
+								transform="translate(706.257,1362.65) rotate(128.484)">
+							<title>Feuille.81</title>
+							<path d="M0 841.89 L4.03 841.89" class="st7"/>
+						</g>
+					</g>
+				</g>
+				<g id="group89-147" transform="translate(56.6929,-37.7953)" v:mID="89" v:groupContext="group">
+					<title>Feuille.89</title>
+					<g id="shape83-148" v:mID="83" v:groupContext="shape" transform="translate(844.068,803.822) rotate(88.4058)">
+						<title>Feuille.83</title>
+						<path d="M0 841.89 L14.25 841.89" class="st11"/>
+					</g>
+					<g id="shape85-151" v:mID="85" v:groupContext="shape" transform="translate(-592.802,1437.2) rotate(-135)">
+						<title>Feuille.85</title>
+						<path d="M0 841.89 L3.54 841.89" class="st11"/>
+					</g>
+					<g id="shape88-154" v:mID="88" v:groupContext="shape" transform="translate(-592.802,246.584) rotate(-45)">
+						<title>Feuille.88</title>
+						<path d="M0 841.89 L4.22 841.89" class="st11"/>
+					</g>
+				</g>
+			</g>
+			<g id="shape91-157" v:mID="91" v:groupContext="shape">
+				<title>Case</title>
+				<desc>Calcul du tempo</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="56.6929" cy="832.792" width="113.39" height="18.1954"/>
+				<rect x="0" y="823.694" width="113.386" height="18.1954" class="st4"/>
+				<text x="30.27" y="835.19" class="st5" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>Calcul du tempo</text>			</g>
+		</g>
+		<g id="group115-160" transform="translate(19.8425,-727.837)" v:mID="115" v:groupContext="group">
+			<title>Feuille.115</title>
+			<g id="shape1-161" v:mID="1" v:groupContext="shape">
+				<title>Case redim. automatique</title>
+				<desc>Détection d’attaque</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="39.685" cy="830.551" width="75.12" height="17.6036"/>
+				<rect x="0" y="819.213" width="79.3701" height="22.6772" class="st4"/>
+				<text x="7.04" y="832.95" class="st5" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>Détection d’attaque</text>			</g>
+			<g id="group12-164" transform="translate(3.19744E-014,-22.6772)" v:mID="12" v:groupContext="group">
+				<title>Feuille.12</title>
+				<g id="shape2-165" v:mID="2" v:groupContext="shape">
+					<title>Feuille.2</title>
+					<rect x="0" y="807.542" width="79.3701" height="34.3481" class="st6"/>
+				</g>
+				<g id="group11-167" transform="translate(17.0079,-5.66929)" v:mID="11" v:groupContext="group">
+					<title>Feuille.11</title>
+					<g id="shape8-168" v:mID="8" v:groupContext="shape" transform="translate(-9.2643,-3.23551) rotate(-0.636594)">
+						<title>Feuille.8</title>
+						<path d="M0 833.84 C2.47 833.16 6.77 834.78 8.69 835.1 C10.42 835.39 10.22 834.63 10.22 831.89 C10.23 829.52
+									 10.39 825.67 10.76 824.7 C11.4 823.05 12.65 829.7 12.78 835.32 C12.85 838.64 12.53 841.59 12.94
+									 841.89 C13.23 842.1 13.89 840.96 14.37 839.67 C15.16 837.51 15.45 834.92 15.55 831.79 C15.62
+									 829.55 15.59 827.04 15.79 826.63 C16.13 825.96 17.08 831.04 17.59 833.78 C18.16 836.85 18.19
+									 836.98 19.11 833.81 C19.54 832.32 20.17 830.09 20.69 829.61 C21.56 828.81 22.12 832.88 22.75
+									 834.26 C23.3 835.49 23.9 834.64 24.37 834.11 C24.76 833.67 25.06 833.46 25.52 833.68 C26.27
+									 834.05 27.46 835.59 28.26 833.82 C29.15 831.83 29.54 825.7 30.14 826.51 C30.6 827.15 31.18 832.02
+									 31.16 836.06 C31.15 837.79 31.03 839.37 31.12 839.89 C31.25 840.66 31.87 839.03 32.27 837.59
+									 C32.72 836.02 32.9 834.68 33.43 831.81 C33.68 830.46 34.01 828.77 34.26 828.81 C34.72 828.88
+									 34.87 835.39 35.08 836.88 C35.33 838.58 35.66 833.61 37.08 832.32 C38.27 831.23 40.23 832.77
+									 41.39 833.6 C44.01 835.48 42.52 833.74 51.03 833.84" class="st7"/>
+					</g>
+					<g id="shape9-171" v:mID="9" v:groupContext="shape" transform="translate(852.094,817.512) rotate(90)">
+						<title>Feuille.9</title>
+						<path d="M0 841.89 L24.38 841.89" class="st12"/>
+					</g>
+					<g id="shape10-174" v:mID="10" v:groupContext="shape" transform="translate(870.236,817.512) rotate(90)">
+						<title>Feuille.10</title>
+						<path d="M0 841.89 L24.38 841.89" class="st12"/>
+					</g>
+				</g>
+			</g>
+		</g>
+		<g id="shape118-177" v:mID="118" v:groupContext="shape" v:layerMember="0" transform="translate(405.188,-756.85)">
+			<title>Lien dynamique.118</title>
+			<path d="M0 834.8 L14.54 834.8" class="st13"/>
+		</g>
+		<g id="group149-183" transform="translate(21.2598,-581.102)" v:mID="149" v:groupContext="group">
+			<title>Feuille.149</title>
+			<g id="shape144-184" v:mID="144" v:groupContext="shape" transform="translate(0,-21.2598)">
+				<title>Feuille.144</title>
+				<rect x="0" y="792.283" width="113.386" height="49.6063" class="st6"/>
+			</g>
+			<g id="shape145-186" v:mID="145" v:groupContext="shape">
+				<title>Case.145</title>
+				<desc>FFT</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="56.6929" cy="831.468" width="113.39" height="20.843"/>
+				<rect x="0" y="821.047" width="113.386" height="20.843" class="st4"/>
+				<text x="51.07" y="833.87" class="st5" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>FFT</text>			</g>
+			<g id="shape148-189" v:mID="148" v:groupContext="shape" transform="translate(16.3681,-22.6772)">
+				<title>Feuille.148</title>
+				<rect v:rectContext="foreign" x="0" y="802.205" width="80.6497" height="39.685" class="st8"/>
+				<switch>
+					<foreignObject x="0" y="802.205" width="80.6497" height="39.685"
+							requiredExtensions="http://schemas.microsoft.com/visio/2003/SVGExtensions/">
+						<v:foreignData v:dataType="ole" v:type="33280" v:orgSize="191488" v:data="data:metafile;base64,eNrsfQlgV
+									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
+									P8LiAj/yQ=="/>
+					</foreignObject>
+					<svg viewBox="0 0 464.33 228.47" enable-background="new" color-interpolation-filters="sRGB" height="39.685"
+							preserveAspectRatio="none" width="80.6497" x="0" y="802.205">
+						<defs>
+							<clipPath id="mfid1">
+								<rect id="mfid2" x="0" y="0" width="464.33" height="228.47"/>
+							</clipPath>
+						</defs>
+						<g clip-path="url(#mfid1)">
+							<g stroke="#000000" stroke-miterlimit="10" fill="none">
+								<image width="464" height="228" xlink:href="data:image/png;base64,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"/>
+							</g>
+						</g>
+					</svg>
+				</switch>
+				<rect v:rectContext="foreign" x="0" y="802.205" width="80.6497" height="39.685" class="st8"/>
+			</g>
+		</g>
+		<g id="shape150-192" v:mID="150" v:groupContext="shape" v:layerMember="0" transform="translate(52.4409,-727.837)">
+			<title>Lien dynamique</title>
+			<path d="M7.09 841.89 L7.09 911.72" class="st13"/>
+		</g>
+		<g id="shape152-197" v:mID="152" v:groupContext="shape" transform="translate(170.079,-581.102)">
+			<title>Case.152</title>
+			<desc>Détermination de la gamme</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="49.6063" cy="806.457" width="99.22" height="70.8661"/>
+			<rect x="0" y="771.024" width="99.2126" height="70.8661" class="st4"/>
+			<text x="4.01" y="808.86" class="st5" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>Détermination de la gamme</text>		</g>
+		<g id="group160-200" transform="translate(28.3465,-496.063)" v:mID="160" v:groupContext="group">
+			<title>Feuille.160</title>
+			<g id="shape159-201" v:mID="159" v:groupContext="shape" transform="translate(0,-21.2598)">
+				<title>Feuille.159</title>
+				<rect x="0" y="816.945" width="113.386" height="24.9449" class="st6"/>
+			</g>
+			<g id="shape157-203" v:mID="157" v:groupContext="shape">
+				<title>Case.157</title>
+				<desc>Comparaison à des notes pures</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="56.6929" cy="831.26" width="113.39" height="21.2598"/>
+				<rect x="0" y="820.63" width="113.386" height="21.2598" class="st4"/>
+				<text x="5.79" y="833.66" class="st5" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>Comparaison à des notes pures</text>			</g>
+			<g id="shape158-206" v:mID="158" v:groupContext="shape" transform="translate(3.54331,-24.481)">
+				<title>Feuille.158</title>
+				<path d="M0 839.78 C4.65 839.76 8.12 840.38 9.93 838.14 C11.39 836.33 11.75 832.64 12.77 830.68 C14.06 828.21 16.39
+							 828.49 17.76 831.03 C18.96 833.24 19.44 837.16 22.45 839.05 C24.12 840.09 26.55 840.52 28.46 840.16
+							 C33.53 839.21 34.89 832.72 36.91 829.77 C38.42 827.58 40.3 827.35 42.39 830.25 C44.61 833.32 47.08 839.92
+							 50.21 839.85 C52.73 839.79 55.68 835.42 57.8 832.62 C60.76 828.71 62.09 827.91 64.62 832.75 C66.27 835.89
+							 68.42 841.41 70.38 841.78 C72.83 842.24 74.98 834.61 77.23 831.74 C78.53 830.1 79.86 830.03 80.9 831.93
+							 C82.47 834.77 83.41 842.01 85.57 841.89 C87.18 841.8 89.46 837.66 91.42 835.12 C96.32 828.77 99.21 832.41
+							 99.21 831.84 C100.96 835.03 101.48 839.78 106.3 837.51" class="st7"/>
+			</g>
+		</g>
+		<g id="group164-209" transform="translate(164.409,-497.48)" v:mID="164" v:groupContext="group">
+			<title>Feuille.164</title>
+			<g id="shape151-210" v:mID="151" v:groupContext="shape" transform="translate(5.66929,0)">
+				<title>Case.151</title>
+				<desc>Détermination des notes</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="56.6929" cy="831.26" width="113.39" height="21.2598"/>
+				<rect x="0" y="820.63" width="113.386" height="21.2598" class="st4"/>
+				<text x="16.35" y="833.66" class="st5" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>Détermination des notes</text>			</g>
+			<g id="shape161-213" v:mID="161" v:groupContext="shape" transform="translate(5.66929,-21.2598)">
+				<title>Feuille.161</title>
+				<rect x="0" y="807.874" width="113.386" height="34.0157" class="st6"/>
+			</g>
+			<g id="shape163-215" v:mID="163" v:groupContext="shape" transform="translate(0,-23.9277)">
+				<title>Feuille.163</title>
+				<desc>….C-E-G-G-C-G-C-….</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="62.3622" cy="829.05" width="124.73" height="25.6786"/>
+				<rect x="0" y="816.211" width="124.724" height="25.6786" class="st8"/>
+				<text x="14.31" y="832.65" class="st15" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>….C-E-G-G-C-G-C-….</text>			</g>
+		</g>
+		<g id="shape165-218" v:mID="165" v:groupContext="shape" v:layerMember="0" transform="translate(212.598,-552.756)">
+			<title>Lien dynamique.165</title>
+			<path d="M7.09 841.89 L7.09 819.58" class="st13"/>
+		</g>
+		<g id="shape166-223" v:mID="166" v:groupContext="shape" v:layerMember="0" transform="translate(269.291,-616.535)">
+			<title>Lien dynamique.166</title>
+			<path d="M0 841.89 L36.14 841.89 L36.14 933.31 L20.21 933.31" class="st13"/>
+		</g>
+		<g id="shape167-228" v:mID="167" v:groupContext="shape" v:layerMember="0" transform="translate(70.8661,-581.102)">
+			<title>Lien dynamique.167</title>
+			<path d="M7.09 841.89 L7.09 874.68" class="st13"/>
+		</g>
+		<g id="shape168-233" v:mID="168" v:groupContext="shape" v:layerMember="0" transform="translate(141.732,-500.315)">
+			<title>Lien dynamique.168</title>
+			<path d="M0 835.51 L10.63 835.51 L10.63 834.09 L22.31 834.09" class="st13"/>
+		</g>
+		<g id="group169-238" transform="translate(382.677,-496.063)" v:mID="169" v:groupContext="group">
+			<title>Feuille.169</title>
+			<g id="shape155-239" v:mID="155" v:groupContext="shape" transform="translate(7.99361E-014,-22.6772)">
+				<title>Feuille.155</title>
+				<rect x="0" y="779.528" width="170.079" height="62.3622" class="st6"/>
+			</g>
+			<g id="group156-241" v:mID="156" v:groupContext="group">
+				<title>Feuille.156</title>
+				<g id="shape153-242" v:mID="153" v:groupContext="shape">
+					<title>Case.153</title>
+					<desc>Édition de la partition</desc>
+					<v:userDefs>
+						<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+					</v:userDefs>
+					<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+					<v:textRect cx="85.0394" cy="831.26" width="170.08" height="21.2598"/>
+					<rect x="0" y="820.63" width="170.079" height="21.2598" class="st4"/>
+					<text x="49.82" y="833.66" class="st5" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>Édition de la partition</text>				</g>
+				<g id="shape154-245" v:mID="154" v:groupContext="shape" transform="translate(3.6,-22.8189)">
+					<title>Feuille.154</title>
+					<rect v:rectContext="foreign" x="0" y="785.339" width="166.479" height="56.5512" class="st8"/>
+					<switch>
+						<foreignObject x="0" y="785.339" width="166.479" height="56.5512"
+								requiredExtensions="http://schemas.microsoft.com/visio/2003/SVGExtensions/">
+							<v:foreignData v:dataType="ole" v:type="33280" v:orgSize="172032" v:data="data:metafile;base64,eNrtn
+										QecHFUdx9/eJSEk4UJCgCRAOAKEo4dOQk1CAgFSNAKCFTVISUQgoNjL2WOPKBYUC3aUYhdrPDWiRGxBERHB3gXXR
+										s7f7O7lc2yZsvtm5r2d7+P3Tfb2srOzM9957/9mh93Nd0y59/qbZv7S1LUTTa/ZOry9GTfqvl5RGvlhR2N6aj9vH
+										R4eHrl7jAgWNkzzoj0s7q3tw621n4N9vp0YL7YXE8REMUnsIPrE5KoCZoqYKnYS08TOYhexq5guZoiZYjexu9hDz
+										BJ7in6xl5gt9hb7iH3FHLGfGBD7iwPEgeIgcbA4RBwq5orDxOHiCHGkOEocLY4Rx4p5Yr44ThwvTqi4bcxJ4mSxQ
+										CwUi8QpYrFYIk4Vp4ml4nRxhjhTLBPLxQqxUjxKPFqsEo8RZ4mzxTniseJccZ54nHi8eIJ4oniSeLI4XzxFPFU8T
+										awWF4iniwvFReJicYlYI9aKZ4hLxTPFZeJycYVYJ64UV4lniWeLq8VzxHPF88TzxQvEC8WLKut+qf5bp32xWMtdp
+										2VdbZK0XczYbcd6T8WV3sr9X6n+ekmzx1T+Ra0jKWlLrqm86vbaBNNTGu1z3MdNMyPPv0ivf6225Qrth4sTP/9UP
+										X+p1u/Fff5SzaOg9dRe/0pt+dXai3Mr/8Vv07WEpK9/bHCM3VrdAVtr+23k+KcVq5Wqw3jbrSRzeidU3a8/9oMxZ
+										OXCy6+84kLT/OaD826+zHTWAov/Z2jttheLl4iXikHxMvFy8QrxSvEq8WrxGrFevFa8TrxevEG8UbxJvFlsEG8R1
+										4i3ireJa8XbxTvEO8W7xHXi3eI94nrxXvE+8X7xAXGD+KD4kPiw+Ij4qPiY+Li4UXxCfFLcJG4Wt4hbxafEp8Vnx
+										GfF58TnxRfEF8Vt4kviyzVPvyq+Jr4uNopviCHxTfEt8W2xSXxH3C6+K74n7hCbxffFneIH4ofiR+LH4idii7hL/
+										FT8TNwtfi7uEb+oq7l+pZ/vFw+IX4vfiN+K34nfiz+IP4o/iT+Lv4i/ir+Jv4t/iAfFQ+Kfoiz+Jf4t/iP+WztOH
+										g6eNxiragdPcNz21cavUm0M66+58ZCKrPkq8jbdUtLvVAn2PhC8HHPJmsrIr9/MGTfZzO4/Z9mSRaXa0XhDsCEqx
+										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
+										Wn7PxIv2s4="/>
+						</foreignObject>
+						<svg viewBox="0 0 464.33 157.71" enable-background="new" color-interpolation-filters="sRGB"
+								height="56.5512" preserveAspectRatio="none" width="166.479" x="0" y="785.339">
+							<defs>
+								<clipPath id="mfid3">
+									<rect id="mfid4" x="0" y="0" width="464.33" height="157.71"/>
+								</clipPath>
+							</defs>
+							<g clip-path="url(#mfid3)">
+								<g stroke="#000000" stroke-miterlimit="10" fill="none">
+									<image width="464" height="158" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAABTCAIAAAB/Ky7mAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAATRSURBVHhe7ZZhcqswDITf4Xu2Xqk/+0REHGVtFGMrQZTd+aYDliwLZYfy7/f3h5CE0JokKbQmSQqtSZJCa5Kk0JokKbQmSQqtSZJCa5Kk0JokKbQmSQqtSZJCa5Kk0JokKbQmSQqtSZJyGmv+6xPsIuel67fM8JOr894qOJEcS681D//ltIcMgsbIm3g96PUHuQlCn2Tt4MyCJyI+L+a1DvUuiH6SztO1z7MLHuqanMmaPYJdWzQztUIGQWPXxJvCOqf7pOz159HT3yo4cYs1+52CE6/Ja2vCir39JNpMBkFjQnOxRrf3CDZeE28K9ZgOnJo2c2rBE23Rn/m32ZxCc5oHTq3z6FvXpxc81DX5a9bspFlteeAcgsauyToLikonsGqhGXXydzFQJ+po5ZBqktYp2HhNNqdQDyhwagN1oo5WrlPtvGxOoR6QrERNbaBO1NHKdaqdl80pwIDkNnBkA6UCTxeuU+28bE7BDkiuVWVlkoFSgacLl6pWC3JystlleQB9GFWJTjJQKvB04VLVhgWlPox3/NrgXRCdYaDa4Q04JK/2bsGJUazVKSqdwKqFNXwXRCcZKBjbw8WryWISQWOWdmzdZwQJkwwUjO2B1XqQve8WnGhpxNZNRpAwz0DN2DZYLRA5YlhQyoKxdYcRJIQwUDa2E1b7PNJJLcixPMXW9GfZhCg6y35/f2sPegHRGVgtA35vTzFJtdIVmxDFy7LFlFaQMwOrZcDv7RGTPKuyWBIC8cs2fSmCtBlYLQN+bxKlqJSqHVpsC+sqGx3Gr6MHgeRVCml74ZdrNvzelphkFD0CrkraGH4FPcJq0pfNLwTImeE61WLxe1tikqF6rL5SyRzjZQX7hoPQXpq+FEHaDNepFovf2xKTDNVjtVK9WJIHmNy+C+22FqTNcJ1qsfi9LTHJsEl6qyorTnSAmb170VZBgS9jvYDoDJmrxeL3tsQkwybprciulGu9VdnFXczs3Yu2ajXpy+YXAuTMkLlaLH5vS2wZrUmCW12xt7pSL/Yzs3cA+4aD0F6avhRB2gyZq8Xi97aMlaIyqji0uLW+rVeWna7lfWb2Hos+OKjzZSyZ8vfr60su5K+ohOx7Xf6W9Xliq8Xi97bGlqmYvHoPrNzSvbo+M3uPRR/cqseXa2olCTW/EOzeSWKrxeL39ohB3q7bvUxuPxb7hoPQFvqOlC36ppQLXW/6UqTREGKrxeL39ojdZvKUaldsyK6PMbn9pJSnthdNaTSE2Gqx+L09xW5j2czWkJ/TyXyFM1Ke2l7U6n8Zb2Hf6/IXonnwe2vEbg+1uS6C9QFCipwOferyn10vQJO+bH4hQE4e/N42Y/pUIMgZJrDUKdDp1ZKQfcPZLQM0fSmCtDz4vWnzFJVPYFWHvfkEKNN70xhvvw9q/mUci/0vIX8hatk3I78WOZbbL/6kVL5sfm9AjoXW/FPYdxKEjqXpSxGkWdqxdV+1s14hpAe1Uy1IszRi66a7IGRvCelEvQTyX+1otXWTEUTtLSGdqJesXn5y0JrkQ+z9DqY1SVJeWLOOwgohb6JhtaYpBfqSfJK229SdIMgh5K3QcCQptCZJCq1JkkJrkqTQmiQptCZJCq1JkkJrkqTQmiQptCZJCq1JkkJrkpT8/vwHw1ei4i9NjwEAAAAASUVORK5CYII="/>
+								</g>
+							</g>
+						</svg>
+					</switch>
+					<rect v:rectContext="foreign" x="0" y="785.339" width="166.479" height="56.5512" class="st8"/>
+				</g>
+			</g>
+		</g>
+		<g id="shape170-248" v:mID="170" v:groupContext="shape" v:layerMember="0" transform="translate(483.307,-722.835)">
+			<title>Lien dynamique.170</title>
+			<path d="M7.09 841.89 L7.09 977.58" class="st13"/>
+		</g>
+		<g id="shape171-253" v:mID="171" v:groupContext="shape" v:layerMember="0" transform="translate(283.465,-514.488)">
+			<title>Lien dynamique.171</title>
+			<path d="M0 848.27 L10.63 848.27 L10.63 849.69 L93.17 849.69" class="st13"/>
+		</g>
+		<g id="shape173-258" v:mID="173" v:groupContext="shape" v:layerMember="0" transform="translate(99.2126,-760.602)">
+			<title>Lien dynamique.173</title>
+			<path d="M0 834.8 L22.31 834.8" class="st13"/>
+		</g>
+		<g id="shape174-263" v:mID="174" v:groupContext="shape" v:layerMember="0" transform="translate(257.386,-759.526)">
+			<title>Lien dynamique.174</title>
+			<path d="M0 834.8 L28.38 834.8" class="st13"/>
+		</g>
+		<g id="group175-268" transform="translate(127.559,-722.835)" v:mID="175" v:groupContext="group">
+			<title>Feuille.175</title>
+			<g id="shape139-269" v:mID="139" v:groupContext="shape">
+				<title>Case</title>
+				<desc>Segmentation</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="64.712" cy="833.871" width="129.43" height="16.0381"/>
+				<rect x="0" y="825.852" width="129.424" height="16.0381" class="st4"/>
+				<text x="41.99" y="836.27" class="st5" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>Segmentation</text>			</g>
+			<g id="group143-272" transform="translate(1.59872E-014,-17.0079)" v:mID="143" v:groupContext="group">
+				<title>Feuille.143</title>
+				<g id="group119-273" v:mID="119" v:groupContext="group">
+					<title>Feuille.119</title>
+					<g id="shape120-274" v:mID="120" v:groupContext="shape">
+						<title>Feuille.120</title>
+						<rect x="0" y="788.031" width="129.827" height="53.8583" class="st6"/>
+					</g>
+				</g>
+				<g id="group141-276" transform="translate(8.21664,-8.44689)" v:mID="141" v:groupContext="group">
+					<title>Feuille.141</title>
+					<g id="shape122-277" v:mID="122" v:groupContext="shape" transform="translate(841.89,806.457) rotate(90)">
+						<title>Feuille.122</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape123-280" v:mID="123" v:groupContext="shape" transform="translate(853.975,806.457) rotate(90)">
+						<title>Feuille.123</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape124-283" v:mID="124" v:groupContext="shape" transform="translate(875.81,806.457) rotate(90)">
+						<title>Feuille.124</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape125-286" v:mID="125" v:groupContext="shape" transform="translate(886.535,806.457) rotate(90)">
+						<title>Feuille.125</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape126-289" v:mID="126" v:groupContext="shape" transform="translate(891.132,806.457) rotate(90)">
+						<title>Feuille.126</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape127-292" v:mID="127" v:groupContext="shape" transform="translate(897.261,806.457) rotate(90)">
+						<title>Feuille.127</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape128-295" v:mID="128" v:groupContext="shape" transform="translate(917.563,806.457) rotate(90)">
+						<title>Feuille.128</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape129-298" v:mID="129" v:groupContext="shape" transform="translate(929.055,806.457) rotate(90)">
+						<title>Feuille.129</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+					<g id="shape130-301" v:mID="130" v:groupContext="shape" transform="translate(947.059,806.457) rotate(90)">
+						<title>Feuille.130</title>
+						<path d="M0 841.89 L35.43 841.89" class="st7"/>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+</svg>

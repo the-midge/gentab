@@ -1,0 +1,42 @@
+function [L, bornes]
+% GENE_segmentation.m
+%
+%
+% Description:
+%Ce script construit la liste des différentes notes jouées et repérées par
+%l'algorithme d'Onset Detection. Ces notes se présentent sous la formes de
+%vecteurs de taille variable correspondant à des extrait du son d'origine
+%(sans traitement).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Début du script
+FsSF=(length(sf)/(length(x)/Fs));   %Calcul le rapport de réduction entre 
+%le son d'origine et la sortie de l'algo de "spectral flux".
+t_x=(0:1/Fs:(length(x)-1)/Fs); %Vecteur temps du signal d'origine
+bornes=0;   %Ce vecteur contiendra les bornes dans le domaine temporelle du son d'origine.
+
+
+for i=[1:length(maxtab)]    %Pour chaque attaque détectée,
+bornes=[bornes; find((abs(t_x-maxtab(i,1)/FsSF))==min(abs(t_x-maxtab(i,1)/FsSF)))]; %On ajoute la valeur la plus proche de celle reconstituée via FsSF
+end %a priori pas de vectorisation de cet algorithme possible
+
+segment1=[x(bornes(2):bornes(3))]; 
+%La première note se situe entre les bornes 2 et 3 car le premier segment 
+%est nécéssairement un silence (entre le début et la première attaque).
+L={segment1};   % On initialise la liste de sortie avec la première note
+
+for i=[2:length(bornes)-2]
+L=cat(1,L,[x(bornes(i+1):bornes(i+2))]);    % On ajoute les segment à la liste.
+end
+
+clear FsSF t_x 
+%Cette boucle peut être exécutée pour tester le bon fonctionnement de
+%l'algorithme.
+%Tous les segments sont joués les uns après les autres.
+%On doit retrouvé le morceau d'origine entrecoupé de petits silence entre
+%chaque segment.
+%for i=[1:length(L)]
+%sound(L{i},Fs);
+%end
+
+%% Fin du script
