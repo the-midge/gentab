@@ -1,17 +1,14 @@
 %GENE_analyse_composition_rythmique.m
-%   ----------------------------------------
-%   ------     TODO!    -----------------
-%   -  éliminer les valeurs aberrantes (erreurs de OD, triolet, etc...)    --
-%   ----------------------------------------
 %
-%   On doit éviter les triple croches s'il y en a plus de ???
-%   Ensuite on définit quel étage correspond aux doubles croches et on redescend les étages
-%   Pour arriver à celui qui correspond aux noires.
-%   On calcule le tempo et on vérifie qu'il correspond à notre intervalle [50; 150]
-%   Si on le dépasse c'est qu'il y a du avoir des faux-positifs à la détection de notes qui ont dues être considérés comme des triples croches
-%   On supprime l'écart minimal (dans le temps et les échantillons) et on recommence jusqu'à correspondre à l'intervalle
-%   Si on est en dessous, On décale les étages jusqu'à être dans le bon intervalle
-%   Ex: si on avait trouvé la noire à 40 BPM, en multipliant par 2, on obtiendrait 80BPM ce qui est très bien
+%   COMMENTAIRES:
+%       On doit éviter les triple croches s'il y en a plus de ???
+%       Ensuite on définit quel étage correspond aux doubles croches et on redescend les étages
+%       Pour arriver à celui qui correspond aux noires.
+%       On calcule le tempo et on vérifie qu'il correspond à notre intervalle [50; 150]
+%       Si on le dépasse c'est qu'il y a du avoir des faux-positifs à la détection de notes qui ont dues être considérés comme des triples croches
+%       On supprime l'écart minimal (dans le temps et les échantillons) et on recommence jusqu'à correspondre à l'intervalle
+%       Si on est en dessous, On décale les étages jusqu'à être dans le bon intervalle
+%       Ex: si on avait trouvé la noire à 40 BPM, en multipliant par 2, on obtiendrait 80BPM ce qui est très bien
 %
 %   RÉSULTATS:
 %       Fonctionne plutôt bien pour les premiers tests. La qualité de cet
@@ -40,8 +37,6 @@ end
 %A terme il faudra prendre en compte la possibilité de triple croche?
 classe_double_croche=max(tab_classes_pop(find(tab_classes_pop(:,2)>0),1));
     
-
-
 %Ce tableau contiendra les différents types de notes présentes, leurs
 %classe et leur population
 liste_notes_groupees=[];
@@ -57,9 +52,10 @@ liste_notes_groupees=set(liste_notes_groupees, 'VarNames', {['DureeDeLaNote'], [
 tempos_candidats=sort(tempos_candidats);
 tempo= determinationTempo( liste_notes_groupees, tempos_candidats )
 
-% notes_normees= correction_double_croche_pointee( notes_normees, classe_double_croche, tempo, ecart, Fs );
+%notes_normees= correction_double_croche_pointee( notes_normees, classe_double_croche, tempo, ecart, Fs );
 %% Création du vecteur contenant toutes les types de notes joués dans l'ordre
 liste_note=[];
 for(i=[1:length(notes_normees)])
     liste_note=[liste_note;[tab_nom_duree_notes((classe_double_croche-notes_normees(i))*2+1)]];
 end
+liste_note

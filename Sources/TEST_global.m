@@ -4,7 +4,7 @@
 % d'un signal audio qu'il charge lui même
 %
 
-%clear all
+clear all
 close all
 clc
 

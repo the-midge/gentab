@@ -26,15 +26,16 @@ function [ notes_normees_modifiees ] = correction_double_croche_pointee( notes_n
 %       classe imédiatement inférieure à celle des doubles croches.
 %    
 %   RÉSULTATS:
-%       Semble fonctionner mais mérite beaucoup plus de tests
+%       N'a pas prouvé son efficacité...
 
 
     ind_notes_suspectes=find(notes_normees==classe_double_croche-0.5);
+    
     tempo_double_croche=4*tempo;
     tempo_double_croche_pointee=tempo*2^classe_double_croche/2^(classe_double_croche-1.5);
     
     %On refait le calcul des tempos, ça ne coute pas cher
-    tempos=(ecarts(2:length(ecarts))./Fs);
+    tempos=(ecarts./Fs);
     tempos=((60)./tempos);
     notes_normees_modifiees=notes_normees;
     notes_normees_modifiees(ind_notes_suspectes(find(tempos(ind_notes_suspectes)>(tempo_double_croche/2+tempo_double_croche_pointee/2))))=classe_double_croche;

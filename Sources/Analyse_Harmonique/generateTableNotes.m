@@ -1,6 +1,6 @@
 function [Y] = generateTableNotes(indiceMin, indiceMax, fBase, doStem)
-%[Y] = generateTableNotes(indiceMin, indiceMax, fBase)
-%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%generateTableNotes.m
+%   USAGE:
 %   [Y] = generateTableNotes() retourne en Y la table
 %   décrite ci-après entre les demi-tons d'indice -5 (E3) et indiceMax 42
 %   (D#7) relative au A4=440Hz.
@@ -22,29 +22,32 @@ function [Y] = generateTableNotes(indiceMin, indiceMax, fBase, doStem)
 %   permet de tracer dans la fenêtre courante un apercçu de la distribution des fréquences centrales calculées
 %   et récupérées en Y(:,:,3)
 %
-%   Y est de dimension 12 X nbOctaves X 4 où nbOctaves correspond au nombre
-%   d'octaves balayées même partiellement. nbOctaves est calculés à partir
-%   des deux premieers arguments indice... On conseille de donner
-%   indiceMax-indiceMin multiple de 12.
-%
-%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Cette fonction génère une table en 3 dimensions constituée de la façon
-%   suivante:
-%       - La table est une superposition de 12 matrices
-%       - Une des dimension correspond donc aux 12 demi-tons possibles de la
-%       gamme chromatique européenne (Du E au D#). 
-%       - Les matrices correspondent dans un sens aux différentes octaves
-%       pour lesquelles on calcule les notes. Dans l'autre sens, on trouve
-%       3 paramètres: 
-%           *1 L'indice de la note relative au A4 à 440Hz
-%           *2 La fréquence située au milieu de l'intervalle entre la note
-%           en question (indice donné en 1) et celle qui la précède (indice
-%           donné en 1 -1)
-%           *3 La fréquence de la note en question (indice donné en 1)
-%           *4 La fréquence située au milieu de l'intervalle entre la note
-%           en question (indice donné en 1) et celle qui la suit (indice
-%           donné en 1 +1)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	ATTRIBUTS:    
+%       Y: est de dimension 12 X nbOctaves X 4 où nbOctaves correspond au nombre
+%           d'octaves balayées même partiellement. nbOctaves est calculés à partir
+%           des deux premieers arguments indice... On conseille de donner
+%           indiceMax-indiceMin multiple de 12.
+%    
+%	DESCRIPTION:   
+%       Cette fonction génère une table en 3 dimensions constituée de la façon
+%       suivante:
+%           - La table est une superposition de 12 matrices
+%           - Une des dimension correspond donc aux 12 demi-tons possibles de la
+%           gamme chromatique européenne (Du E au D#). 
+%           - Les matrices correspondent dans un sens aux différentes octaves
+%           pour lesquelles on calcule les notes. Dans l'autre sens, on trouve
+%           3 paramètres: 
+%               *1 L'indice de la note relative au A4 à 440Hz
+%               *2 La fréquence située au milieu de l'intervalle entre la note
+%               en question (indice donné en 1) et celle qui la précède (indice
+%               donné en 1 -1)
+%               *3 La fréquence de la note en question (indice donné en 1)
+%               *4 La fréquence située au milieu de l'intervalle entre la note
+%               en question (indice donné en 1) et celle qui la suit (indice
+%               donné en 1 +1)
+%	BUT:    
+%       Calculer les informations relatives aux notes mises en jeu dans le
+%       projet. 
 
 %% Conditions sur les arguments
 if nargin < 4;   doStem = 0; end
