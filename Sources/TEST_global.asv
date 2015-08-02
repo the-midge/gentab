@@ -147,7 +147,7 @@ switch upper(choix_algo)
         GENE_TestOnsetDetection;
         
         %% Segmentation
-        [L, bornes]=segmentation(x, sf, loc, Fs);
+        [L, bornes]=segmentation(x, sf, [pks, loc], Fs);
         
         %% Analyse rythmique
         GENE_analyse_composition_rythmique;

@@ -1,17 +1,15 @@
 % GENE_determination_notes.m
-%   Les notes sont mal détectées pour celles plus graves que le E (corde de D - 2ème case)
-%   TODO:
-%       -Résoudre le problèeme des notes graves.
-%           -Tester de différentes façon cet algo
-%       -Rechercher et mettre en place une solution pour détecter plusieurs
-%       notes à la fois.
-%
+%   DESCRIPTION:
+%       Script d'exécution de tous les algos en rapport avec la détection
+%       des notes. Doit fournir en sortie, la liste des notes jouées,
+%       segment par segment, incluant l'octave de la note.
 disp('Début identification des notes');
 for segment= [1:length(L)]
     notes_jouee(segment,:)=determination_note_segment_octave(L{segment} , Fs);
 end
 disp('Fin identification des notes');
-notes_jouee
+notes_jouee     % Affichage des notes jouées (détectées)
+
 %% Pour le morceau Echantillon....wav on reconnait:
 % Le segment 2 (B), 3 (D), 4 (F) noires
 % Le segment 5 (A), 6 (B), 7 (A), etc... croches

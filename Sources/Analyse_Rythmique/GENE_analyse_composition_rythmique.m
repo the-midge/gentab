@@ -1,7 +1,7 @@
 %GENE_analyse_composition_rythmique.m
 %   ----------------------------------------
-%   ------     A Faire!    -----------------
-%   -  éléminer les valeurs aberrantes (erreurs de OD, triolet, etc...)    --
+%   ------     TODO!    -----------------
+%   -  éliminer les valeurs aberrantes (erreurs de OD, triolet, etc...)    --
 %   ----------------------------------------
 %
 %   On doit éviter les triple croches s'il y en a plus de ???
