@@ -34,18 +34,26 @@ sf=spectralflux(stft_res)';
 
 sf=filtfilt(ones(degre_lissage,1)/degre_lissage, 1, sf);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
 
-%% Détermination du seuil - 2 options
+%% Paramètre détection de pics
 % TODO: Rendre local (variable) ce seuil
 FsSF=(length(sf)/(length(x)/Fs));   %Rapport entre le nombre d'échantillon du signal sftft (et sf) et ceux du signal "réel" x.
 ecart_minimal= round(60/240*FsSF);   %ecart correspondant à 240 bpm
 sensibilite=0.00*std(sf);    %Sensibilité de la détection du pic. Relative à l'amplitude de sf. Cf help findpeaks
 
-%seuil=quantile(sf, 0.9);    %Les pics appartienne aux 1 derniers déciles
-seuil=mean(sf);                     % Seuil minimal à atteindre pour détecter un pic.
+%% Détermination du seuil - 2 options
+% Option 1: moyenne locale
+rapport_moyenne_locale=1e-3;
+moyenne_locale = filtfilt(ones(round(Fs*rapport_moyenne_locale),1)/round(Fs*rapport_moyenne_locale),1, sf);
+%Le seuil semble être un peu trop élevé mais bien suivre la courbe.
+seuil=moyenne_locale   %Réduction par 10%
+%seuil=moyenne_locale;
+%sf=sf-moyenne_locale;
 
+% Option 2: moyenne générale
+%seuil=mean(sf);                     % Seuil minimal à atteindre pour détecter un pic.
 %% Détection des peaks
 % TODO: comment utiliser findpeaks avec un seuil variable
-[pks, loc]=findpeaks(sf, 'MINPEAKDISTANCE', floor(ecart_minimal/2), 'MINPEAKHEIGHT', seuil, 'THRESHOLD',sensibilite);
+[pks, loc]=ovld_findpeaks(sf, 'MINPEAKHEIGHT', seuil, 'MINPEAKDISTANCE', floor(ecart_minimal/2), 'THRESHOLD',sensibilite);
 
 % 2 autres fonction de détection de pics fonctionnant moins bien
 % maxtab=peakdet(sf, seuil, (length(sf)/(length(x)/Fs)));
@@ -60,6 +68,9 @@ peaks(round(loc))=1;
 
 %% Fin de l'algorithme
 % Visualisation des résultats
-figure(2),plot(t, [sf max(sf)*peaks ones(size(sf))*seuil])  % à modifier légèrement pour un seuil variable
-
+if(length(seuil)==1)
+    figure(2),plot(t, [sf max(sf)*peaks ones(size(sf))*seuil])  % à modifier légèrement pour un seuil variable
+else
+    figure(2),plot(t, [sf max(sf)*peaks seuil])  % à modifier légèrement pour un seuil variable
+end
 clear N h ecart_minimal sensibilite degre_lissage
