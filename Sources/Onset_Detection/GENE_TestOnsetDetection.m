@@ -45,7 +45,7 @@ sensibilite=0.00*std(sf);    %Sensibilité de la détection du pic. Relative à l'a
 rapport_moyenne_locale=1e-3;
 moyenne_locale = filtfilt(ones(round(Fs*rapport_moyenne_locale),1)/round(Fs*rapport_moyenne_locale),1, sf);
 %Le seuil semble être un peu trop élevé mais bien suivre la courbe.
-seuil=moyenne_locale   %Réduction par 10%
+seuil=moyenne_locale;   %Réduction par 10%
 %seuil=moyenne_locale;
 %sf=sf-moyenne_locale;
 
@@ -53,7 +53,7 @@ seuil=moyenne_locale   %Réduction par 10%
 %seuil=mean(sf);                     % Seuil minimal à atteindre pour détecter un pic.
 %% Détection des peaks
 % TODO: comment utiliser findpeaks avec un seuil variable
-[pks, loc]=ovld_findpeaks(sf, 'MINPEAKHEIGHT', seuil, 'MINPEAKDISTANCE', floor(ecart_minimal/2), 'THRESHOLD',sensibilite);
+[amplitude_onsets, sample_index_onsets]=ovld_findpeaks(sf, 'MINPEAKHEIGHT', seuil, 'MINPEAKDISTANCE', floor(ecart_minimal/2), 'THRESHOLD',sensibilite);
 
 % 2 autres fonction de détection de pics fonctionnant moins bien
 % maxtab=peakdet(sf, seuil, (length(sf)/(length(x)/Fs)));
@@ -69,8 +69,8 @@ visual_onsets(round(sample_index_onsets))=1;
 %% Fin de l'algorithme
 % Visualisation des résultats
 if(length(seuil)==1)
-    figure(2),plot(t, [sf max(sf)*peaks ones(size(sf))*seuil])  % à modifier légèrement pour un seuil variable
+    figure(2),plot(t, [sf max(sf)*visual_onsets ones(size(sf))*seuil])
 else
-    figure(2),plot(t, [sf max(sf)*peaks seuil])  % à modifier légèrement pour un seuil variable
+    figure(2),plot(t, [sf max(sf)*visual_onsets seuil])  
 end
 clear N h ecart_minimal sensibilite degre_lissage

@@ -6,6 +6,7 @@
 
 clear all
 close all
+beep off
 clc
 
 addpath(genpath('..\sources')); %Permet l'accès à tous les fichiers du dossier sources
@@ -30,46 +31,49 @@ switch choix_echantillon
         % On selectionne Les 8 premières secondes de la chanson Day Tripper des
         % Beatles
         % Dans cet échantillon, de la guitare est jouée en solo
-        [x,Fs,Nbits]=wavread('Day_Tripper.wav');
+        path = '\DATA\sons\Day_Tripper\';
+        audio_filename='Day_Tripper.wav';
+        [x,Fs,Nbits]=wavread(audio_filename);
         x=x(1:Fs*8,1);
     case 2
         disp('Notes Variées');
         %Où un echantillon généré logiciellement contenant de la guitare et des
         %durées de notes variées.
-
-        [x,Fs,Nbits]=wavread('Echantillon_34_secondes_notes_variees.wav');
+        audio_filename='Echantillon_34_secondes_notes_variees.wav';
+        [x,Fs,Nbits]=wavread(audio_filename);
         x=x(1:Fs*34,1);
     case 3
         disp('Notes et silences');
         %Où un echantillon (12s) généré logiciellement contenant de la guitare et des
         %silences (croches et noires et à la fin un silence d'une ronde et demie
-
-        [x,Fs,Nbits]=wavread('silences.wav');
+        audio_filename='silences.wav';
+        [x,Fs,Nbits]=wavread(audio_filename);
         x=x(1:Fs*12,1);
     case 4
         disp(atmosphere);
-
-        [x,Fs,Nbits]=wavread([atmosphere '.wav']);
+        audio_filename=[atmosphere '.wav'];
+        [x,Fs,Nbits]=wavread(audio_filename); 
         x=x(:,1);
     case 5
         disp('Aller-Retour chromatique');
         % Toutes les notes de E2 à A4 sont jouées avec environ le même
-        % intervalle entre chaque (croches).        
-        [x,Fs,Nbits]=wavread('aller-retour-chromatique.wav');
+        % intervalle entre chaque (croches).
+        audio_filename='aller-retour-chromatique.wav';
+        [x,Fs,Nbits]=wavread(audio_filename); 
         x=x(:,1);
     case 6
         disp('Blue Orchid');
         % Enregistrement en guitare claire d'un riff complet de la chanson
         % Blue Orchid des White Stripes
-        
-        [x,Fs,Nbits]=wavread('Blue_Orchid_sans_dead_note_avec_bend.wav');
+        audio_filename='Blue_Orchid_sans_dead_note_avec_bend.wav';
+        [x,Fs,Nbits]=wavread(audio_filename);
         x=x(:,1);
     case 7
         disp('Mad World');
         % Enregistrement en guitare claire d'un arpège de l'intro de Mad
         % World de Gary Jules
-        
-        [x,Fs,Nbits]=wavread('gary_jules_mad_world_acoustic_intro.wav');
+        audio_filename='gary_jules_mad_world_acoustic_intro.wav';
+        [x,Fs,Nbits]=wavread(audio_filename); 
         x=x(:,1);
     case 9
         clc
