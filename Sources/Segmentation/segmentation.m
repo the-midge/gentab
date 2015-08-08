@@ -1,8 +1,8 @@
-function [segments, bornes]=segmentation(x, sf, ind_onsets, Fs)
+function [segments, bornes]=segmentation(x, len_od, ind_onsets, Fs)
 % segmentation.m
 % 
 %   USAGE: 
-%       [segments, bornes]=segmentation(x, sf, ind_onsets, Fs)
+%       [segments, bornes]=segmentation(x, len_od, ind_onsets, Fs)
 %   ATTRIBUTS:
 %       segments:      Liste des extraits du signal d'origine correspondant chacun 
 %               à un segment (ou note jouée).
@@ -10,7 +10,7 @@ function [segments, bornes]=segmentation(x, sf, ind_onsets, Fs)
 %               aux bornes de chaque segment.
 %
 %       x:      signal audio d'origine
-%       sf:     résultat de l'algorithme de flux spectral
+%       len_od:     longueur du résultat de l'algorithme d'onset detection
 %       ind_onsets: indices dans le domaine du flux spectral des onsets 
 %               récupérés après l'Onset Detection
 %       Fs:     Fréquence d'échantillonnage
@@ -23,7 +23,7 @@ function [segments, bornes]=segmentation(x, sf, ind_onsets, Fs)
 
 %% Début du script
 disp('Début de la segmentation');
-FsSF=(length(sf)/(length(x)/Fs));   %Calcul le rapport de réduction entre 
+FsSF=(len_od/(length(x)/Fs));   %Calcul le rapport de réduction entre 
 %le son d'origine et la sortie de l'algo de "spectral flux".
 t_x=(0:1/Fs:(length(x)-1)/Fs)'; %Vecteur temps du signal d'origine
 

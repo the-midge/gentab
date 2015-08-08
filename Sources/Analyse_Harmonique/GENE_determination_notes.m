@@ -4,8 +4,8 @@
 %       des notes. Doit fournir en sortie, la liste des notes jouées,
 %       segment par segment, incluant l'octave de la note.
 disp('Début identification des notes');
-for segment= [1:length(L)]
-    notes_jouee(segment,:)=determination_note_segment_octave(L{segment} , Fs);
+for index= [1:length(segments)]
+    notes_jouee(index,:)=determination_note_segment_octave(segments{index} , Fs);
 end
 disp('Fin identification des notes');
 notes_jouee     % Affichage des notes jouées (détectées)

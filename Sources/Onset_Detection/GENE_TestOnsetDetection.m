@@ -59,8 +59,8 @@ seuil=moyenne_locale   %Réduction par 10%
 % maxtab=peakdet(sf, seuil, (length(sf)/(length(x)/Fs)));
 % [pks, loc, width, resid]=peakdet2(sf, length(sf), 3*ecartmin, 100*ecartmin, seuil);
 
-peaks=zeros(size(sf));
-peaks(round(loc))=1;
+visual_onsets=zeros(size(sf));
+visual_onsets(round(sample_index_onsets))=1;
 
 %% Détections des silences (offsets)
 % TODO: proposer une solution valable pour cette partie.

@@ -1,5 +1,5 @@
 %%%
-% TEST_Global.m
+% gentab.m
 % Ce script teste tous les composants de l'algorithme à partir 
 % d'un signal audio qu'il charge lui même
 %
@@ -107,58 +107,30 @@ OUT='OUT';
 choix_algo=input('Choix? ');
 
 clc
-switch upper(choix_algo)
-    case 'OD'
-        disp('Onset Detection');
-        %% Onset Detection
-        GENE_TestOnsetDetection
-        
-    case 'SEG'
-        disp('Onset Detection + Segmentation');
-        %% Onset Detection
+
+%% Onset Detection
+if(~strcmp(choix_algo, OUT)) % Dans tout les cas sauf une sortie
         GENE_TestOnsetDetection;
-        
-        %% Segmentation
-        [L, bornes]=segmentation(x, sf, loc, Fs);
-        
-    case 'AH'
-        disp('Onset Detection + Segmentation + Analyse Harmonique');
-        %% Onset Detection
-        GENE_TestOnsetDetection;
-        
-        %% Segmentation
-        [L, bornes]=segmentation(x, sf, loc, Fs);
-        
-        %% Détermination des notes
-        GENE_determination_notes;
-    case 'AR'
-        disp('Onset Detection + Segmentation + Analyse Rythmique');
-        %% Onset Detection
-        GENE_TestOnsetDetection;
-        
-        %% Segmentation
-        [L, bornes]=segmentation(x, sf, loc, Fs);
-        
-        %% Analyse rythmique
-        GENE_analyse_composition_rythmique;
-    case 'ALL'
-        disp('Onset Detection + Segmentation + Identification des notes + Détermination de la composition rythmique');
-        %% Onset Detection
-        GENE_TestOnsetDetection;
-        
-        %% Segmentation
-        [L, bornes]=segmentation(x, sf, loc, Fs);
-        
-        %% Analyse rythmique
-        GENE_analyse_composition_rythmique;
-        
-        %% Détermination des notes
-        GENE_determination_notes;
-   case 'OUT'
-        clc
-        clear all;
-        break;
-    otherwise
-    disp('Erreur');
+end
+    
+%% Segmentation
+if(~strcmp(choix_algo, OUT) & ~strcmp(choix_algo, OD)) % Dans tout les cas sauf une sortie ou OD
+        [segments, bornes]=segmentation(x, length(sf), sample_index_onsets, Fs);
+end
+
+%% Analyse rythmique
+if(strcmp(choix_algo, AR) | strcmp(choix_algo, ALL));
+    GENE_analyse_composition_rythmique;
+end
+    
+%% Analyse harmonique
+if(strcmp(choix_algo, AH) | strcmp(choix_algo, ALL));
+    GENE_determination_notes;
+end
+
+if(strcmp(choix_algo, OUT))
+    clc
+    close all
+    clear all
 end
 clear OD SEG AH AR ALL OUT;
