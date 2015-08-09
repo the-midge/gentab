@@ -33,9 +33,7 @@ sf=spectralflux(stft_res)';
 %   Phase Deviation (TODO)
 
 sf=filtfilt(ones(degre_lissage,1)/degre_lissage, 1, sf);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
-
 %% Paramètre détection de pics
-% TODO: Rendre local (variable) ce seuil
 FsSF=(length(sf)/(length(x)/Fs));   %Rapport entre le nombre d'échantillon du signal sftft (et sf) et ceux du signal "réel" x.
 ecart_minimal= round(60/240*FsSF);   %ecart correspondant à 240 bpm
 sensibilite=0.00*std(sf);    %Sensibilité de la détection du pic. Relative à l'amplitude de sf. Cf help findpeaks
@@ -45,7 +43,7 @@ sensibilite=0.00*std(sf);    %Sensibilité de la détection du pic. Relative à l'a
 rapport_moyenne_locale=1e-3;
 nb_sample_moyenne_locale = round(Fs*rapport_moyenne_locale);
 moyenne_locale = filtfilt(ones(nb_sample_moyenne_locale,1)/nb_sample_moyenne_locale,1, sf);
-clear rapport_moyenne_locale nb_sample_moyenne_locale;
+ 
 %Le seuil semble être un peu trop élevé mais bien suivre la courbe.
 seuil=moyenne_locale;   %Réduction par 10%
 %seuil=moyenne_locale;
@@ -82,4 +80,4 @@ if(length(seuil)==1)
 else
     figure(2),plot(t, [sf max(sf)*visual_onsets seuil])  
 end
-clear N h ecart_minimal sensibilite degre_lissage
+clear N h degre_lissage i amplitude_onsets moyenne_locale rapport_moyenne_locale nb_sample_moyenne_locale ecart_minimal sensibilite;

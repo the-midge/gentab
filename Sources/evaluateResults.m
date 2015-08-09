@@ -4,7 +4,7 @@ function [] = evaluateResults(path, varargin)
 %       [] = evaluateResults(path, notes, rythme)
 %       [] = evaluateResults(path, sample_index_onsets)
 %       [] = evaluateResults(path, notes, rythme)
-
+%
 %   ATTRIBUTS:
 %       path:
 %           Chemin relatif du fichier audio de test. Doit finir par '\'
@@ -46,27 +46,28 @@ nbOnsetDet=length(notesDet);
 if(~evaluate_AR & ~evaluate_AH)
     return;
 end
+
 %% Évaluation des notes détectées
 if(evaluate_AH)
     disp(' ');
     disp('Reconnaissance des notes (tons)');
-    if(strcmp(notesDet, notesExp))
+    if(strcmp(notesDet, notesExp))  % Test si tout est parfait
         disp('GOOD!: 100%!');
     else
-       notesDouble=double(notesDet);           %Conversion numérique des mesures
-       notesExpDouble=double(notesExp);
+       notesDetDouble=convert2double(notesDet);           %Conversion numérique des mesures
+       notesExpDouble=convert2double(notesExp);
 
        if(nbOnsetDet==nbOnsetExp)   %Cas où le nombre de ligne est le même
-           pourcentageOctave=sum(notesDouble(:,3)==notesExpDouble(:,3))/length(notesExpDouble)*100;
+           pourcentageOctave=sum(notesDetDouble(:,3)==notesExpDouble(:,3))/length(notesExpDouble)*100;
            disp(['Détection des octaves = ' num2str(pourcentageOctave) '%.']);
 
-           pourcentageFondamentales = sum((notesDouble(:,1)+notesDouble(:,2))==(notesExpDouble(:,1)+notesExpDouble(:,2)))/length(notesExpDouble)*100;
+           pourcentageFondamentales = sum((notesDetDouble(:,1)+notesDetDouble(:,2))==(notesExpDouble(:,1)+notesExpDouble(:,2)))/length(notesExpDouble)*100;
            disp(['Détection des notes = ' num2str(pourcentageFondamentales) '%.']);
-       elseif(nbOnsetDet>nbOnsetExp)
+       elseif(nbOnsetDet>nbOnsetExp)    % S'il y a des notes de détectées en trop
            notesOk=0;
            j=0;
-           for(i=1:nbOnsetExp)
-              if(notesDouble(i+j,3)==notesExpDouble(i,3) && (notesDouble(i+j,1)+notesDouble(i+j,2))==(notesExpDouble(i,1)+notesExpDouble(i,2)))
+           for(i=1:nbOnsetExp)  % Pour toutes les notes attendues
+              if(notesDetDouble(i+j,3)==notesExpDouble(i,3) && (notesDetDouble(i+j,1)+notesDetDouble(i+j,2))==(notesExpDouble(i,1)+notesExpDouble(i,2)))
                   notesOk=notesOk+1;
               else
                   if(j<nbOnsetDet-nbOnsetExp)
@@ -82,7 +83,7 @@ if(evaluate_AH)
            notesOk=0;
            j=0;
            for(i=1:nbOnsetDet)
-              if(notesDouble(i,3)==notesExpDouble(i+j,3) && (notesDouble(i,1)+notesDouble(i,2))==(notesExpDouble(i+j,1)+notesExpDouble(i+j,2)))
+              if(notesDetDouble(i,3)==notesExpDouble(i+j,3) && (notesDetDouble(i,1)+notesDetDouble(i,2))==(notesExpDouble(i+j,1)+notesExpDouble(i+j,2)))
                   notesOk=notesOk+1;
               else
                   if(j<nbOnsetExp-nbOnsetDet)
@@ -110,22 +111,9 @@ if(evaluate_AR)
     % durée de la note , plus facile à comparer. (On peut se passer de cette
     % étape si on utilise des énumérations).
     tab_nom_duree_notes={['double croche'];['double croche pointee'];['croche'];['croche pointee'];['noire'];['noire pointee'];['blanche'];['blanche pointee'];['ronde']};
-    for i=1:length(tab_nom_duree_notes)
-        nomDureeDouble(i)=sum(double(tab_nom_duree_notes{i}));
-    end
-    nomDureeDouble=nomDureeDouble';
 
-    for i=1:length(rythmeDet)
-        rythmeDetDouble(i)=sum(double(rythmeDet{i}));
-    end
-    rythmeDetDouble=rythmeDetDouble';
-    [~, rythmeDetDouble] = ismember(rythmeDetDouble, nomDureeDouble);
-
-    for i=1:length(rythmeDet)
-        rythmeExpDouble(i)=sum(double(rythmeExp{i}));
-    end
-    rythmeExpDouble=rythmeExpDouble';
-    [~, rythmeExpDouble] = ismember(rythmeExpDouble, nomDureeDouble);
+[~, rythmeDetDouble] = ismember(rythmeDet, tab_nom_duree_notes);
+[~, rythmeExpDouble] = ismember(rythmeExp, tab_nom_duree_notes);
 
     if(nbOnsetDet==nbOnsetExp)
         if(sum(rythmeExpDouble==rythmeDetDouble)==nbOnsetDet)
@@ -142,7 +130,7 @@ if(evaluate_AR)
     else
         disp('Impossible d''analyser la correspondance du rythme');
         %Trouver quelqurechose ici
-        %plot(xcorr(rythmeExpDouble, rythmeExpDouble)/sum(rythmeExpDouble.^2));
+        plot(xcorr(rythmeExpDouble, rythmeExpDouble)/sum(rythmeExpDouble.^2));
     end
 end
 end
@@ -162,4 +150,10 @@ function [ performance ] = evaluate_onsets(nbOnsetExp, nbOnsetDet)
         disp(['GOOD!: ' 'Tous les onsets attendus on été detectés!']);
     end
     disp(['Performance: ' num2str(performance) '%']);
+end
+
+function [notesDouble] = convert2double(notesChar)
+       notesDouble=double(notesChar);           %Conversion numérique des mesures
+       notesDouble(:,3)=notesDouble(:,3)-48;    % convertit la 3 colonne en le numéro de l'octave
+       notesDouble(:,2)=(notesDouble(:,2)-32)/3; % Convertit la colonne 2 en "boolean" vrai si #, 0 sinon
 end
