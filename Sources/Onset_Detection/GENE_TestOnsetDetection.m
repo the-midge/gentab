@@ -23,7 +23,7 @@ N=2^11; h=441;   %fonctionne bien pour h=441
 %% Début de l'algorithme
 % Stft (Short-Time Fourier Transform)
 [stft_res, t, f]=stft(x, Fs, 2^11, h, N); %Ces paramètres semblent ceux donnant les meilleurs résultats à ce jour
-%figure(1), clf, mesh(f,t,20*log10(abs(stft_res))'); xlabel('Temps (s)'); ylabel('Fréquence (Hz)');
+%figure(1), clf, mesh(f(1:findClosest(f, 1e4)),t,20*log10(abs(stft_res((1:findClosest(f, 1e4)), :)))'); ylabel('Temps (s)'); xlabel('Fréquence (Hz)');
 
 %%% 
 % Spectral flux
@@ -43,7 +43,9 @@ sensibilite=0.00*std(sf);    %Sensibilité de la détection du pic. Relative à l'a
 %% Détermination du seuil - 2 options
 % Option 1: moyenne locale
 rapport_moyenne_locale=1e-3;
-moyenne_locale = filtfilt(ones(round(Fs*rapport_moyenne_locale),1)/round(Fs*rapport_moyenne_locale),1, sf);
+nb_sample_moyenne_locale = round(Fs*rapport_moyenne_locale);
+moyenne_locale = filtfilt(ones(nb_sample_moyenne_locale,1)/nb_sample_moyenne_locale,1, sf);
+clear rapport_moyenne_locale nb_sample_moyenne_locale;
 %Le seuil semble être un peu trop élevé mais bien suivre la courbe.
 seuil=moyenne_locale;   %Réduction par 10%
 %seuil=moyenne_locale;
@@ -59,6 +61,13 @@ seuil=moyenne_locale;   %Réduction par 10%
 % maxtab=peakdet(sf, seuil, (length(sf)/(length(x)/Fs)));
 % [pks, loc, width, resid]=peakdet2(sf, length(sf), 3*ecartmin, 100*ecartmin, seuil);
 
+% suppression des premiers pics jusqu'au premier pic à dépasser la moyenne
+% globale (à terme moyenne locale long terme)
+i=1;
+while(amplitude_onsets(i)<mean(sf))
+    i=i+1;
+end
+sample_index_onsets=sample_index_onsets(i:end);
 visual_onsets=zeros(size(sf));
 visual_onsets(round(sample_index_onsets))=1;
 

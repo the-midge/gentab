@@ -6,18 +6,16 @@
 
 clear all
 close all
-beep off
 clc
+beep off
 
 addpath(genpath('..\sources')); %Permet l'accès à tous les fichiers du dossier sources
 
 %% Chargement des données
-atmosphere='Atmosphere_D';  %Correspond à une série de fichiers audio présent dans \Data
 disp('Fichier audio en entrée?');
 disp('1: Day Tripper - 8 sec');
 disp('2: Notes variées - 34 sec');
 disp('3: Mélange notes et silences - 12s');
-disp(['4: ' atmosphere ' - 4s']);
 disp('5: Aller-retour chromatique - 18s');
 disp('6: Blue Orchid (bends) - 30s');
 disp('7: Mad World (intro) - 33s');
@@ -31,7 +29,7 @@ switch choix_echantillon
         % On selectionne Les 8 premières secondes de la chanson Day Tripper des
         % Beatles
         % Dans cet échantillon, de la guitare est jouée en solo
-        path = '\DATA\sons\Day_Tripper\';
+        relative_path = '\DATA\sons\Day_Tripper\';
         audio_filename='Day_Tripper.wav';
         [x,Fs,Nbits]=wavread(audio_filename);
         x=x(1:Fs*8,1);
@@ -50,10 +48,7 @@ switch choix_echantillon
         [x,Fs,Nbits]=wavread(audio_filename);
         x=x(1:Fs*12,1);
     case 4
-        disp(atmosphere);
-        audio_filename=[atmosphere '.wav'];
-        [x,Fs,Nbits]=wavread(audio_filename); 
-        x=x(:,1);
+
     case 5
         disp('Aller-Retour chromatique');
         % Toutes les notes de E2 à A4 sont jouées avec environ le même
@@ -65,6 +60,7 @@ switch choix_echantillon
         disp('Blue Orchid');
         % Enregistrement en guitare claire d'un riff complet de la chanson
         % Blue Orchid des White Stripes
+        relative_path = 'Data/sons/Blue_Orchid_sans_dead_note_avec_bend';
         audio_filename='Blue_Orchid_sans_dead_note_avec_bend.wav';
         [x,Fs,Nbits]=wavread(audio_filename);
         x=x(:,1);

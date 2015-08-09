@@ -34,7 +34,7 @@ elseif(isreal(varargin{1}))
     evaluate_AH = false;
 end
 
-pattern = 'expected.txt';
+pattern = '/expected.txt';
 [notesExp, rythmeExp]=loadExpectedTXT([path pattern]);
 
 clc

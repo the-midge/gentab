@@ -26,7 +26,6 @@ fileLength=length(notes);
 
 %Crée le ficheir s'il n'existe pas
 FID=fopen(filename, 'a');
-fclose(FID);
 if(FID==-1)
     error('Le chemin ou le nom du fichier est incorrect');
 end
