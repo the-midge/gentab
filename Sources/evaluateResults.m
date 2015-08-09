@@ -130,7 +130,7 @@ if(evaluate_AR)
     else
         disp('Impossible d''analyser la correspondance du rythme');
         %Trouver quelqurechose ici
-        plot(xcorr(rythmeExpDouble, rythmeExpDouble)/sum(rythmeExpDouble.^2));
+        %plot(xcorr(rythmeExpDouble, rythmeExpDouble)/sum(rythmeExpDouble.^2));
     end
 end
 end

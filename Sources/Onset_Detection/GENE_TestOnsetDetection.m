@@ -40,7 +40,7 @@ sensibilite=0.00*std(sf);    %Sensibilité de la détection du pic. Relative à l'a
 
 %% Détermination du seuil - 2 options
 % Option 1: moyenne locale
-rapport_moyenne_locale=1e-3;
+rapport_moyenne_locale=9e-4;
 nb_sample_moyenne_locale = round(Fs*rapport_moyenne_locale);
 moyenne_locale = filtfilt(ones(nb_sample_moyenne_locale,1)/nb_sample_moyenne_locale,1, sf);
  
@@ -59,13 +59,20 @@ seuil=moyenne_locale;   %Réduction par 10%
 % maxtab=peakdet(sf, seuil, (length(sf)/(length(x)/Fs)));
 % [pks, loc, width, resid]=peakdet2(sf, length(sf), 3*ecartmin, 100*ecartmin, seuil);
 
-% suppression des premiers pics jusqu'au premier pic à dépasser la moyenne
+% suppression des premiers pics jusqu'au premier pic à dépasser la moitiée de la moyenne
 % globale (à terme moyenne locale long terme)
-i=1;
-while(amplitude_onsets(i)<mean(sf))
-    i=i+1;
+index_premier_pic=1;
+while(amplitude_onsets(index_premier_pic)<mean(sf)/2)
+    index_premier_pic=index_premier_pic+1;
 end
-sample_index_onsets=sample_index_onsets(i:end);
+% suppression des derniers pics jusqu'au premier pic à dépasser la moitiée de la moyenne
+% globale (à terme moyenne locale long terme)
+index_dernier_pic=length(amplitude_onsets);
+while(amplitude_onsets(index_dernier_pic)<mean(sf)/2)
+    index_dernier_pic=index_dernier_pic-1;
+end
+
+sample_index_onsets=sample_index_onsets(index_premier_pic:index_dernier_pic);
 visual_onsets=zeros(size(sf));
 visual_onsets(round(sample_index_onsets))=1;
 
@@ -80,4 +87,4 @@ if(length(seuil)==1)
 else
     figure(2),plot(t, [sf max(sf)*visual_onsets seuil])  
 end
-clear N h degre_lissage i amplitude_onsets moyenne_locale rapport_moyenne_locale nb_sample_moyenne_locale ecart_minimal sensibilite;
+clear N h degre_lissage index_premier_pic index_dernier_pic amplitude_onsets moyenne_locale rapport_moyenne_locale nb_sample_moyenne_locale ecart_minimal sensibilite;
