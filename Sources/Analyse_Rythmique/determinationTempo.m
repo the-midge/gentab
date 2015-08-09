@@ -25,9 +25,13 @@ function [ tempo ] = determinationTempo( liste_notes_groupees, tempos_candidats 
 %       TODO: /!\ Il faut prendre en compte le cas ou il n'y a pas de noires!
 
 
- pop_noire=sum(double(liste_notes_groupees(find(strcmp(liste_notes_groupees.DureeDeLaNote,'noire')),3)));
+ pop_noire=double(liste_notes_groupees(find(strcmp(liste_notes_groupees.DureeDeLaNote,'noire')),3));
+ pop_croche=double(liste_notes_groupees(find(strcmp(liste_notes_groupees.DureeDeLaNote,'croche')),3));
+ pop_croche_pointee=double(liste_notes_groupees(find(strcmp(liste_notes_groupees.DureeDeLaNote,'croche pointee')),3));
  pop_inf_noire=sum(double(liste_notes_groupees(find(strcmp(liste_notes_groupees.DureeDeLaNote,'noire'))+1:length(liste_notes_groupees),3)));
- tempo=mean(tempos_candidats(pop_inf_noire+1:pop_inf_noire+pop_noire)); %les tempos_candidats ne sont pas normalisée
+ pop_inf_croche = pop_inf_noire+pop_noire+pop_croche_pointee;
+ tempo=(mean(tempos_candidats(pop_inf_noire+1:pop_inf_noire+pop_noire))*pop_noire+mean(tempos_candidats(pop_inf_croche+1:pop_inf_croche+pop_croche))*pop_croche/2)/(pop_croche+pop_noire);
+ %les tempos_candidats ne sont pas normalisée
  tempo=2*round(tempo/2) %Arrondi par 2
 
 end

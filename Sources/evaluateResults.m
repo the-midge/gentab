@@ -24,10 +24,6 @@ end
 if(ischar(varargin{1}))
     notesDet = varargin{1};
     evaluate_AH = true;
-elseif(iscell(varargin{1}))
-    rythmeDet = varargin{1};
-    evaluate_AH = false;
-    evaluate_AR = true;
 elseif(isreal(varargin{1}))
     notesDet = varargin{1};   % Il ne s'agit pas du tout des notes jouées mais le programme s'arretera avant de déclencher une erreur
     evaluate_AR = false;
@@ -73,7 +69,7 @@ if(evaluate_AH)
                   if(j<nbOnsetDet-nbOnsetExp)
                     j=j+1;
                   else
-                      error('Trop de différences pour évaluer');
+                      %warning('Trop de différences pour évaluer');
                   end
               end
            end
@@ -89,7 +85,7 @@ if(evaluate_AH)
                   if(j<nbOnsetExp-nbOnsetDet)
                     j=j+1;
                   else
-                      warning('Trop de différences pour évaluer');
+                      %warning('Trop de différences pour évaluer');
                       break;
                   end
               end
@@ -112,8 +108,12 @@ if(evaluate_AR)
     % étape si on utilise des énumérations).
     tab_nom_duree_notes={['double croche'];['double croche pointee'];['croche'];['croche pointee'];['noire'];['noire pointee'];['blanche'];['blanche pointee'];['ronde']};
 
-[~, rythmeDetDouble] = ismember(rythmeDet, tab_nom_duree_notes);
-[~, rythmeExpDouble] = ismember(rythmeExp, tab_nom_duree_notes);
+    if(iscell(rythmeDet))
+        [~, rythmeDetDouble] = ismember(rythmeDet, tab_nom_duree_notes);
+    else
+        rythmeDetDouble=rythmeDet;
+    end
+    [~, rythmeExpDouble] = ismember(rythmeExp, tab_nom_duree_notes);
 
     if(nbOnsetDet==nbOnsetExp)
         if(sum(rythmeExpDouble==rythmeDetDouble)==nbOnsetDet)
@@ -129,8 +129,11 @@ if(evaluate_AR)
         end
     else
         disp('Impossible d''analyser la correspondance du rythme');
-        %Trouver quelqurechose ici
-        %plot(xcorr(rythmeExpDouble, rythmeExpDouble)/sum(rythmeExpDouble.^2));
+        [val, indMax]=max(xcorr(rythmeExpDouble, rythmeDetDouble));
+        decalage=indMax-length(rythmeExpDouble);
+        disp(['Décalage de ' num2str(decalage) ' note(s)']);
+        correlation = val/sum(rythmeExpDouble.^2);
+        disp(['Corrélation de ' num2str(correlation*100) '%']);
     end
 end
 end

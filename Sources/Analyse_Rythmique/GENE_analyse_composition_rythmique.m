@@ -48,14 +48,47 @@ for(i=[1:0.5:(classe_double_croche-4)])
     end
 end
 liste_notes_groupees=set(liste_notes_groupees, 'VarNames', {['DureeDeLaNote'], ['Classe'], ['Population']});
+tempo= determinationTempo( liste_notes_groupees, sort(tempos_candidats))
 
-tempos_candidats=sort(tempos_candidats);
-tempo= determinationTempo( liste_notes_groupees, tempos_candidats )
-
-%notes_normees= correction_double_croche_pointee( notes_normees, classe_double_croche, tempo, ecart, Fs );
 %% Création du vecteur contenant toutes les types de notes joués dans l'ordre
-liste_note=[];
-for(i=[1:length(notes_normees)])
-    liste_note=[liste_note;[tab_nom_duree_notes((classe_double_croche-notes_normees(i))*2+1)]];
+
+% Une fois le tempo trouvé approximativement, on recalcule les norme des
+% notes d'une manière plus rigoureuse connaissant le tempo (t):
+%
+%   r   bp  b   np  n   cp  c  dcp  dc
+% |---|---|---|---|---|---|---|---|---|
+%  t/4     t/2      t      2*t     4*t
+%
+%   On va calculer les bornes de ces classes et classifiée les notes en
+%   fonction de ces bornes (en % du tempo):
+% bornes_classes_notes=[     31.25;   43.75;  62.5;  85.5; 125;   175;  250;      350      ]/100; % valeurs théoriques
+bornes_classes_notes=[     31.25;   43.75;  62.5;   93;   125;   175;    290;      290     ]/100; % valeurs modifiées (pas de DcrochP)
+%                     |rondes|blancheP|blanche|noireP|noire|crocheP|croche|DcrocheP|Dcroche|
+%                        9       8        7      6      5     4       3        2      1
+for i=1:length(tempos_candidats)    % Pour toute les notes
+    if(tempos_candidats(i)<bornes_classes_notes(1)*tempo)
+        liste_note(i) = 9; %ronde
+    elseif(tempos_candidats(i)>bornes_classes_notes(1)*tempo & tempos_candidats(i)<bornes_classes_notes(2)*tempo)
+        liste_note(i) = 8; %blanche pointée
+    elseif(tempos_candidats(i)>bornes_classes_notes(2)*tempo & tempos_candidats(i)<bornes_classes_notes(3)*tempo)
+        liste_note(i) = 7; % blanche
+    elseif(tempos_candidats(i)>bornes_classes_notes(3)*tempo & tempos_candidats(i)<bornes_classes_notes(4)*tempo)
+        liste_note(i) = 6; % noire pointée
+    elseif(tempos_candidats(i)>bornes_classes_notes(4)*tempo & tempos_candidats(i)<bornes_classes_notes(5)*tempo)
+        liste_note(i) = 5; % noire
+    elseif(tempos_candidats(i)>bornes_classes_notes(5)*tempo & tempos_candidats(i)<bornes_classes_notes(6)*tempo)
+        liste_note(i) = 4; % croche pointée
+    elseif(tempos_candidats(i)>bornes_classes_notes(6)*tempo & tempos_candidats(i)<bornes_classes_notes(7)*tempo)
+        liste_note(i) = 3; % croche
+    elseif(tempos_candidats(i)>bornes_classes_notes(7)*tempo & tempos_candidats(i)<bornes_classes_notes(8)*tempo)
+        liste_note(i) = 2; % double croche pointée
+    else
+        liste_note(i) = 1; % double croche
+    end
 end
-liste_note
+%notes_normees= correction_double_croche_pointee( notes_normees, classe_double_croche, tempo, ecart, Fs );
+% liste_note=[];
+% for(i=[1:length(notes_normees)])
+%     liste_note=[liste_note;[tab_nom_duree_notes((classe_double_croche-notes_normees(i))*2+1)]];
+% end
+% liste_note
