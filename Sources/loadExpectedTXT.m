@@ -1,4 +1,4 @@
-function [notesExpected, rythmeExpected]=loadExpectedTXT(filename)
+function [notesExpected, rythmeExpected]=loadExpectedTXT(filepath)
 %   save2expectedTXT.m
 %   USAGE: 
 %       [notesExpected, rythmeExpected]=loadExpectedTXT(filename)
@@ -15,6 +15,19 @@ function [notesExpected, rythmeExpected]=loadExpectedTXT(filename)
 %       calculs pour améliorer l'évaluation des tests. Complémentaire avec
 %       save2expectedTXT().
 
+%% Vérification sur l'argument filepath
+filepath = strrep(filepath, '\', '/');  % Conversion Win -> linux
+if filepath(end) ~= '/'
+    filepath = [filepath '/'];
+end
+pattern = '/expected.txt';
+if ~isdir(filepath)
+    error(strcat('[ERREUR] Le dossier ', filepath, ' n''existe pas.'));
+end
+filename = strcat(filepath, pattern);
+if ~exist(filename, 'file');
+    error(strcat('[ERREUR] Le fichier ', pattern, ' n''existe pas dans ', filepath));
+end
 
 FID=fopen(filename, 'r');
 if(FID==-1)

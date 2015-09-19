@@ -1,12 +1,12 @@
-function [] = evaluateResults(path, varargin)
+function [] = evaluateResults(filepath, varargin)
 %   evaluateResults.m
 %   USAGE:
-%       [] = evaluateResults(path, notes, rythme)
-%       [] = evaluateResults(path, sample_index_onsets)
-%       [] = evaluateResults(path, notes, rythme)
+%       [] = evaluateResults(filepath, notes, rythme)
+%       [] = evaluateResults(filepath, notes)
+%       [] = evaluateResults(filepath, sample_index_onsets)
 %
 %   ATTRIBUTS:
-%       path:
+%       filepath:
 %           Chemin relatif du fichier audio de test. Doit finir par '\'
 %       notes:
 %           Liste des notes reconnues. Format 'note|#/(espace)|octave' sans
@@ -14,29 +14,75 @@ function [] = evaluateResults(path, varargin)
 %       rythme:
 %           Liste des durées de note reconnues. Format: cell array
 %           verticale contenant le "nom" des durées de note.
-if(nargin == 3)
-    rythmeDet = varargin{2};
-    evaluate_AR = true;
-else
-    evaluate_AR = false;
-end
 
-if(ischar(varargin{1}))
-    notesDet = varargin{1};
-    evaluate_AH = true;
-elseif(isreal(varargin{1}))
-    notesDet = varargin{1};   % Il ne s'agit pas du tout des notes jouées mais le programme s'arretera avant de déclencher une erreur
-    evaluate_AR = false;
-    evaluate_AH = false;
+%% Vérification sur l'argument filepath
+filepath = strrep(filepath, '\', '/');  % Conversion Win -> linux
+if filepath(end) ~= '/'
+    filepath = [filepath '/'];
 end
-
 pattern = '/expected.txt';
-[notesExp, rythmeExp]=loadExpectedTXT([path pattern]);
+if ~isdir(filepath)
+    error(strcat('[ERREUR] Le dossier ', filepath, ' n''existe pas.'));
+end
+filename = strcat(filepath, pattern);
+if ~exist(filename, 'file');
+    error(strcat('[ERREUR] Le fichier ', pattern, ' n''existe pas dans ', filepath));
+end
+%% Vérification sur les autres arguments
+% S'il y a 3 arguments, on vérifie qu'on respecte le premier format d'usage
 
-clc
+evaluate_AR = true;
+evaluate_AH = true;
+    
+if(nargin == 3)
+    if(~ischar(varargin{1}))
+        error('[ERREUR] L''argument ''notes'' n''a pas le bon format');
+    end
+    if(~iscell(varargin{2}))
+        error('[ERREUR] L''argument ''notes'' n''a pas le bon format');
+    end
+    notesDet = varargin{1};
+    rythmeDet = varargin{2};
+elseif(nargin == 2)
+    if(~ischar(varargin{1}) && ~iscell(varargin{1}) && ~isreal(varargin{1}))
+        error('[ERREUR] Le second argument n''a pas le bon format');
+    end
+    % Si l'argument est composé de strings
+    if  ischar(varargin{1})
+        evaluate_AR = false;
+        notesDet = varargin{1};
+    end
+    if  iscell(varargin{1})
+        evaluate_AH = false;
+        rythmeDet = varargin{1};
+    end
+    if (isreal(varargin{1}) && ~ischar(varargin{1}))
+        evaluate_AH = false;
+        evaluate_AR = false;
+    end
+end
+
+if  (nargin == 2)
+    if  size(notesDet, 2) ~= 3
+        error('[ERREUR] L''argument ''notes'' n''a pas le bon format');
+    end
+end
+
+% if(ischar(varargin{1}))
+%     notesDet = varargin{1};
+%     evaluate_AH = true;
+% elseif(isreal(varargin{1}))
+%     notesDet = varargin{1};   % Il ne s'agit pas du tout des notes jouées mais le programme s'arretera avant de déclencher une erreur
+%     evaluate_AR = false;
+%     evaluate_AH = false;
+% end
+
+
+[notesExp, rythmeExp]=loadExpectedTXT(filename);
+
 %% Évaluation du nombre d'onset détecté
-nbOnsetExp=length(notesExp);
-nbOnsetDet=length(notesDet);
+nbOnsetExp=size(notesExp, 1);
+nbOnsetDet=size(notesDet, 1);
 [ onset_performance ] = evaluate_onsets(nbOnsetExp, nbOnsetDet);
 
 if(~evaluate_AR & ~evaluate_AH)
@@ -138,6 +184,8 @@ if(evaluate_AR)
 end
 end
 
+% Calcul le taux de détection entre le nombre d'onset attendus et le nombre
+% d'onsets détectés
 function [ performance ] = evaluate_onsets(nbOnsetExp, nbOnsetDet)
     disp('Détection des onsets:');
     disp([num2str(nbOnsetDet) ' détectés.']);
@@ -148,13 +196,15 @@ function [ performance ] = evaluate_onsets(nbOnsetExp, nbOnsetDet)
         performance = (nbOnsetDet)/nbOnsetExp;
     elseif(nbOnsetDet>nbOnsetExp)
         disp(['/!\ :  ' num2str(nbOnsetDet-nbOnsetExp) ' onsets ont été détectés en trop!']);
-        performance = (2*nbOnsetExp-nbOnsetDet)/nbOnsetExp;
+        performance = (2*nbOnsetExp-nbOnsetDet)/nbOnsetExp*100;
     else
         disp(['GOOD!: ' 'Tous les onsets attendus on été detectés!']);
     end
     disp(['Performance: ' num2str(performance) '%']);
 end
 
+% Convertit le nom des notes du format A#2 vers A->val numérique de ASCII
+% (A), bool, numéro d'octave
 function [notesDouble] = convert2double(notesChar)
        notesDouble=double(notesChar);           %Conversion numérique des mesures
        notesDouble(:,3)=notesDouble(:,3)-48;    % convertit la 3 colonne en le numéro de l'octave
