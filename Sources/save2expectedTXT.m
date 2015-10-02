@@ -8,7 +8,7 @@ function [] = save2expectedTXT(filename, notes, rythme)
 %           (note, dièse/espace, octave). Une note par ligne.
 %       rythme: liste des durée de notes au format celle array. Sous forme
 %           de colonne. Le nom de durée de note sont les mêmes que dans
-%           tab_nom_duree_notes généré à l décomposition rythmique
+%           tabNomDureeNotes généré à l décomposition rythmique
 %   BUT:
 %       Écrire dans un fichier .txt les valeurs attendues à la fin des
 %       calculs pour améliorer l'évaluation des tests. Complémentaire avec

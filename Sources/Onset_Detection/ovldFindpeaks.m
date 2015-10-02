@@ -1,7 +1,7 @@
-function [pks,locs] = ovld_findpeaks(X,varargin)
-%UVL_FINDPEAKS Find local peaks in data (findpeaks.m overloaded)
+function [pks,locs] = ovldFindpeaks(X,varargin)
+%UVLFINDPEAKS Find local peaks in data (findpeaks.m overloaded)
 % Only possibility:
-%   ovld_findpeaks(X, 'MINPEAKHEIGHT', MPH, ...);
+%   ovldFindpeaks(X, 'MINPEAKHEIGHT', MPH, ...);
 %
 %   PKS = FINDPEAKS(X) finds local peaks in the data vector X. A local peak
 %   is defined as a data sample which is either larger than the two
@@ -42,7 +42,7 @@ function [pks,locs] = ovld_findpeaks(X,varargin)
 
 error(nargchk(1,11,nargin,'struct'));
 
-[X,Ph,Pd,Th,Np,Str,infIdx] = parse_inputs(X,varargin{:});
+[X,Ph,Pd,Th,Np,Str,infIdx] = parseInputs(X,varargin{:});
 [pks,locs] = getPeaksAboveMinPeakHeight(X,Ph);
 [pks,locs] = removePeaksBelowThreshold(X,pks,locs,Th,infIdx);
 [pks,locs] = removePeaksSeparatedByLessThanMinPeakDistance(pks,locs,Pd);
@@ -50,7 +50,7 @@ error(nargchk(1,11,nargin,'struct'));
 [pks,locs] = keepAtMostNpPeaks(pks,locs,Np);
 
 %--------------------------------------------------------------------------
-function [X,Ph,Pd,Th,Np,Str,infIdx] = parse_inputs(X,varargin)
+function [X,Ph,Pd,Th,Np,Str,infIdx] = parseInputs(X,varargin)
 
 % Validate input signal
 validateattributes(X,{'numeric'},{'nonempty','real','vector'},...

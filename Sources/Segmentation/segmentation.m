@@ -1,8 +1,8 @@
-function [segments, bornes]=segmentation(x, len_od, ind_onsets, Fs)
+function [segments, bornes]=segmentation(x, lenOd, indOnsets, Fs)
 % segmentation.m
 % 
 %   USAGE: 
-%       [segments, bornes]=segmentation(x, len_od, ind_onsets, Fs)
+%       [segments, bornes]=segmentation(x, lenOd, indOnsets, Fs)
 %   ATTRIBUTS:
 %       segments:      Liste des extraits du signal d'origine correspondant chacun 
 %               à un segment (ou note jouée).
@@ -10,8 +10,8 @@ function [segments, bornes]=segmentation(x, len_od, ind_onsets, Fs)
 %               aux bornes de chaque segment.
 %
 %       x:      signal audio d'origine
-%       len_od:     longueur du résultat de l'algorithme d'onset detection
-%       ind_onsets: indices dans le domaine du flux spectral des onsets 
+%       lenOd:     longueur du résultat de l'algorithme d'onset detection
+%       indOnsets: indices dans le domaine du flux spectral des onsets 
 %               récupérés après l'Onset Detection
 %       Fs:     Fréquence d'échantillonnage
 % 
@@ -23,13 +23,13 @@ function [segments, bornes]=segmentation(x, len_od, ind_onsets, Fs)
 
 %% Début du script
 disp('Début de la segmentation');
-FsSF=(len_od/(length(x)/Fs));   %Calcul le rapport de réduction entre 
+FsSF=(lenOd/(length(x)/Fs));   %Calcul le rapport de réduction entre 
 %le son d'origine et la sortie de l'algo de "spectral flux".
-t_x=(0:1/Fs:(length(x)-1)/Fs)'; %Vecteur temps du signal d'origine
+tX=(0:1/Fs:(length(x)-1)/Fs)'; %Vecteur temps du signal d'origine
 
 
-for i=[1:length(ind_onsets)]    %Pour chaque attaque détectée,
-    [val bornes(i, 1)]=min(abs(t_x-ind_onsets(i)/FsSF)); %On ajoute la valeur la plus proche de celle reconstituée via FsSF
+for i=[1:length(indOnsets)]    %Pour chaque attaque détectée,
+    [val bornes(i, 1)]=min(abs(tX-indOnsets(i)/FsSF)); %On ajoute la valeur la plus proche de celle reconstituée via FsSF
 end %a priori pas de vectorisation de cet algorithme possible
 
 

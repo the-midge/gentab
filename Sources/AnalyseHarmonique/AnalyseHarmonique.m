@@ -1,14 +1,14 @@
-% GENE_determination_notes.m
+% GENEDeterminationNotes.m
 %   DESCRIPTION:
 %       Script d'exécution de tous les algos en rapport avec la détection
 %       des notes. Doit fournir en sortie, la liste des notes jouées,
 %       segment par segment, incluant l'octave de la note.
 disp('Début identification des notes');
 for index= [1:length(segments)]
-    notes_jouee(index,:)=determination_note_segment_octave(segments{index} , Fs);
+    notesJouee(index,:)=determinationNoteSegmentOctave(segments{index} , Fs);
 end
 disp('Fin identification des notes');
-notes_jouee     % Affichage des notes jouées (détectées)
+notesJouee     % Affichage des notes jouées (détectées)
 
 %% Pour le morceau Echantillon....wav on reconnait:
 % Le segment 2 (B), 3 (D), 4 (F) noires

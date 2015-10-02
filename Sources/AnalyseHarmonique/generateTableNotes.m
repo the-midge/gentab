@@ -93,8 +93,8 @@ Y(:,:,4)=(Y(:,:,3)+Y(:,:,4))/2;   %Calcul du paramètres 4
 
 %%  Affichage graphique des notes générées
 if(doStem);
-    vect_aff=Y(:,:,3)';
-    vect_aff=vect_aff(:);
-    stem((1:(nbOctaves*12)), sort(vect_aff));
-    clear vect_aff;
+    vectAff=Y(:,:,3)';
+    vectAff=vectAff(:);
+    stem((1:(nbOctaves*12)), sort(vectAff));
+    clear vectAff;
 end

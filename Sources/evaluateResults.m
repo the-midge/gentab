@@ -3,7 +3,7 @@ function [] = evaluateResults(filepath, varargin)
 %   USAGE:
 %       [] = evaluateResults(filepath, notes, rythme)
 %       [] = evaluateResults(filepath, notes)
-%       [] = evaluateResults(filepath, sample_index_onsets)
+%       [] = evaluateResults(filepath, sample$S1ndexOnsets)
 %
 %   ATTRIBUTS:
 %       filepath:
@@ -31,8 +31,8 @@ end
 %% Vérification sur les autres arguments
 % S'il y a 3 arguments, on vérifie qu'on respecte le premier format d'usage
 
-evaluate_AR = true;
-evaluate_AH = true;
+evaluateAR = true;
+evaluateAH = true;
     
 if(nargin == 3)
     if(~ischar(varargin{1}))
@@ -49,16 +49,16 @@ elseif(nargin == 2)
     end
     % Si l'argument est composé de strings
     if  ischar(varargin{1})
-        evaluate_AR = false;
+        evaluateAR = false;
         notesDet = varargin{1};
     end
     if  iscell(varargin{1})
-        evaluate_AH = false;
+        evaluateAH = false;
         rythmeDet = varargin{1};
     end
     if (isreal(varargin{1}) && ~ischar(varargin{1}))
-        evaluate_AH = false;
-        evaluate_AR = false;
+        evaluateAH = false;
+        evaluateAR = false;
     end
 end
 
@@ -70,11 +70,11 @@ end
 
 % if(ischar(varargin{1}))
 %     notesDet = varargin{1};
-%     evaluate_AH = true;
+%     evaluateAH = true;
 % elseif(isreal(varargin{1}))
 %     notesDet = varargin{1};   % Il ne s'agit pas du tout des notes jouées mais le programme s'arretera avant de déclencher une erreur
-%     evaluate_AR = false;
-%     evaluate_AH = false;
+%     evaluateAR = false;
+%     evaluateAH = false;
 % end
 
 
@@ -83,14 +83,14 @@ end
 %% Évaluation du nombre d'onset détecté
 nbOnsetExp=size(notesExp, 1);
 nbOnsetDet=size(notesDet, 1);
-[ onset_performance ] = evaluate_onsets(nbOnsetExp, nbOnsetDet);
+[ onsetPerformance ] = evaluateOnsets(nbOnsetExp, nbOnsetDet);
 
-if(~evaluate_AR & ~evaluate_AH)
+if(~evaluateAR & ~evaluateAH)
     return;
 end
 
 %% Évaluation des notes détectées
-if(evaluate_AH)
+if(evaluateAH)
     disp(' ');
     disp('Reconnaissance des notes (tons)');
     if(strcmp(notesDet, notesExp))  % Test si tout est parfait
@@ -144,7 +144,7 @@ if(evaluate_AH)
 end
 
 %% Évaluation du rythme
-if(evaluate_AR)
+if(evaluateAR)
     disp(' ');
     disp('Reconnaissance du rythme (durée de note)');
 
@@ -152,14 +152,14 @@ if(evaluate_AR)
     % Connaissant les noms des durées de notes, on récupère un équivalent numérique de la
     % durée de la note , plus facile à comparer. (On peut se passer de cette
     % étape si on utilise des énumérations).
-    tab_nom_duree_notes={['double croche'];['double croche pointee'];['croche'];['croche pointee'];['noire'];['noire pointee'];['blanche'];['blanche pointee'];['ronde']};
+    tabNomDureeNotes={['double croche'];['double croche pointee'];['croche'];['croche pointee'];['noire'];['noire pointee'];['blanche'];['blanche pointee'];['ronde']};
 
     if(iscell(rythmeDet))
-        [~, rythmeDetDouble] = ismember(rythmeDet, tab_nom_duree_notes);
+        [~, rythmeDetDouble] = ismember(rythmeDet, tabNomDureeNotes);
     else
         rythmeDetDouble=rythmeDet;
     end
-    [~, rythmeExpDouble] = ismember(rythmeExp, tab_nom_duree_notes);
+    [~, rythmeExpDouble] = ismember(rythmeExp, tabNomDureeNotes);
 
     if(nbOnsetDet==nbOnsetExp)
         if(sum(rythmeExpDouble==rythmeDetDouble)==nbOnsetDet)
@@ -186,7 +186,7 @@ end
 
 % Calcul le taux de détection entre le nombre d'onset attendus et le nombre
 % d'onsets détectés
-function [ performance ] = evaluate_onsets(nbOnsetExp, nbOnsetDet)
+function [ performance ] = evaluateOnsets(nbOnsetExp, nbOnsetDet)
     disp('Détection des onsets:');
     disp([num2str(nbOnsetDet) ' détectés.']);
     disp([num2str(nbOnsetExp) ' attendus.']);

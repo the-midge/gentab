@@ -1,4 +1,4 @@
-function varargout = peakfinder(x0, sel, thresh, extrema, include_endpoints)
+function varargout = peakfinder(x0, sel, thresh, extrema, includeEndpoints)
 %PEAKFINDER Noise tolerant fast peak finding algorithm
 %   INPUTS:
 %       x0 - A real vector from the maxima will be found (required)
@@ -9,7 +9,7 @@ function varargout = peakfinder(x0, sel, thresh, extrema, include_endpoints)
 %           maxima or smaller than to be minima.
 %       extrema - 1 if maxima are desired, -1 if minima are desired
 %           (default = maxima, 1)
-%       include_endpoints - If true the endpoints will be included as
+%       includeEndpoints - If true the endpoints will be included as
 %           possible extrema otherwise they will not be included 
 %           (default = true)
 %   OUTPUTS:
@@ -96,10 +96,10 @@ else
     end
 end
 
-if nargin < 5 || isempty(include_endpoints)
-    include_endpoints = true;
+if nargin < 5 || isempty(includeEndpoints)
+    includeEndpoints = true;
 else
-    include_endpoints = boolean(include_endpoints);
+    includeEndpoints = boolean(includeEndpoints);
 end
 
 x0 = extrema*x0(:); % Make it so we are finding maxima regardless
@@ -109,7 +109,7 @@ dx0(dx0 == 0) = -eps; % This is so we find the first of repeated values
 ind = find(dx0(1:end-1).*dx0(2:end) < 0)+1; % Find where the derivative changes sign
 
 % Include endpoints in potential peaks and valleys as desired
-if include_endpoints
+if includeEndpoints
     x = [x0(1);x0(ind);x0(end)];
     ind = [1;ind;len0];
     minMag = min(x);
@@ -128,7 +128,7 @@ if len > 2 % Function with peaks and valleys
     tempMag = minMag;
     foundPeak = false;
     
-    if include_endpoints
+    if includeEndpoints
         % Deal with first point a little differently since tacked it on
         % Calculate the sign of the derivative since we tacked the first 
         %  point on it does not neccessarily alternate like the rest.
@@ -197,7 +197,7 @@ if len > 2 % Function with peaks and valleys
     end
     
     % Check end point
-    if include_endpoints
+    if includeEndpoints
     if x(end) > tempMag && x(end) > leftMin + sel
         peakLoc(cInd) = len;
         peakMag(cInd) = x(end);
@@ -220,7 +220,7 @@ if len > 2 % Function with peaks and valleys
     peakMags = peakMag(1:cInd-1);
 else % This is a monotone function where an endpoint is the only peak
     [peakMags,xInd] = max(x);
-    if include_endpoints && peakMags > minMag + sel
+    if includeEndpoints && peakMags > minMag + sel
         peakInds = ind(xInd);
     else
         peakMags = [];

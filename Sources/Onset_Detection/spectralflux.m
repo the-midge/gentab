@@ -19,7 +19,7 @@ function [sf] = spectralflux(stft)
  %Premier algo possible, fonctionne bien mais pas sf
  %Meilleur pour Day Tripper
 stft=log10(abs(stft)+1); % Passage en échelle logarithmique pour minimiser les écarts
-%  sf_log_sum=sum(sf_log);    % Somme de toutes les valeurs à un instant t. Donne un vecteur en fonction du temps.
+%  sfLogSum=sum(sfLog);    % Somme de toutes les valeurs à un instant t. Donne un vecteur en fonction du temps.
 
 %Algo de sf
 sf=filter(b, a, abs(stft)); % dérivée

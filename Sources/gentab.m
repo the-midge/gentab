@@ -21,31 +21,31 @@ disp('6: Blue Orchid (bends) - 30s');
 disp('7: Mad World (intro) - 33s');
 disp('9: Sortie');
 
-choix_echantillon=input('Choix? '); %Attend une action utilisateur
+choixEchantillon=input('Choix? '); %Attend une action utilisateur
 clc
-switch choix_echantillon
+switch choixEchantillon
     case 1
         disp('Day Tripper');
         % On selectionne Les 8 premières secondes de la chanson Day Tripper des
         % Beatles
         % Dans cet échantillon, de la guitare est jouée en solo
-        relative_path = '\DATA\sons\Day_Tripper\';
-        audio_filename='Day_Tripper.wav';
-        [x,Fs,Nbits]=wavread(audio_filename);
+        relativePath = '\DATA\sons\DayTripper\';
+        audioFilename='DayTripper.wav';
+        [x,Fs,Nbits]=wavread(audioFilename);
         x=x(1:Fs*8,1);
     case 2
         disp('Notes Variées');
         %Où un echantillon généré logiciellement contenant de la guitare et des
         %durées de notes variées.
-        audio_filename='Echantillon_34_secondes_notes_variees.wav';
-        [x,Fs,Nbits]=wavread(audio_filename);
+        audioFilename='Echantillon_34SecondesNotesVariees.wav';
+        [x,Fs,Nbits]=wavread(audioFilename);
         x=x(1:Fs*34,1);
     case 3
         disp('Notes et silences');
         %Où un echantillon (12s) généré logiciellement contenant de la guitare et des
         %silences (croches et noires et à la fin un silence d'une ronde et demie
-        audio_filename='silences.wav';
-        [x,Fs,Nbits]=wavread(audio_filename);
+        audioFilename='silences.wav';
+        [x,Fs,Nbits]=wavread(audioFilename);
         x=x(1:Fs*12,1);
     case 4
 
@@ -53,23 +53,23 @@ switch choix_echantillon
         disp('Aller-Retour chromatique');
         % Toutes les notes de E2 à A4 sont jouées avec environ le même
         % intervalle entre chaque (croches).
-        audio_filename='aller-retour-chromatique.wav';
-        [x,Fs,Nbits]=wavread(audio_filename); 
+        audioFilename='aller-retour-chromatique.wav';
+        [x,Fs,Nbits]=wavread(audioFilename); 
         x=x(:,1);
     case 6
         disp('Blue Orchid');
         % Enregistrement en guitare claire d'un riff complet de la chanson
         % Blue Orchid des White Stripes
-        relative_path = 'Data/sons/Blue_Orchid_sans_dead_note_avec_bend';
-        audio_filename='Blue_Orchid_sans_dead_note_avec_bend.wav';
-        [x,Fs,Nbits]=wavread(audio_filename);
+        relativePath = 'Data/sons/BlueOrchidSansDeadNoteAvecBend';
+        audioFilename='BlueOrchidSansDeadNoteAvecBend.wav';
+        [x,Fs,Nbits]=wavread(audioFilename);
         x=x(:,1);
     case 7
         disp('Mad World');
         % Enregistrement en guitare claire d'un arpège de l'intro de Mad
         % World de Gary Jules
-        audio_filename='gary_jules_mad_world_acoustic_intro.wav';
-        [x,Fs,Nbits]=wavread(audio_filename); 
+        audioFilename='garyJulesMadWorldAcousticIntro.wav';
+        [x,Fs,Nbits]=wavread(audioFilename); 
         x=x(:,1);
     case 9
         clc
@@ -80,7 +80,7 @@ switch choix_echantillon
     disp('Erreur');
 end
 
-clear choix_echantillon;
+clear choixEchantillon;
 
 %% Prétraitement
 % TODO:
@@ -104,31 +104,31 @@ AH='AH';
 AR='AR';
 ALL='ALL';
 OUT='OUT';
-choix_algo=input('Choix? ');
+choixAlgo=input('Choix? ');
 
 clc
 
 %% Onset Detection
-if(~strcmp(choix_algo, OUT)) % Dans tout les cas sauf une sortie
-        GENE_TestOnsetDetection;
+if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
+        OnsetDetection;
 end
     
 %% Segmentation
-if(~strcmp(choix_algo, OUT) & ~strcmp(choix_algo, OD)) % Dans tout les cas sauf une sortie ou OD
-        [segments, bornes]=segmentation(x, length(sf), sample_index_onsets, Fs);
+if(~strcmp(choixAlgo, OUT) & ~strcmp(choixAlgo, OD)) % Dans tout les cas sauf une sortie ou OD
+        [segments, bornes]=segmentation(x, length(sf), sampleIndexOnsets, Fs);
 end
 
 %% Analyse rythmique
-if(strcmp(choix_algo, AR) | strcmp(choix_algo, ALL));
-    GENE_analyse_composition_rythmique;
+if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
+    AnalyseRythmique;
 end
     
 %% Analyse harmonique
-if(strcmp(choix_algo, AH) | strcmp(choix_algo, ALL));
-    GENE_determination_notes;
+if(strcmp(choixAlgo, AH) | strcmp(choixAlgo, ALL));
+    AnalyseHarmonique;
 end
 
-if(strcmp(choix_algo, OUT))
+if(strcmp(choixAlgo, OUT))
     clc
     close all
     clear all

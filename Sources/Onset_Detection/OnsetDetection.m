@@ -1,4 +1,4 @@
-% GENE_TestOnsetDetection.m
+% OnsetDetection.m
 %   DESCRIPTION: Script de haut niveau (wrapper), rassemblant les différentes fonctions ordonnées
 %   pour la détection des onsets.
 %       La détection des onsets correspond à la détection du début d'une
@@ -13,7 +13,7 @@
 
 %% Définition des paramètres de prétraitement
 % Degré de lissage
-degre_lissage=10;
+degreLissage=10;
 %Paramètres de la stft
 N=2^11; h=441;   %fonctionne bien pour h=441
 
@@ -22,38 +22,38 @@ N=2^11; h=441;   %fonctionne bien pour h=441
 
 %% Début de l'algorithme
 % Stft (Short-Time Fourier Transform)
-[stft_res, t, f]=stft(x, Fs, 2^11, h, N); %Ces paramètres semblent ceux donnant les meilleurs résultats à ce jour
-%figure(1), clf, mesh(f(1:findClosest(f, 1e4)),t,20*log10(abs(stft_res((1:findClosest(f, 1e4)), :)))'); ylabel('Temps (s)'); xlabel('Fréquence (Hz)');
+[stftRes, t, f]=stft(x, Fs, 2^11, h, N); %Ces paramètres semblent ceux donnant les meilleurs résultats à ce jour
+%figure(1), clf, mesh(f(1:findClosest(f, 1e4)),t,20*log10(abs(stftRes((1:findClosest(f, 1e4)), :)))'); ylabel('Temps (s)'); xlabel('Fréquence (Hz)');
 
 %%% 
 % Spectral flux
-sf=spectralflux(stft_res)';
+sf=spectralflux(stftRes)';
 
 %%
 %   Phase Deviation (TODO)
 
-sf=filtfilt(ones(degre_lissage,1)/degre_lissage, 1, sf);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
+sf=filtfilt(ones(degreLissage,1)/degreLissage, 1, sf);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
 %% Paramètre détection de pics
 FsSF=(length(sf)/(length(x)/Fs));   %Rapport entre le nombre d'échantillon du signal sftft (et sf) et ceux du signal "réel" x.
-ecart_minimal= round(60/240*FsSF);   %ecart correspondant à 240 bpm
+ecartMinimal= round(60/240*FsSF);   %ecart correspondant à 240 bpm
 sensibilite=0.00*std(sf);    %Sensibilité de la détection du pic. Relative à l'amplitude de sf. Cf help findpeaks
 
 %% Détermination du seuil - 2 options
 % Option 1: moyenne locale
-rapport_moyenne_locale=9e-4;
-nb_sample_moyenne_locale = round(Fs*rapport_moyenne_locale);
-moyenne_locale = filtfilt(ones(nb_sample_moyenne_locale,1)/nb_sample_moyenne_locale,1, sf);
+rapportMoyenneLocale=9e-4;
+nbSampleMoyenneLocale = round(Fs*rapportMoyenneLocale);
+moyenneLocale = filtfilt(ones(nbSampleMoyenneLocale,1)/nbSampleMoyenneLocale,1, sf);
  
 %Le seuil semble être un peu trop élevé mais bien suivre la courbe.
-seuil=moyenne_locale;   %Réduction par 10%
-%seuil=moyenne_locale;
-%sf=sf-moyenne_locale;
+seuil=moyenneLocale;   %Réduction par 10%
+%seuil=moyenneLocale;
+%sf=sf-moyenneLocale;
 
 % Option 2: moyenne générale
 %seuil=mean(sf);                     % Seuil minimal à atteindre pour détecter un pic.
 %% Détection des peaks
 % TODO: comment utiliser findpeaks avec un seuil variable
-[amplitude_onsets, sample_index_onsets]=ovld_findpeaks(sf, 'MINPEAKHEIGHT', seuil, 'MINPEAKDISTANCE', floor(ecart_minimal/2), 'THRESHOLD',sensibilite);
+[amplitudeOnsets, sampleIndexOnsets]=ovldFindpeaks(sf, 'MINPEAKHEIGHT', seuil, 'MINPEAKDISTANCE', floor(ecartMinimal/2), 'THRESHOLD',sensibilite);
 
 % 2 autres fonction de détection de pics fonctionnant moins bien
 % maxtab=peakdet(sf, seuil, (length(sf)/(length(x)/Fs)));
@@ -61,30 +61,30 @@ seuil=moyenne_locale;   %Réduction par 10%
 
 % suppression des premiers pics jusqu'au premier pic à dépasser la moitiée de la moyenne
 % globale (à terme moyenne locale long terme)
-index_premier_pic=1;
-while(amplitude_onsets(index_premier_pic)<mean(sf)/2)
-    index_premier_pic=index_premier_pic+1;
+indexPremierPic=1;
+while(amplitudeOnsets(indexPremierPic)<mean(sf)/2)
+    indexPremierPic=indexPremierPic+1;
 end
 % suppression des derniers pics jusqu'au premier pic à dépasser la moitiée de la moyenne
 % globale (à terme moyenne locale long terme)
-index_dernier_pic=length(amplitude_onsets);
-while(amplitude_onsets(index_dernier_pic)<mean(sf)/2)
-    index_dernier_pic=index_dernier_pic-1;
+indexDernierPic=length(amplitudeOnsets);
+while(amplitudeOnsets(indexDernierPic)<mean(sf)/2)
+    indexDernierPic=indexDernierPic-1;
 end
 
-sample_index_onsets=sample_index_onsets(index_premier_pic:index_dernier_pic);
-visual_onsets=zeros(size(sf));
-visual_onsets(round(sample_index_onsets))=1;
+sampleIndexOnsets=sampleIndexOnsets(indexPremierPic:indexDernierPic);
+visualOnsets=zeros(size(sf));
+visualOnsets(round(sampleIndexOnsets))=1;
 
 %% Détections des silences (offsets)
 % TODO: proposer une solution valable pour cette partie.
-%peaks=peaks+detection_silences(sf, 1);
+%peaks=peaks+detectionSilences(sf, 1);
 
 %% Fin de l'algorithme
 % Visualisation des résultats
 if(length(seuil)==1)
-    figure(2),plot(t, [sf max(sf)*visual_onsets ones(size(sf))*seuil])
+    figure(2),plot(t, [sf max(sf)*visualOnsets ones(size(sf))*seuil])
 else
-    figure(2),plot(t, [sf max(sf)*visual_onsets seuil])  
+    figure(2),plot(t, [sf max(sf)*visualOnsets seuil])  
 end
-clear N h degre_lissage index_premier_pic index_dernier_pic amplitude_onsets moyenne_locale rapport_moyenne_locale nb_sample_moyenne_locale ecart_minimal sensibilite;
+clear N h degreLissage indexPremierPic indexDernierPic amplitudeOnsets moyenneLocale rapportMoyenneLocale nbSampleMoyenneLocale ecartMinimal sensibilite;
