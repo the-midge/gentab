@@ -1,15 +1,15 @@
-function [confTons, confOctaves]=evaluateAH(filename, notesDet)
+function [confTons, confOctaves]=evaluateAH(filename, noteDet)
 %evaluateAH.m
 %
 %   USAGE:   
-%       [confTons, confOctaves]=evaluateAH(filename, notesDet)
+%       [confTons, confOctaves]=evaluateAH(filename, noteDet)
 %   ATTRIBUTS:    
 %       confTons: Matrice de confusion des tons
 %       confOctaves: Matrice de confusion des octaves
 %   
 %       filename: nom et chemin absolu du fichier où sont stockées les
 %       valeurs attendues
-%       notesDet:   notes détectées par l'application
+%       noteDet:   notes détectées par l'application
 %    
 %   DESCRIPTION:
 %       Ce script evalue l'analyse harmonique des onsets en lisant les données attendues dans
@@ -49,7 +49,7 @@ if(FID==-1)
 end
 
 
-confTons = eye(12,12)*10;
+confTons = zeros(12,12);
 confOctaves = zeros(5,5);
 
 %% Lecture des données attendues
@@ -57,7 +57,40 @@ tempo=str2num(fgets(FID)); %tempo
 nbNotesExp=str2num(fgets(FID)); % Nombre de notes attendues
 
 for k=1:nbNotesExp
-   %Lecture d'une note 
+   %Lecture d'une note
+   line = fgets(FID);
+   entiers = sscanf(line, '%d');
+   noteExp(k,1) = entiers(1);  %onset attendu
+   noteExp(k,2) = entiers(2);  % durée attendue
+   
+   characteres = sscanf(line, '%c');
+   noteExp(k,4) = str2num(characteres(end-2)); % octave attendue
+   
+   rowNames = {'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};   % temp
+   for j=1:12
+       if strcmp(rowNames{j}, characteres(end-4:end-3)) ~= 0
+          noteExp(k,3)=j; % note attendue
+       end
+   end
+end
+
+indiceDet=1;
+for indiceExp=1:min([length(noteDet) length(noteExp)])     
+    if noteDet(findClosest(noteDet(:,1), noteExp(indiceExp,1)),1)== noteExp(findClosest(noteExp(:,1), noteDet(indiceDet,1)),1)
+       disp('ok'); 
+       indiceDet=indiceDet+1;
+    else
+        attenduDansTrouve = findClosest(noteDet(:,1), noteExp(indiceExp,1));
+        trouveDansAttendu = findClosest(noteExp(:,1), noteDet(indiceDet,1));
+        if attenduDansTrouve < trouveDansAttendu
+            disp('Manque une note');
+        else
+            disp('Une note de trop');
+            indiceDet=indiceDet+2;
+        end            
+    end
+    confTons(noteDet(indiceDet-1, 3),noteExp(indiceExp, 3)) = confTons(noteDet(indiceDet-1, 3),noteExp(indiceExp, 3)) + 1;
+    confOctaves(noteDet(indiceDet-1, 4),noteExp(indiceExp, 4)) = confOctaves(noteDet(indiceDet-1, 4),noteExp(indiceExp, 4)) + 1;
 end
 
 %%   Affichage de la matrice de confusion des tons
