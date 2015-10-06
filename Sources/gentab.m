@@ -13,22 +13,22 @@ addpath(genpath('../Sources'))
 
 %% Chargement des données
 disp('Fichier audio en entrée?');
-disp('1: essaiRomain');
+disp('1: DayTripper - 8s');
 disp('2: Blue Orchid (bends) - 30s');
-disp('3: essaiRomain - 12s');
+disp('3: figRythmique - 9s');
 disp('4: Sortie');
 
 choixEchantillon=input('Choix? '); %Attend une action utilisateur
 clc
 switch choixEchantillon
     case 1
-        disp('essaiRomain');
+        disp('DayTripper - 8s');
         % On selectionne Les 8 premières secondes de la chanson Day Tripper des
         % Beatles
         % Dans cet échantillon, de la guitare est jouée en solo
-        audioFilename='essaiRomain.wav';
+        audioFilename='DayTripper.wav';
         [x,Fs]=audioread(audioFilename);
-        x=x(1:Fs*12,1);
+        x=x(1:Fs*8,1);
     case 2
         disp('Blue Orchid (bends)');
         %Où un echantillon généré logiciellement contenant de la guitare et des
@@ -37,13 +37,11 @@ switch choixEchantillon
         [x,Fs]=audioread(audioFilename);
         x=x(1:Fs*30,1);
     case 3
-        disp('essaiRomain');
+        disp('figRythmique');
         %Où un echantillon (12s) généré logiciellement contenant de la guitare et des
         %silences (croches et noires et à la fin un silence d'une ronde et demie
-        audioFilename='essaiRomain.wav';
+        audioFilename='figRythmique.wav';
         [x,Fs]=audioread(audioFilename);
-        x=x(1:Fs*12,1);
-    
     case 4
         clc
         clear all;
