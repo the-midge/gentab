@@ -51,18 +51,20 @@ for k=1:nbNotesExp
    %Lecture d'une note
    line = fgets(FID);
    entiers = sscanf(line, '%d');
-   noteExp(k,1) = entiers(1);  %onset attendu
-   noteExp(k,2) = entiers(2);  % durée attendue
+   onset = entiers(1);  %onset attendu
+   duree = entiers(2);  % durée attendue
    
    characteres = sscanf(line, '%c');
-   noteExp(k,4) = str2num(characteres(end-2)); % octave attendue
+   octave = str2num(characteres(end-2)); % octave attendue
    
    rowNames = {'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};   % temp
    for j=1:12
        if strcmp(rowNames{j}, characteres(end-4:end-3)) ~= 0
-          noteExp(k,3)=j; % note attendue
+          ton=j; % note attendue
        end
    end
+   noteExp(k)=Note(onset, duree, ton, octave);
+   onsetsExp(k)=onset;
 end
 
 if nbNotesExp~=length(noteExp)
@@ -78,17 +80,21 @@ indiceExp = 0;
 detInExp = 0;
 expInDet = 0;
     
+for k=1:length(noteDet)
+    onsetsDet(k)=noteDet(k).indice;
+end
+
 while indiceDet < length(noteDet)
     if indiceDet < length(noteDet)
         indiceDet=indiceDet+1;
     end   
     
-    newDetInExp = findClosest(noteExp(:,1), noteDet(indiceDet,1));
+    newDetInExp = findClosest(onsetsExp, noteDet(indiceDet).indice);
     indiceExp = newDetInExp;
-    newExpInDet = findClosest(noteDet(:,1), noteExp(indiceExp,1));
+    newExpInDet = findClosest(onsetsDet, noteExp(indiceExp).indice);
     
     if newExpInDet-newDetInExp == expInDet-detInExp && newExpInDet> expInDet
-        ecarts(indiceExp)=abs(noteExp(indiceExp,1)-noteDet(indiceDet,1));
+        ecarts(indiceExp)=abs(noteExp(indiceExp).indice-noteDet(indiceDet).indice);
     elseif newDetInExp == detInExp
         nbOnsetsExcedentaires = nbOnsetsExcedentaires+1;
     elseif indiceExp-detInExp >1
@@ -100,7 +106,7 @@ while indiceDet < length(noteDet)
 end
 
 if indiceExp-nbNotesExp <0
-    nbOnsetsManquants = nbOnsetsManquants+(indiceExp-nbNotesExp);
+    nbOnsetsManquants = nbOnsetsManquants+(nbNotesExp-indiceExp);
 end
 txFDetection = nbOnsetsExcedentaires/nbNotesExp;
 txDetectionManquante = nbOnsetsManquants/nbNotesExp;
