@@ -1,5 +1,6 @@
 clear all
 clc
 
-A = Onset(512, 4, 5, 3);
+A = Note(666, 4, 5, 3);
+infoNoteHuman(A);
 infoNote(A);
