@@ -100,25 +100,6 @@ while indiceDet < length(noteDet)
     expInDet = newExpInDet;
 end
 
-% indiceDet=1;
-% for indiceExp=1:min([length(noteDet) length(noteExp)])     
-%     if noteDet(findClosest(noteDet(:,1), noteExp(indiceExp,1)),1)== noteExp(findClosest(noteExp(:,1), noteDet(indiceDet,1)),1)
-%        disp('ok'); 
-%        indiceDet=indiceDet+1;
-%     else
-%         attenduDansTrouve = findClosest(noteDet(:,1), noteExp(indiceExp,1));
-%         trouveDansAttendu = findClosest(noteExp(:,1), noteDet(indiceDet,1));
-%         if attenduDansTrouve < trouveDansAttendu
-%             disp('Manque une note');
-%         else
-%             disp('Une note de trop');
-%             indiceDet=indiceDet+2;
-%         end            
-%     end
-%     confTons(noteDet(indiceDet-1, 3),noteExp(indiceExp, 3)) = confTons(noteDet(indiceDet-1, 3),noteExp(indiceExp, 3)) + 1;
-%     confOctaves(noteDet(indiceDet-1, 4),noteExp(indiceExp, 4)) = confOctaves(noteDet(indiceDet-1, 4),noteExp(indiceExp, 4)) + 1;
-% end
-
 %%   Affichage de la matrice de confusion des tons
 disp('Matrice de confusion des tons');
 rowNames = {'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};
