@@ -16,7 +16,11 @@ disp('Fichier audio en entrée?');
 disp('1: DayTripper - 8s');
 disp('2: Blue Orchid (bends) - 30s');
 disp('3: figRythmique - 9s');
-disp('4: Sortie');
+disp('4: Aller-Retour diatonique - 8s');
+disp('5: Heart & Soul - 16s');
+disp('6: Guitar1 - 8s');
+disp('7: figRythmique - 9s');
+disp('9: Sortie');
 
 choixEchantillon=input('Choix? '); %Attend une action utilisateur
 clc
@@ -33,7 +37,7 @@ switch choixEchantillon
         disp('Blue Orchid (bends)');
         %Où un echantillon généré logiciellement contenant de la guitare et des
         %durées de notes variées.
-        audioFilename='Echantillon_34SecondesNotesVariees.wav';
+        audioFilename='BlueOrchidSansDeadNoteAvecBend.wav';
         [x,Fs]=audioread(audioFilename);
         x=x(1:Fs*30,1);
     case 3
@@ -42,7 +46,28 @@ switch choixEchantillon
         %silences (croches et noires et à la fin un silence d'une ronde et demie
         audioFilename='figRythmique.wav';
         [x,Fs]=audioread(audioFilename);
+        x=x(:,1);
     case 4
+        disp('Aller-Retour diatonique');
+        audioFilename='ar-diatonique-tux.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=x(:,1);
+    case 5
+        disp('Heart & Soul');
+        audioFilename='heart-and-soul-tux.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=x(:,1); 
+    case 6
+        disp('Guitar1');
+        audioFilename='guitar1.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=x(:,1); 
+    case 7
+        disp('figRythmique');
+        audioFilename='figRythmique.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=x(:,1); 
+    case 9
         clc
         clear all;
         break;
@@ -105,3 +130,25 @@ if(strcmp(choixAlgo, OUT))
     clear all
 end
 clear OD SEG AH AR ALL OUT;
+
+%% Mise en forme des résultats
+if ~exist('listeNote', 'var')
+    listeNote=ones(length(sampleIndexOnsets)-1, 1);
+end
+
+if ~exist('notesJouee', 'var')
+    notesJouee=repmat('E 2',length(sampleIndexOnsets)-1, 1);
+end
+
+for k = 1:length(sampleIndexOnsets)-1
+   noteDet(k)=Note(round(sampleIndexOnsets(k)*length(x)/length(sf)), listeNote(k), notesJouee(k,:)); 
+end
+
+%% Évaluation des résultats
+[~, file, ~]=fileparts(audioFilename);
+filename = strcat(file, '/expected.txt');
+[txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(filename, noteDet);
+[confTons, confOctaves]=evaluateAH(filename, noteDet);
+figure(3),
+[confDurees]=evaluateAR(filename, noteDet);
+txErreur, ecartMoyen
