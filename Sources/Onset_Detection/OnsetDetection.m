@@ -25,12 +25,11 @@ N=2^11; h=441;   %fonctionne bien pour h=441
 [stftRes, t, f]=stft(x, Fs, 2^11, h, N); %Ces paramètres semblent ceux donnant les meilleurs résultats à ce jour
 %figure(1), clf, mesh(f(1:findClosest(f, 1e4)),t,20*log10(abs(stftRes((1:findClosest(f, 1e4)), :)))'); ylabel('Temps (s)'); xlabel('Fréquence (Hz)');
 
-%%% 
-% Spectral flux
-sf=spectralflux(stftRes)';
 
 %%
-%   Phase Deviation (TODO)
+%   complex spectral difference method
+sf=getOnsets(stftRes,20,20000);
+
 
 sf=filtfilt(ones(degreLissage,1)/degreLissage, 1, sf);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
 %% Paramètre détection de pics
@@ -40,7 +39,7 @@ sensibilite=0.00*std(sf);    %Sensibilité de la détection du pic. Relative à l'a
 
 %% Détermination du seuil - 2 options
 % Option 1: moyenne locale
-rapportMoyenneLocale=9e-4;
+rapportMoyenneLocale=40e-4; % regarde la moyenne locale sur plus d'échantillons
 nbSampleMoyenneLocale = round(Fs*rapportMoyenneLocale);
 moyenneLocale = filtfilt(ones(nbSampleMoyenneLocale,1)/nbSampleMoyenneLocale,1, sf);
  
@@ -87,4 +86,5 @@ if(length(seuil)==1)
 else
     figure(2),plot(t, [sf max(sf)*visualOnsets seuil])  
 end
+
 clear N h degreLissage indexPremierPic indexDernierPic amplitudeOnsets moyenneLocale rapportMoyenneLocale nbSampleMoyenneLocale ecartMinimal sensibilite;

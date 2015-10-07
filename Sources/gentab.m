@@ -18,6 +18,8 @@ disp('2: Blue Orchid (bends) - 30s');
 disp('3: figRythmique - 9s');
 disp('4: Aller-Retour diatonique - 8s');
 disp('5: Heart & Soul - 16s');
+disp('6: Guitar1 - 8s');
+disp('7: figRythmique - 9s');
 disp('9: Sortie');
 
 choixEchantillon=input('Choix? '); %Attend une action utilisateur
@@ -54,7 +56,17 @@ switch choixEchantillon
         disp('Heart & Soul');
         audioFilename='heart-and-soul-tux.wav';
         [x,Fs]=audioread(audioFilename);
-        x=x(:,1);   
+        x=x(:,1); 
+    case 6
+        disp('Guitar1');
+        audioFilename='guitar1.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=x(:,1); 
+    case 7
+        disp('figRythmique');
+        audioFilename='figRythmique.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=x(:,1); 
     case 9
         clc
         clear all;
