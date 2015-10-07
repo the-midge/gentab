@@ -1,3 +1,6 @@
+clear all
+clc
+
 % OnsetDetection.m
 %   DESCRIPTION: Script de haut niveau (wrapper), rassemblant les différentes fonctions ordonnées
 %   pour la détection des onsets.
@@ -10,6 +13,12 @@
 %   BUT: indiquer dans un vecteur les échantillons pour lesquelles une note
 %   commence (ou fini). Un silence doit être considéré comme une note. Il
 %   ne peut y avoir qu'un onset (offset) entre deux notes.
+
+%%Chargement fichier son
+%relativePath = '..\gentab\Sources\DATA\sons\DayTripper\';
+audioFilename='Blue_Orchid_avec_dead_note_avec_bend.wav';
+[x,Fs,Nbits]=wavread(audioFilename);
+x=x(1:Fs*15,1);
 
 %% Définition des paramètres de prétraitement
 % Degré de lissage
@@ -50,7 +59,11 @@ seuil=moyenneLocale;   %Réduction par 10%
 %sf=sf-moyenneLocale;
 
 % Option 2: moyenne générale
-%seuil=mean(sf);                     % Seuil minimal à atteindre pour détecter un pic.
+moyenneGlobale = mean(sf);
+% Seuil minimal à atteindre pour détecter un pic.
+seuilGlobal(1:size(sf), 1) = moyenneGlobale/2; % seuil global fixe a 50% de la moyenne generale
+
+%seuilGlobal(1:size(Fs)) = moyenneGlobale;
 %% Détection des peaks
 % TODO: comment utiliser findpeaks avec un seuil variable
 [amplitudeOnsets, sampleIndexOnsets]=ovldFindpeaks(sf, 'MINPEAKHEIGHT', seuil, 'MINPEAKDISTANCE', floor(ecartMinimal/2), 'THRESHOLD',sensibilite);
@@ -73,18 +86,31 @@ while(amplitudeOnsets(indexDernierPic)<mean(sf)/2)
 end
 
 sampleIndexOnsets=sampleIndexOnsets(indexPremierPic:indexDernierPic);
+sampleIndexOnsets(find(seuil(sampleIndexOnsets) < seuilGlobal(sampleIndexOnsets))) = [];
 visualOnsets=zeros(size(sf));
 visualOnsets(round(sampleIndexOnsets))=1;
 
 %% Détections des silences (offsets)
-% TODO: proposer une solution valable pour cette partie.
-%peaks=peaks+detectionSilences(sf, 1);
+silence = zeros(size(sf));
+detectionSilence = zeros(size(sf));
+silence(find(seuil < seuilGlobal)) = 1;
+
+for i = 2:length(silence)
+    if(silence(i) > silence(i-1))
+        detectionSilence(i) = 1;
+    else
+        detectionSilence(i) = 0;
+    end
+end
+
+indexSilence = find(detectionSilence == 1); % utile pour la suite dans l'algorithme AR
+
 
 %% Fin de l'algorithme
 % Visualisation des résultats
 if(length(seuil)==1)
-    figure(2),plot(t, [sf max(sf)*visualOnsets ones(size(sf))*seuil])
+    figure(2),plot(t, [sf max(sf)*visualOnsets ones(size(sf))*seuil max(sf)*detectionSilence])
 else
-    figure(2),plot(t, [sf max(sf)*visualOnsets seuil])  
+    figure(2),plot(t, [sf max(sf)*visualOnsets seuil seuilGlobal max(sf)*detectionSilence])  
 end
-clear N h degreLissage indexPremierPic indexDernierPic amplitudeOnsets moyenneLocale rapportMoyenneLocale nbSampleMoyenneLocale ecartMinimal sensibilite;
+%clear N h degreLissage indexPremierPic indexDernierPic amplitudeOnsets moyenneLocale rapportMoyenneLocale nbSampleMoyenneLocale ecartMinimal sensibilite;

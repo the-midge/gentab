@@ -15,13 +15,14 @@ classdef Note < handle
     %   * 16 <=> ronde
     %
     % - le ton de la note jouee
-    %   * 1  <=>  La  (A)
-    %   * 2  <=>  Si  (B)
-    %   * 4  <=>  Do  (C)
-    %   * 6  <=>  Re  (D)
-    %   * 8  <=>  Mi  (E)
-    %   * 9  <=>  Fa  (F)
-    %   * 11 <=>  Sol (G)
+    %   * 0  <=>  Silence (R)
+    %   * 1  <=>  La      (A)
+    %   * 2  <=>  Si      (B)
+    %   * 4  <=>  Do      (C)
+    %   * 6  <=>  Re      (D)
+    %   * 8  <=>  Mi      (E)
+    %   * 9  <=>  Fa      (F)
+    %   * 11 <=>  Sol     (G)
     %
     % - l'octave correpondantes de la note jouee
     
@@ -75,6 +76,8 @@ classdef Note < handle
         
         function note = conversionTon(note, ton)
             switch ton
+                case 0
+                    note.tonstr = 'R ';
                 case 1
                     note.tonstr = 'A ';
                 case 2
