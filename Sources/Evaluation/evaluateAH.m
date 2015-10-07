@@ -101,7 +101,7 @@ while indiceDet < length(noteDet)
    
    if newExpInDet-newDetInExp == expInDet-detInExp && newExpInDet> expInDet
         confTons(noteDet(indiceDet).ton,noteExp(indiceExp).ton) = confTons(noteDet(indiceDet).ton,noteExp(indiceExp).ton) + 1;
-        confOctaves(noteDet(indiceDet).octave,noteExp(indiceExp).octave) = confOctaves(noteDet(indiceDet).octave,noteExp(indiceExp).octave) + 1;
+        confOctaves(noteDet(indiceDet).octave-1,noteExp(indiceExp).octave-1) = confOctaves(noteDet(indiceDet).octave-1,noteExp(indiceExp).octave-1) + 1;
     end
     detInExp = newDetInExp;
     expInDet = newExpInDet;

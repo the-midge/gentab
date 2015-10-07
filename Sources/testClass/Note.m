@@ -35,7 +35,7 @@ classdef Note < handle
     end
     
     methods
-        % Constructeur
+        % Constructeurs
         function note = Note(ind, dur, ton, oct)
             if nargin == 4
             	note.indice = ind;
@@ -44,10 +44,17 @@ classdef Note < handle
                 note.ton = ton;
                 conversionTon(note, note.ton);
                 note.octave = oct;
+            elseif nargin == 3
+                % prototype devient Note(ind, dur, [tonstr octave])
+            	note.indice = ind;
+                note.duree = dur;
+                conversionDuree(note, note.duree);
+                note.tonstr = ton(1:2);
+                conversionTonstr(note, note.tonstr);
+                note.octave = str2num(ton(3));
             else
                 disp('nombre argument pour Note(ind, dur, ton, oct) incorrect')
-            end
-            
+            end            
         end
         
         function note = conversionDuree(note, dur)
@@ -60,16 +67,41 @@ classdef Note < handle
                     note.dureestr = 'croche pointee';
                 case 4
                     note.dureestr = 'noire';
+                case 5
+                    note.dureestr = 'noire+double croche';
                 case 6
                     note.dureestr = 'noire pointee';
+                case 7
+                    note.dureestr = 'noire double pointee';
                 case 8
                     note.dureestr = 'blanche';
+                case 9
+                    note.dureestr = 'blanche+double croche';
+                case 10
+                    note.dureestr = 'blanche+croche';
+                case 11
+                    note.dureestr = 'blanche+croche pointee';
                 case 12
                     note.dureestr = 'blanche pointee';
+                case 13
+                    note.dureestr = 'blanche pointee+double croche';
+                case 14
+                    note.dureestr = 'blanche pointee+croche';
+                case 15
+                    note.dureestr = 'blanche pointee+croche pointee';
                 case 16
                     note.dureestr = 'ronde';
                 otherwise
                     disp('erreur Duree note');  
+            end
+        end
+        
+        function note = conversionTonstr(note, tonstr)
+            names = {'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};
+            for j=1:12
+               if strcmp(names{j}, tonstr) ~= 0
+                  note.ton=j; % note attendue
+               end
             end
         end
         
