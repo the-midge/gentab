@@ -94,7 +94,7 @@ while indiceDet < length(noteDet)
     indiceExp = newDetInExp;
     newExpInDet = findClosest(onsetsDet, noteExp(indiceExp).indice);
    
-   if newExpInDet-newDetInExp == expInDet-detInExp && newExpInDet> expInDet
+    if newExpInDet-newDetInExp == expInDet-detInExp && newExpInDet> expInDet
         confDuree(noteDet(indiceDet).duree,noteExp(indiceExp).duree) = confDuree(noteDet(indiceDet).duree,noteExp(indiceExp).duree) + 1;
     end
     detInExp = newDetInExp;
@@ -117,7 +117,7 @@ for k=-15:15
 end
 
 bar((-15:15),histogramme);
-axis([-15 15 0 max(histogramme)]);
+axis([-15 15 0 max(histogramme)+1]);
 
 fclose(FID);
 end
