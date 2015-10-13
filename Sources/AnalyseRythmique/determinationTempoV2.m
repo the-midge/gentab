@@ -22,11 +22,9 @@ sigma0 = 1.4; % en octaves
 W=exp(-0.5*(log2(tAutoCorr/tau0)/sigma0).^2);
 
 %% Fonction de froce du tempo(tempo strength)
-TPS = W.*autoCorr;
-plot(tAutoCorr, TPS);
-
+TPS = W.*abs(autoCorr);
 %% Visualisation
-plot(tAutoCorr, TPS, 'b', tAutoCorr, W*max(TPS), 'r');
+%plot(tAutoCorr, TPS, 'b', tAutoCorr, W*max(TPS), 'r');
 
 %% Calcul du tempo
 [val, ind]=max(TPS);
