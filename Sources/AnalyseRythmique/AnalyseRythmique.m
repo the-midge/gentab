@@ -1,12 +1,9 @@
-%GENEAnalyseCompositionRythmique.m
+%AnalyseRyhmique.m
 %
 %   COMMENTAIRES:
-%       On doit éviter les triple croches s'il y en a plus de ???
-%       Ensuite on définit quel étage correspond aux doubles croches et on redescend les étages
+%       On définit quel étage correspond aux doubles croches et on redescend les étages
 %       Pour arriver à celui qui correspond aux noires.
 %       On calcule le tempo et on vérifie qu'il correspond à notre intervalle [50; 150]
-%       Si on le dépasse c'est qu'il y a du avoir des faux-positifs à la détection de notes qui ont dues être considérés comme des triples croches
-%       On supprime l'écart minimal (dans le temps et les échantillons) et on recommence jusqu'à correspondre à l'intervalle
 %       Si on est en dessous, On décale les étages jusqu'à être dans le bon intervalle
 %       Ex: si on avait trouvé la noire à 40 BPM, en multipliant par 2, on obtiendrait 80BPM ce qui est très bien
 %
