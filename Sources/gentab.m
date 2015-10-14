@@ -134,6 +134,7 @@ clear OD SEG AH AR ALL OUT;
 %% Mise en forme des résultats
 if ~exist('durees', 'var')
     durees=ones(length(sampleIndexOnsets)-1, 1);
+    tempo = 0;
 end
 
 if ~exist('notesJouee', 'var')
