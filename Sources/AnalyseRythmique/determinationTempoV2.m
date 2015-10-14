@@ -5,7 +5,9 @@
 %   Il fait appel à l'autocorrélation comme décrit dans
 %   Ellis07-beattracking.pdf
 
-%% Filtrage pass-haut du signal 
+
+
+%% Filtrage passe-haut du signal 
 % Pour avoir une moyenne nulle
 f = 0.4/FsSF; % Fréquence de coupure à 4Hz
 [b,a]=butter(2, 2*pi*f, 'high');
@@ -28,4 +30,9 @@ TPS = W.*abs(autoCorr);
 
 %% Calcul du tempo
 [val, ind]=max(TPS);
-tempo = 2*round(60/tAutoCorr(ind)/2)    % arrondi par 2
+tempo=60/tAutoCorr(ind);
+
+while tempo>160
+    tempo=tempo/2;
+end
+tempo = 2*round(tempo/2);    % arrondi par 2
