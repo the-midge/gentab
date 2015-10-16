@@ -12,26 +12,26 @@
 %   ne peut y avoir qu'un onset (offset) entre deux notes.
 
 %% Définition des paramètres de prétraitement
-% Degré de lissage
-degreLissage=10;
-%Paramètres de la stft
-N=2^11; h=441;   %fonctionne bien pour h=441
 
+%Paramètres de la stft
+Nfft=2^12; h=190;   %fonctionne bien pour h=441
+
+% Degré de lissage
+degreLissage=round(Fs/h/10); %Fs/h correspond à la sensibilité temporelle de la stft
 %% Nécéssite une étape de prétraitement
 % getUsefulFreq
 
 %% Début de l'algorithme
 % Stft (Short-Time Fourier Transform)
-[stftRes, t, f]=stft(x, Fs, 2^11, h, N); %Ces paramètres semblent ceux donnant les meilleurs résultats à ce jour
+[stftRes, t, f]=stft(x, Fs, Nfft, h, Nfft); %Ces paramètres semblent ceux donnant les meilleurs résultats à ce jour
 %figure(1), clf, mesh(f(1:findClosest(f, 1e4)),t,20*log10(abs(stftRes((1:findClosest(f, 1e4)), :)))'); ylabel('Temps (s)'); xlabel('Fréquence (Hz)');
 
 
 %%
 %   complex spectral difference method
-sf=getOnsets(stftRes,20,20000);
-
-
+sf=getOnsets(stftRes,20,20000, Fs, Nfft);
 sf=filtfilt(ones(degreLissage,1)/degreLissage, 1, sf);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
+
 %% Paramètre détection de pics
 FsSF=(length(sf)/(length(x)/Fs));   %Rapport entre le nombre d'échantillon du signal sftft (et sf) et ceux du signal "réel" x.
 ecartMinimal= round(60/240*FsSF);   %ecart correspondant à 240 bpm
@@ -82,7 +82,7 @@ visualOnsets(round(sampleIndexOnsets))=1;
 %% Fin de l'algorithme
 % Visualisation des résultats
 if(length(seuil)==1)
-    figure(2),plot(t, [sf max(sf)*visualOnsets ones(size(sf))*seuil])
+    figure(1),clf, plot(t, [sf max(sf)*visualOnsets ones(size(sf))*seuil])
 else
     figure(2),plot(t, [sf max(sf)*visualOnsets seuil])  
 end

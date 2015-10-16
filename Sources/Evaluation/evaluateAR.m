@@ -1,8 +1,8 @@
-function [confDuree, ecartTempo]=evaluateAR(filename, noteDet, tempo)
+function [confDuree, ecartTempo]=evaluateAR(filename, noteDet, tempo, display)
 %evaluateAR.m
 %
 %   USAGE:   
-%       [confDuree]=evaluateAR(filename, noteDet)
+%       [confDuree]=evaluateAR(filename, noteDet, tempo, display)
 %   ATTRIBUTS:    
 %       confDuree: Matrice de confusion des durées de notes
 %       ecartTempo: écart en % du tempo
@@ -11,6 +11,7 @@ function [confDuree, ecartTempo]=evaluateAR(filename, noteDet, tempo)
 %       valeurs attendues
 %       noteDet:   notes détectées par l'application
 %       tempo: tempo détecté par l'application
+%       display: affiche une un histogramme
 %   DESCRIPTION:
 %       Ce script evalue l'analyse rythmique des onsets en lisant les données attendues dans
 %       le  fichier expected.txt
@@ -118,8 +119,11 @@ for k=-15:15
     histogramme(k+16)=sum(confDuree(find(toeplitzMat==k)));
 end
 
-bar((-15:15),histogramme);
-axis([-15 15 0 max(histogramme)+1]);
+if display
+    figure
+    bar((-15:15),histogramme);
+    axis([-15 15 0 max(histogramme)+1]);    
+end
 
 ecartTempo = (tempoExp-tempo)/tempoExp*100;
 disp('Écart du tempo:');

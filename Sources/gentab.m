@@ -150,6 +150,5 @@ end
 filename = strcat(file, '/expected.txt');
 [txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(filename, noteDet);
 [confTons, confOctaves]=evaluateAH(filename, noteDet);
-figure(3),
-[confDurees]=evaluateAR(filename, noteDet, tempo);
+[confDurees]=evaluateAR(filename, noteDet, tempo, 0);
 txErreur, ecartMoyen

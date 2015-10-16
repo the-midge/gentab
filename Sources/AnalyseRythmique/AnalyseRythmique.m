@@ -31,9 +31,16 @@ function [durees, tempo] = analyseRythmique(sf, bornes, FsSF, Fs, display)
         display = false;
     end
     
+    %%
     ecart=diff(bornes)/Fs; % écart entre deux bornes en secondes
 
     probabilitesInitiales = [0.15;0.3;0.05;0.2;0.05;0.1;0.02;0.05;0;0;0;0.05;0;0;0;0.03];
+    % probabilitesInitialesV2 est issu de la publication
+    % ViitKE03-melodies.pdf
+    probabilitesInitialesV2 = [0.02;0.107;0.009;0.079;0.0005;0.01;0.0005;0.0201;0;0;0;0.0005;0;0;0;0.006];
+    probabilitesInitialesV2 = probabilitesInitialesV2*1/sum(probabilitesInitialesV2);
+    
+    probabilitesInitiales = probabilitesInitialesV2;
     facteursReferences = (0.25:0.25:4)'; % facteur multiplicatif par rapport à la noire=1 (ronde=4, croche = 0.5)
 
     %% Calcul des intervalles
@@ -58,23 +65,24 @@ function [durees, tempo] = analyseRythmique(sf, bornes, FsSF, Fs, display)
     %% Détermination du tempo
     determinationTempoV2; % Les résultats sont globalement bon mais il peut y avoir un écart d'un facteur 2.
      
+    %% Détermination des durées de notes
     ecartRef=60/tempo; % Passage des intervalles calculés précédemment en secondes.
     
     [pop, durees] = histc(ecart, edgeHistogramme*ecartRef);
     % pop reçoit le nombre de note dans chaque duree, durees reçoit les
     % durées de chaque notes dans leur ordre d'apparition
     
-    %if display
-        figure(1), clf
-        bar(edgeHistogramme*ecartRef, pop, 'histc')
-        hold on
-        scatter(edgeHistogramme*ecartRef, [0; probabilitesInitiales]*max(pop)/2)
-        figure(2), clf, hold on
+    if display
+%         figure(1), clf
+%         bar(edgeHistogramme*ecartRef, pop, 'histc')
+%         hold on
+%         scatter(edgeHistogramme*ecartRef, [0; probabilitesInitiales]*max(pop)/2)
+        figure, clf, hold on
         stem(ecart, 'b');
         stem(durees, 'r');
         legend('Durees (en s)', 'Durees déterminée (en nb de double-croches)')
         plot(repmat(edgeHistogramme*ecartRef, length(ecart), 1));
         
         tempo
-    %end
+    end
 end
