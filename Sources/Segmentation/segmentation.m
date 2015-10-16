@@ -29,7 +29,10 @@ tX=(0:1/Fs:(length(x)-1)/Fs)'; %Vecteur temps du signal d'origine
 
 
 for i=[1:length(indOnsets)]    %Pour chaque attaque détectée,
-    [val bornes(i, 1)]=min(abs(tX-indOnsets(i)/FsSF)); %On ajoute la valeur la plus proche de celle reconstituée via FsSF
+    [~, bornes(i, 1)]=min(abs(tX-indOnsets(i)/FsSF)); %On ajoute la valeur la plus proche de celle reconstituée via FsSF
+    
+    % Utiliser findClosest ici?
+    
 end %a priori pas de vectorisation de cet algorithme possible
 
 
