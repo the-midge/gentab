@@ -33,16 +33,6 @@ clc
 
 %% Onset Detection
 if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
-        audioFilename='figRythmique.wav';
-        [x,Fs]=audioread(audioFilename);
-        x=x(:,1);
-        OnsetDetection;
-        title(audioFilename);
-        audioFilename='guitar1.wav';
-        [x,Fs]=audioread(audioFilename);
-        x=x(:,1);
-        OnsetDetection;
-        title(audioFilename);
         audioFilename='heart-and-soul-tux.wav';
         [x,Fs]=audioread(audioFilename);
         x=x(:,1);
@@ -62,17 +52,7 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         [x,Fs]=audioread(audioFilename);
         x=x(1:Fs*30,1);
         OnsetDetection; 
-        title(audioFilename);
-        audioFilename='guitar2.wav';
-        [x,Fs]=audioread(audioFilename);
-        x=x(:,1);
-        OnsetDetection; 
-        title(audioFilename);
-        audioFilename='guitar3.wav';
-        [x,Fs]=audioread(audioFilename);
-        x=x(:,1);
-        OnsetDetection; 
-        title(audioFilename);
+        title(audioFilename); 
 end
 
 

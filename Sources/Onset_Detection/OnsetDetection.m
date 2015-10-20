@@ -30,7 +30,7 @@ degreLissage=round(Fs/h/10);
 %% complex spectral difference method
 %  Association de la méthode du flux spectrale et de la déviation de phase
 %  pour une meilleure détection des Onsets
-sf=getOnsets(stftRes,20,20000);
+sf=getOnsets(stftRes,20,20000,Fs,N);
 
 sf=filtfilt(ones(degreLissage,1)/degreLissage, 1, sf);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
 %% Paramètre détection de pics
