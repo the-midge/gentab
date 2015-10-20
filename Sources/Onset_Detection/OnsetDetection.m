@@ -12,26 +12,27 @@
 %   ne peut y avoir qu'un onset (offset) entre deux notes.
 
 %% Définition des paramètres de prétraitement
-
-%Paramètres de la stft
-Nfft=2^12; h=190;   %fonctionne bien pour h=441
-
 % Degré de lissage
-degreLissage=round(Fs/h/10); %Fs/h correspond à la sensibilité temporelle de la stft
+N=2^11; h=190;   %fonctionne bien pour h=441
+
+degreLissage=round(Fs/h/10);
+%Paramètres de la stft
+
 %% Nécéssite une étape de prétraitement
 % getUsefulFreq
 
 %% Début de l'algorithme
 % Stft (Short-Time Fourier Transform)
-[stftRes, t, f]=stft(x, Fs, Nfft, h, Nfft); %Ces paramètres semblent ceux donnant les meilleurs résultats à ce jour
+[stftRes, t, f]=stft(x, Fs, 2^11, h, N); %Ces paramètres semblent ceux donnant les meilleurs résultats à ce jour
 %figure(1), clf, mesh(f(1:findClosest(f, 1e4)),t,20*log10(abs(stftRes((1:findClosest(f, 1e4)), :)))'); ylabel('Temps (s)'); xlabel('Fréquence (Hz)');
 
 
-%%
-%   complex spectral difference method
-sf=getOnsets(stftRes,20,20000, Fs, Nfft);
-sf=filtfilt(ones(degreLissage,1)/degreLissage, 1, sf);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
+%% complex spectral difference method
+%  Association de la méthode du flux spectrale et de la déviation de phase
+%  pour une meilleure détection des Onsets
+sf=getOnsets(stftRes,20,20000);
 
+sf=filtfilt(ones(degreLissage,1)/degreLissage, 1, sf);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
 %% Paramètre détection de pics
 FsSF=(length(sf)/(length(x)/Fs));   %Rapport entre le nombre d'échantillon du signal sftft (et sf) et ceux du signal "réel" x.
 ecartMinimal= round(60/240*FsSF);   %ecart correspondant à 240 bpm
@@ -39,12 +40,57 @@ sensibilite=0.00*std(sf);    %Sensibilité de la détection du pic. Relative à l'a
 
 %% Détermination du seuil - 2 options
 % Option 1: moyenne locale
-rapportMoyenneLocale=40e-4; % regarde la moyenne locale sur plus d'échantillons
+rapportMoyenneLocale=40e-4; % regarde la moyenne locale sur plus d'échantillons 
 nbSampleMoyenneLocale = round(Fs*rapportMoyenneLocale);
-moyenneLocale = filtfilt(ones(nbSampleMoyenneLocale,1)/nbSampleMoyenneLocale,1, sf);
- 
-%Le seuil semble être un peu trop élevé mais bien suivre la courbe.
-seuil=moyenneLocale;   %Réduction par 10%
+nbPointMoyenneExtremite=round(Fs/h);
+
+% Moyenne locale pour la partie gauche du signal
+sommeSf_gauche=0;
+for i=1:nbSampleMoyenneLocale
+    for j=i:nbPointMoyenneExtremite+i
+          sommeSf_gauche=sommeSf_gauche+sf(j);
+    end
+    moyenneLocaleGauche(i,1)=sommeSf_gauche/nbPointMoyenneExtremite;
+    sommeSf_gauche=0;
+end
+
+
+% Moyenne locale pour le milieu du signal
+moyenneLocaleCentre = filtfilt(ones(nbSampleMoyenneLocale,1)/nbSampleMoyenneLocale,1, sf);
+
+% Moyenne locale pour la partie droite du signal
+sommeSf_droit=0;
+for u=length(sf)-nbSampleMoyenneLocale:length(sf)
+    for l=u-nbPointMoyenneExtremite-1:u
+
+          sommeSf_droit=sommeSf_droit+sf(l);
+    end
+    moyenneLocaleDroite(u,1)=sommeSf_droit/nbPointMoyenneExtremite;
+    sommeSf_droit=0;
+end
+
+
+% Création du vecteur final représentant la moyenne locale         
+moyenneFinale=zeros(length(sf),1);
+moyenneFinale(1:nbSampleMoyenneLocale-1,1)=moyenneLocaleGauche(1:nbSampleMoyenneLocale-1,1);
+moyenneFinale(nbSampleMoyenneLocale:length(sf)-nbSampleMoyenneLocale,1)=moyenneLocaleCentre(nbSampleMoyenneLocale:length(sf)-nbSampleMoyenneLocale,1);
+moyenneFinale(length(sf)-nbSampleMoyenneLocale:length(sf),1)=moyenneLocaleDroite(length(sf)-nbSampleMoyenneLocale:length(sf),1);
+
+% Ajustement des courbes (compensation des discontinuités)
+% ecart1=moyenneFinale(nbSampleMoyenneLocale-1)-moyenneFinale(nbSampleMoyenneLocale);
+% moyenneFinale(1:nbSampleMoyenneLocale,1)=moyenneLocaleGauche(1:nbSampleMoyenneLocale,1)+ecart1;
+coef=moyenneFinale(nbSampleMoyenneLocale)/moyenneFinale(nbSampleMoyenneLocale-1);
+moyenneFinale(1:nbSampleMoyenneLocale,1)=moyenneLocaleGauche(1:nbSampleMoyenneLocale,1)*coef;
+
+coef2=moyenneFinale(length(sf)-(nbSampleMoyenneLocale+1))/moyenneFinale(length(sf)-nbSampleMoyenneLocale);
+moyenneFinale(length(sf)-nbSampleMoyenneLocale:length(sf),1)=moyenneLocaleDroite(length(sf)-nbSampleMoyenneLocale:length(sf),1)*coef2;
+
+% ecart2=moyenneFinale(length(sf)-nbSampleMoyenneLocale)-moyenneFinale(length(sf)-(nbSampleMoyenneLocale+1));
+% moyenneFinale(length(sf)-nbSampleMoyenneLocale:length(sf),1)=moyenneLocaleDroite(length(sf)-nbSampleMoyenneLocale:length(sf),1)-ecart2;
+
+
+% Le seuil semble être un peu trop élevé mais bien suivre la courbe.
+seuil=moyenneFinale;   %Réduction par 10%
 %seuil=moyenneLocale;
 %sf=sf-moyenneLocale;
 
@@ -82,9 +128,9 @@ visualOnsets(round(sampleIndexOnsets))=1;
 %% Fin de l'algorithme
 % Visualisation des résultats
 if(length(seuil)==1)
-    figure(1),clf, plot(t, [sf max(sf)*visualOnsets ones(size(sf))*seuil])
+    figure,plot(t, [sf max(sf)*visualOnsets ones(size(sf))*seuil])
 else
-    figure(2),plot(t, [sf max(sf)*visualOnsets seuil])  
+    figure,plot(t, [sf max(sf)*visualOnsets seuil])  
 end
 
-clear N h degreLissage indexPremierPic indexDernierPic amplitudeOnsets moyenneLocale rapportMoyenneLocale nbSampleMoyenneLocale ecartMinimal sensibilite;
+clear N h degreLissage indexPremierPic indexDernierPic amplitudeOnsets rapportMoyenneLocale ecartMinimal sensibilite;
