@@ -51,4 +51,4 @@ tempo=60/tAutoCorr(indT(indRatio));
 while tempo>141
     tempo=tempo/2;
 end
-tempo = 2*round(tempo/2)    % arrondi par 2
+tempo = 2*round(tempo/2);    % arrondi par 2

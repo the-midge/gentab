@@ -1,10 +1,10 @@
-function [confDuree, ecartTempo]=evaluateAR(filename, noteDet, tempo, display)
+function [confDurees, ecartTempo]=evaluateAR(filename, noteDet, tempo, display)
 %evaluateAR.m
 %
 %   USAGE:   
-%       [confDuree]=evaluateAR(filename, noteDet, tempo, display)
+%       [confDurees]=evaluateAR(filename, noteDet, tempo, display)
 %   ATTRIBUTS:    
-%       confDuree: Matrice de confusion des durées de notes
+%       confDurees: Matrice de confusion des durées de notes
 %       ecartTempo: écart en % du tempo
 %
 %       filename: nom et chemin absolu du fichier où sont stockées les
@@ -48,7 +48,7 @@ if(FID==-1)
 end
 
 
-confDuree = zeros(16,16);
+confDurees = zeros(16,16);
 
 %% Lecture des données attendues
 tempoExp=str2num(fgets(FID)); %tempo
@@ -98,7 +98,7 @@ while indiceDet < length(noteDet)
     newExpInDet = findClosest(onsetsDet, noteExp(indiceExp).indice);
    
     if newExpInDet-newDetInExp == expInDet-detInExp && newExpInDet> expInDet
-        confDuree(noteDet(indiceDet).duree,noteExp(indiceExp).duree) = confDuree(noteDet(indiceDet).duree,noteExp(indiceExp).duree) + 1;
+        confDurees(noteDet(indiceDet).duree,noteExp(indiceExp).duree) = confDurees(noteDet(indiceDet).duree,noteExp(indiceExp).duree) + 1;
     end
     detInExp = newDetInExp;
     expInDet = newExpInDet;
@@ -106,17 +106,17 @@ end
 
 %%   Affichage de la matrice de confusion des durees
 disp('Matrice de confusion des durees');
-disp(['    ', num2str(1:16)]);
+disp(['    ', num2str(1:length(confDurees))]);
 for k = 1:16
-    disp([num2str(k), '   ', num2str(confDuree(k,:))]);
+    disp([num2str(k), '   ', num2str(confDurees(k,:))]);
 end
 
 %% Affichage de l'histogramme des écarts
 toeplitz(-15:15);
 toeplitzMat = ans(1:16,16:end);
 for k=-15:15
-    totalAttendu = sum(confDuree');
-    histogramme(k+16)=sum(confDuree(find(toeplitzMat==k)));
+    totalAttendu = sum(confDurees');
+    histogramme(k+16)=sum(confDurees(find(toeplitzMat==k)));
 end
 
 if display
@@ -132,6 +132,6 @@ if(ecartTempo ~= 0)
     disp(['Tempo attendu: ' num2str(tempoExp) ' au lieu de ' num2str(tempo)]);
 end
 
-disp(['Taux de succès (AR): ' num2str(sum(diag(confDuree))/sum(sum(confDuree))*100) '%']);
+disp(['Taux de succès durées: ' num2str(sum(diag(confDurees))/sum(sum(confDurees))*100) '%']);
 fclose(FID);
 end
