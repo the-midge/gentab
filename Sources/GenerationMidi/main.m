@@ -19,7 +19,7 @@ clc
 nbNotes = 12;
 
 dur = round(15*rand(nbNotes, 1)) +1; % duree : entier positif entre 1 et 16
-ton = round(11*rand(nbNotes, 1)) +1; % ton : entier positif entre 1 et 12
+ton = round(12*rand(nbNotes, 1)); % ton : entier positif entre 0 et 12
 oct = round(4*rand(nbNotes, 1)) + 2; % octave : entier positif entre 2 et 6
 
 %etablissement de l echelle des temps relatifs (en indice)
@@ -86,9 +86,13 @@ for j = 1:nbNotes
     notes(j, 6) = notes(j, 5)+sequence(j).duree*FsMidi; % instant "off" de la note        
 end
 
+% Toutes les notes portant le numero 15 sont des silences qu'il faut
+% exclure de la matrice. 
+notes(find(notes(:, 3) == 15), :) = [];
+
 %% Piano Roll
 
-pianoRoll = zeros(size(k));
+pianoRoll = ones(size(k)).*-1;
 
 % determination de la hauteur des notes
 for n = 1:length(ind)
@@ -97,15 +101,16 @@ end
 
 % determination de la duree des notes
 for l = 1:length(pianoRoll)
-    if(pianoRoll(l) == 0)
+    if(pianoRoll(l) == -1)
         pianoRoll(l) = pianoRoll(l-1);
     end
 end
 
 % piano roll
+% les notes a 0 representent les silences
 figure(2), clf, plot(t, pianoRoll, 'o')
-set(gca,'ytick', 0:1:max(ton)+1)
-axis([0 t(end) 0 (max(ton)+1)])
+set(gca,'ytick', -1:1:13)
+axis([0 t(end) -1 13])
 grid on
 
 %% Conversion MIDI
