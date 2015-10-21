@@ -4,7 +4,6 @@
 % d'un signal audio qu'il charge lui même
 %
 
-clear all
 close all
 clc
 beep off
@@ -121,7 +120,7 @@ if(strcmp(choixAlgo, OUT))
     close all
     clear all
 end
-clear OD SEG AH AR ALL OUT;
+
 
 %% Mise en forme des résultats
 if ~exist('durees', 'var')
@@ -133,14 +132,20 @@ if ~exist('notesJouee', 'var')
     notesJouee=repmat('E 2',length(sampleIndexOnsets)-1, 1);
 end
 
-for k = 1:length(sampleIndexOnsets)-1
+for k = 1:length(durees)-1
    noteDet(k)=Note(round(sampleIndexOnsets(k)*length(x)/length(sf)), durees(k), notesJouee(k,:)); 
 end
 
 %% Évaluation des résultats
 [~, file, ~]=fileparts(audioFilename);
 filename = strcat(file, '/expected.txt');
-[txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(filename, noteDet);
-[confTons, confOctaves]=evaluateAH(filename, noteDet);
-[confDurees]=evaluateAR(filename, noteDet, tempo, 0);
-txErreur, ecartMoyen/Fs
+[txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(filename, noteDet)
+if(strcmp(choixAlgo, AH) | strcmp(choixAlgo, ALL));
+    [confTons, confOctaves]=evaluateAH(filename, noteDet);
+end
+if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
+    [confDurees]=evaluateAR(filename, noteDet, tempo, 0);
+end
+
+clear OD SEG AH AR ALL OUT choixAlgo k;
+txErreur, ecartMoyen/Fs;
