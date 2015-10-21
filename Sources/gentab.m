@@ -17,7 +17,9 @@ disp('1: DayTripper - 8s');
 disp('2: Blue Orchid (bends) - 30s');
 disp('3: Aller-Retour diatonique - 8s');
 disp('5: Heart & Soul - 16s');
-disp('6: Sortie');
+disp('6: Seven Nation Army - 30s');
+disp('7: Hardest Button to Button - 35s');
+disp('0: Sortie');
 
 choixEchantillon=input('Choix? '); %Attend une action utilisateur
 clc
@@ -48,6 +50,16 @@ switch choixEchantillon
         [x,Fs]=audioread(audioFilename);
         x=x(:,1); 
     case 6
+        disp('Seven Nation Army');
+        audioFilename='seven-nation-army.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=x(:,1);  
+    case 7
+        disp('Hardest Button to Button');
+        audioFilename='hardest-button.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=x(:,1); 
+    case 0
         clc
         clear all;
         break;
