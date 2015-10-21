@@ -8,7 +8,6 @@ for index= [1:length(segments)]
     notesJouee(index,:)=determinationNoteSegmentOctave(segments{index} , Fs);
 end
 disp('Fin identification des notes');
-notesJouee     % Affichage des notes jouées (détectées)
 
 %% Pour le morceau Echantillon....wav on reconnait:
 % Le segment 2 (B), 3 (D), 4 (F) noires

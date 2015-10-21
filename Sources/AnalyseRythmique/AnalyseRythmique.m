@@ -82,7 +82,6 @@ function [durees, tempo] = analyseRythmique(sf, bornes, FsSF, Fs, display)
         stem(durees, 'r');
         legend('Durees (en s)', 'Durees déterminée (en nb de double-croches)')
         plot(repmat(edgeHistogramme*ecartRef, length(ecart), 1));
-        
-        tempo
+
     end
 end

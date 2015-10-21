@@ -72,8 +72,6 @@ projectionDeroulee=sumProjectionWin(:);
 indCompoTonale=find(projectionDeroulee>(mean(projectionDeroulee)+std(projectionDeroulee)));
 octaveFondamentale=floor((indCompoTonale(1)+3)/12)+2;    %Cette mise à l'échelle est basée sur le fait que la première note possible est un E2.
 
-
-note=[tabNomNotes(mod(indiceNoteJouee,12)+1,:) num2str(octaveFondamentale)];
-
+note=[tabNomNotes(mod(indiceNoteJouee-1,12)+1,:) num2str(octaveFondamentale)];
 
 end

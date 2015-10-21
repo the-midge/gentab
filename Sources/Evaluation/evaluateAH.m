@@ -126,5 +126,7 @@ for k = 2:6
     disp([num2str(k), '   ', num2str(confOctaves(k-1,:))]);
 end
 
+disp(['Taux de succès tons: ' num2str(sum(diag(confTons))/sum(sum(confTons))*100) '%']);
+disp(['Taux de succès octaves: ' num2str(sum(diag(confOctaves))/sum(sum(confOctaves))*100) '%']);
 fclose(FID);
 end

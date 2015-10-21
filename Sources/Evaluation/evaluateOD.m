@@ -108,8 +108,8 @@ end
 if indiceExp-nbNotesExp <0
     nbOnsetsManquants = nbOnsetsManquants+(nbNotesExp-indiceExp);
 end
-txFDetection = nbOnsetsExcedentaires/nbNotesExp;
-txDetectionManquante = nbOnsetsManquants/nbNotesExp;
+txFDetection = nbOnsetsExcedentaires/nbNotesExp*100;
+txDetectionManquante = nbOnsetsManquants/nbNotesExp*100;
 txErreur = txFDetection+txDetectionManquante;
 ecartMoyen = mean(ecarts);
 
