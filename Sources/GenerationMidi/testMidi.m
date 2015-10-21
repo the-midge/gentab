@@ -1,7 +1,7 @@
 clear all
 clc
 
-midi = readmidi('BlueOrchidGP2.mid')
+midi = readmidi('Mis.mid')
 
 % synthesize with FM-synthesis.
 % (y = audio samples.  Fs = sample rate.  Here, uses default 44.1k.)
