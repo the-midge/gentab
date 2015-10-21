@@ -1,15 +1,17 @@
-function [confDuree]=evaluateAR(filename, noteDet)
+function [confDuree, ecartTempo]=evaluateAR(filename, noteDet, tempo, display)
 %evaluateAR.m
 %
 %   USAGE:   
-%       [confDuree]=evaluateAR(filename, noteDet)
+%       [confDuree]=evaluateAR(filename, noteDet, tempo, display)
 %   ATTRIBUTS:    
 %       confDuree: Matrice de confusion des durées de notes
-%   
+%       ecartTempo: écart en % du tempo
+%
 %       filename: nom et chemin absolu du fichier où sont stockées les
 %       valeurs attendues
 %       noteDet:   notes détectées par l'application
-%    
+%       tempo: tempo détecté par l'application
+%       display: affiche une un histogramme
 %   DESCRIPTION:
 %       Ce script evalue l'analyse rythmique des onsets en lisant les données attendues dans
 %       le  fichier expected.txt
@@ -22,6 +24,7 @@ function [confDuree]=evaluateAR(filename, noteDet)
 %       *   Matrice de confusion 16x16 durées attendues vs. durées détectées
 %       *   Histogramme des écarts entre la durée attendue et la durée
 %       détectée
+%       * écart en % du tempo
 
 %% Vérification sur l'argument filename
 filename = strrep(filename, '\', '/');  % Conversion Win -> linux
@@ -48,7 +51,7 @@ end
 confDuree = zeros(16,16);
 
 %% Lecture des données attendues
-tempo=str2num(fgets(FID)); %tempo
+tempoExp=str2num(fgets(FID)); %tempo
 nbNotesExp=str2num(fgets(FID)); % Nombre de notes attendues
 
 for k=1:nbNotesExp
@@ -116,8 +119,19 @@ for k=-15:15
     histogramme(k+16)=sum(confDuree(find(toeplitzMat==k)));
 end
 
-bar((-15:15),histogramme);
-axis([-15 15 0 max(histogramme)+1]);
+if display
+    figure
+    bar((-15:15),histogramme);
+    axis([-15 15 0 max(histogramme)+1]);    
+end
 
+ecartTempo = (tempoExp-tempo)/tempoExp*100;
+disp('Écart du tempo:');
+disp([num2str(ecartTempo) ' %']);
+if(ecartTempo ~= 0)
+    disp(['Tempo attendu: ' num2str(tempoExp) ' au lieu de ' num2str(tempo)]);
+end
+
+disp(['Taux de succès (AR): ' num2str(sum(diag(confDuree))/sum(sum(confDuree))*100) '%']);
 fclose(FID);
 end

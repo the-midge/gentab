@@ -1,10 +1,10 @@
- function SigOut = getOnsets(STFT,fMin, fMax)
+ function SigOut = getOnsets(STFT,fMin, fMax, Fs, NFFT)
             %This function returns a vector of length nFrames, containing
             % an onset detection in the signal between frequencies fMin and
             % fMax. It uses the complex spectral difference method.
            
-            IFmin = max(1,round(fMin/44100*1000)); % fs*nfft
-            IFmax = round(min(fMax/2,fMax/44100*1000));
+            IFmin = max(1,round(fMin/Fs*NFFT)); % fs*nfft
+            IFmax = round(min(fMax/2,fMax/Fs*NFFT));
             
             SignalFrame = STFT(IFmin:IFmax,:,:);
             

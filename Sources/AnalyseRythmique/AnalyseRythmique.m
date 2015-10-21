@@ -1,94 +1,88 @@
-%GENEAnalyseCompositionRythmique.m
+function [durees, tempo] = analyseRythmique(sf, bornes, FsSF, Fs, display)
+%   analyseRythmique.m
 %
-%   COMMENTAIRES:
-%       On doit éviter les triple croches s'il y en a plus de ???
-%       Ensuite on définit quel étage correspond aux doubles croches et on redescend les étages
-%       Pour arriver à celui qui correspond aux noires.
-%       On calcule le tempo et on vérifie qu'il correspond à notre intervalle [50; 150]
-%       Si on le dépasse c'est qu'il y a du avoir des faux-positifs à la détection de notes qui ont dues être considérés comme des triples croches
-%       On supprime l'écart minimal (dans le temps et les échantillons) et on recommence jusqu'à correspondre à l'intervalle
-%       Si on est en dessous, On décale les étages jusqu'à être dans le bon intervalle
-%       Ex: si on avait trouvé la noire à 40 BPM, en multipliant par 2, on obtiendrait 80BPM ce qui est très bien
+%   USAGE: 
+%       [durees, tempo] = analyseRythmique(sf, bornes, FsSF, Fs, 1);
+%   ATTRIBUTS:
+%       durees: durees de chaque note dans l'ordre. Format: nombre de
+%       double-croches (croche = 2, noire = 4)
+%       tempo: tempo estimé du morceau
 %
-%   RÉSULTATS:
-%       Fonctionne plutôt bien pour les premiers tests. La qualité de cet
-%       algo dépend fortement de celle de l'Onset Detection.
+%       sf: sortie de la fonction de détection d'onset detection
+%       bornes: échantillons dans la base du temps d'origine pour lesquels,
+%       un onset est détecté
+%       FsSF: Fréquence d'échantillonnage après la fonction d'osnet
+%       detection
+%       Fs : Fréquence d'échantillonnage du morceau
+%
+%       display: si vrai, affiche deux graphe représentant la répartition
+%       des durées de notes.
+%
+%   BUT:
+%       Cette fonction tente de déterminer la durées musicale de chaque
+%       note. D'autre part elle détermine le tempo via la fonction
+%       determinationTempoV2 en passant par l'autocorrélation de sf.
+%       Pour la détermination des durées de notes, on détermine des
+%       intervalles de durées (en s) qui correspondent à chaque durée
+%       musicale potentielle. La largeur des ces intervalles dépend de la
+%       probabilité pour une note d'appartenir à une certaine classe.      
 
-ecart=diff(bornes);
-temposCandidats=(ecart./Fs);
-temposCandidats=((60)./temposCandidats);
-
-%On normalise les tempos (1/écarts) dans le domaines 4:0.5:9 environ (16BPM
-% à 512 BPM)
-notesNormees=0.5*round(log2(round(temposCandidats))/0.5);
-
-
-%% Constitution des classes de durée de note avec leur population(nombre de
-% notes de cette durée
-tabClassesPop=[];
-for i=[4:0.5:9]
-    tabClassesPop=[tabClassesPop; i length(find(notesNormees==i))];
-end
-
-%% On cherche maintenant à déterminer qu'elle est la durée musicale de 
-%   chaque classe, ce qui nous permettra d'éditer la partition plus tard
-
-%On cherche la plus haute classe qui a de la population = double croche
-%A terme il faudra prendre en compte la possibilité de triple croche?
-classeDoubleCroche=max(tabClassesPop(find(tabClassesPop(:,2)>0),1));
+    if nargin <4
+        display = false;
+    end
     
-%Ce tableau contiendra les différents types de notes présentes, leurs
-%classe et leur population
-listeNotesGroupees=[];
-tabNomDureeNotes={['double croche'];['double croche pointee'];['croche'];['croche pointee'];['noire'];['noire pointee'];['blanche'];['blanche pointee'];['ronde']};
+    %%
+    ecart=diff(bornes)/Fs; % écart entre deux bornes en secondes
 
-for(i=[1:0.5:(classeDoubleCroche-4)])
-    if(tabClassesPop((classeDoubleCroche-i+1)*2-7,2)>0)
-        listeNotesGroupees=vertcat(listeNotesGroupees,dataset([tabNomDureeNotes(i*2-1)], [tabClassesPop((classeDoubleCroche-i+1)*2-7,1)], [tabClassesPop((classeDoubleCroche-i+1)*2-7,2)]));
+    probabilitesInitiales = [0.15;0.3;0.05;0.2;0.05;0.1;0.02;0.05;0;0;0;0.05;0;0;0;0.03];
+    % probabilitesInitialesV2 est issu de la publication
+    % ViitKE03-melodies.pdf
+    probabilitesInitialesV2 = [0.02;0.107;0.009;0.079;0.0005;0.01;0.0005;0.0201;0;0;0;0.0005;0;0;0;0.006];
+    probabilitesInitialesV2 = probabilitesInitialesV2*1/sum(probabilitesInitialesV2);
+    
+    probabilitesInitiales = probabilitesInitialesV2;
+    facteursReferences = (0.25:0.25:4)'; % facteur multiplicatif par rapport à la noire=1 (ronde=4, croche = 0.5)
+
+    %% Calcul des intervalles
+    edgeHistogramme = [0];
+    decalage = 0;
+    for k=1:length(facteursReferences)-1
+        if(probabilitesInitiales(k+1) == 0)
+            decalage=decalage+1;
+        else
+            edgeHistogramme(k+1)= getBarycentre(facteursReferences(k-decalage), facteursReferences(k+1), probabilitesInitiales(k+1), probabilitesInitiales(k-decalage)); %la probabilité d'un point est donnée à l'autre point car il y a une notion dinverse
+             if decalage>0
+                while (decalage>=0)
+                    edgeHistogramme(k-decalage)=edgeHistogramme(k+1);
+                    decalage=decalage-1;
+                end
+            end
+        end
+        k=k+1;
+    end
+    edgeHistogramme(k+1) = 5;
+
+    %% Détermination du tempo
+    determinationTempoV2; % Les résultats sont globalement bon mais il peut y avoir un écart d'un facteur 2.
+     
+    %% Détermination des durées de notes
+    ecartRef=60/tempo; % Passage des intervalles calculés précédemment en secondes.
+    
+    [pop, durees] = histc(ecart, edgeHistogramme*ecartRef);
+    % pop reçoit le nombre de note dans chaque duree, durees reçoit les
+    % durées de chaque notes dans leur ordre d'apparition
+    
+    if display
+%         figure(1), clf
+%         bar(edgeHistogramme*ecartRef, pop, 'histc')
+%         hold on
+%         scatter(edgeHistogramme*ecartRef, [0; probabilitesInitiales]*max(pop)/2)
+        figure, clf, hold on
+        stem(ecart, 'b');
+        stem(durees, 'r');
+        legend('Durees (en s)', 'Durees déterminée (en nb de double-croches)')
+        plot(repmat(edgeHistogramme*ecartRef, length(ecart), 1));
+        
+        tempo
     end
 end
-listeNotesGroupees=set(listeNotesGroupees, 'VarNames', {['DureeDeLaNote'], ['Classe'], ['Population']});
-tempo= determinationTempo( listeNotesGroupees, sort(temposCandidats))
-
-%% Création du vecteur contenant toutes les types de notes joués dans l'ordre
-
-% Une fois le tempo trouvé approximativement, on recalcule les norme des
-% notes d'une manière plus rigoureuse connaissant le tempo (t):
-%
-%   r   bp  b   np  n   cp  c  dcp  dc
-% |---|---|---|---|---|---|---|---|---|
-%  t/4     t/2      t      2*t     4*t
-%
-%   On va calculer les bornes de ces classes et classifiée les notes en
-%   fonction de ces bornes (en % du tempo):
-% bornesClassesNotes=[     31.25;   43.75;  62.5;  85.5; 125;   175;  250;      350      ]/100; % valeurs théoriques
-bornesClassesNotes=[     31.25;   43.75;  62.5;   93;   125;   175;    290;      290     ]/100; % valeurs modifiées (pas de DcrochP)
-%                     |rondes|blancheP|blanche|noireP|noire|crocheP|croche|DcrocheP|Dcroche|
-%                        9       8        7      6      5     4       3        2      1
-for i=1:length(temposCandidats)    % Pour toute les notes
-    if(temposCandidats(i)<bornesClassesNotes(1)*tempo)
-        listeNote(i) = 9; %ronde
-    elseif(temposCandidats(i)>bornesClassesNotes(1)*tempo & temposCandidats(i)<bornesClassesNotes(2)*tempo)
-        listeNote(i) = 8; %blanche pointée
-    elseif(temposCandidats(i)>bornesClassesNotes(2)*tempo & temposCandidats(i)<bornesClassesNotes(3)*tempo)
-        listeNote(i) = 7; % blanche
-    elseif(temposCandidats(i)>bornesClassesNotes(3)*tempo & temposCandidats(i)<bornesClassesNotes(4)*tempo)
-        listeNote(i) = 6; % noire pointée
-    elseif(temposCandidats(i)>bornesClassesNotes(4)*tempo & temposCandidats(i)<bornesClassesNotes(5)*tempo)
-        listeNote(i) = 5; % noire
-    elseif(temposCandidats(i)>bornesClassesNotes(5)*tempo & temposCandidats(i)<bornesClassesNotes(6)*tempo)
-        listeNote(i) = 4; % croche pointée
-    elseif(temposCandidats(i)>bornesClassesNotes(6)*tempo & temposCandidats(i)<bornesClassesNotes(7)*tempo)
-        listeNote(i) = 3; % croche
-    elseif(temposCandidats(i)>bornesClassesNotes(7)*tempo & temposCandidats(i)<bornesClassesNotes(8)*tempo)
-        listeNote(i) = 2; % double croche pointée
-    else
-        listeNote(i) = 1; % double croche
-    end
-end
-%notesNormees= correctionDoubleCrochePointee( notesNormees, classeDoubleCroche, tempo, ecart, Fs );
-% listeNote=[];
-% for(i=[1:length(notesNormees)])
-%     listeNote=[listeNote;[tabNomDureeNotes((classeDoubleCroche-notesNormees(i))*2+1)]];
-% end
-% listeNote
