@@ -137,24 +137,24 @@ for k = 1:length(durees)-1
 end
 
 %% Évaluation des résultats
-<<<<<<< HEAD
-% [~, file, ~]=fileparts(audioFilename);
-% filename = strcat(file, '/expected.txt');
-% [txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(filename, noteDet);
-% [confTons, confOctaves]=evaluateAH(filename, noteDet);
-% [confDurees]=evaluateAR(filename, noteDet, tempo, 0);
-% txErreur, ecartMoyen/Fs
-=======
+% <<<<<<< HEAD
 [~, file, ~]=fileparts(audioFilename);
 filename = strcat(file, '/expected.txt');
-[txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(filename, noteDet)
-if(strcmp(choixAlgo, AH) | strcmp(choixAlgo, ALL));
-    [confTons, confOctaves]=evaluateAH(filename, noteDet);
-end
-if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
-    [confDurees]=evaluateAR(filename, noteDet, tempo, 0);
-end
-
-clear OD SEG AH AR ALL OUT choixAlgo k;
-txErreur, ecartMoyen/Fs;
->>>>>>> ac416b832b2f74d74d7abba9040f35b4d17584a4
+[txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(filename, noteDet);
+[confTons, confOctaves]=evaluateAH(filename, noteDet);
+% [confDurees]=evaluateAR(filename, noteDet, tempo, 0);
+% txErreur, ecartMoyen/Fs
+% =======
+% [~, file, ~]=fileparts(audioFilename);
+% filename = strcat(file, '/expected.txt');
+% [txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(filename, noteDet)
+% if(strcmp(choixAlgo, AH) | strcmp(choixAlgo, ALL));
+%     [confTons, confOctaves]=evaluateAH(filename, noteDet);
+% end
+% if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
+%     [confDurees]=evaluateAR(filename, noteDet, tempo, 0);
+% end
+% 
+% clear OD SEG AH AR ALL OUT choixAlgo k;
+% txErreur, ecartMoyen/Fs;
+% >>>>>>> ac416b832b2f74d74d7abba9040f35b4d17584a4
