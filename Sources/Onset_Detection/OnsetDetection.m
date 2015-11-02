@@ -26,13 +26,17 @@ degreLissage=round(Fs/h/10);
 [stftRes, t, f]=stft(x, Fs, 2^11, h, N); %Ces paramètres semblent ceux donnant les meilleurs résultats à ce jour
 %figure(1), clf, mesh(f(1:findClosest(f, 1e4)),t,20*log10(abs(stftRes((1:findClosest(f, 1e4)), :)))'); ylabel('Temps (s)'); xlabel('Fréquence (Hz)');
 
-
 %% complex spectral difference method
 %  Association de la méthode du flux spectrale et de la déviation de phase
 %  pour une meilleure détection des Onsets
-sf=getOnsets(stftRes,20,20000,Fs,N);
+sf=getOnsets(stftRes,70,1500,Fs,N);
 
 sf=filtfilt(ones(degreLissage,1)/degreLissage, 1, sf);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
+
+% normalisation 0 < sf < 100
+facteurNorm = 100/max(sf);
+sf = sf.*facteurNorm;
+
 %% Paramètre détection de pics
 FsSF=(length(sf)/(length(x)/Fs));   %Rapport entre le nombre d'échantillon du signal sftft (et sf) et ceux du signal "réel" x.
 ecartMinimal= round(60/240*FsSF);   %ecart correspondant à 240 bpm

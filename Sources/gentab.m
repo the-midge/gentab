@@ -3,12 +3,12 @@
 % Ce script teste tous les composants de l'algorithme à partir 
 % d'un signal audio qu'il charge lui même
 %
-
+clear all
 close all
 clc
 beep off
 
-addpath(genpath('../Sources'))
+addpath(genpath('../Sources/DATA/'))
 
 %% Chargement des données
 disp('Fichier audio en entrée?');
@@ -132,29 +132,17 @@ if ~exist('notesJouee', 'var')
     notesJouee=repmat('E 2',length(sampleIndexOnsets)-1, 1);
 end
 
-for k = 1:length(durees)-1
+for k = 1:length(durees)-2
    noteDet(k)=Note(round(sampleIndexOnsets(k)*length(x)/length(sf)), durees(k), notesJouee(k,:)); 
 end
 
 %% Évaluation des résultats
 % <<<<<<< HEAD
 [~, file, ~]=fileparts(audioFilename);
-filename = strcat(file, '/expected.txt');
-[txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(filename, noteDet);
+filename = strcat('DATA/', file, '/expected.txt');
+[txFDetection, txDetectionManquante, txErreur, ecartMoyen] = evaluateOD(filename, noteDet)
 [confTons, confOctaves]=evaluateAH(filename, noteDet);
-% [confDurees]=evaluateAR(filename, noteDet, tempo, 0);
-% txErreur, ecartMoyen/Fs
-% =======
-% [~, file, ~]=fileparts(audioFilename);
-% filename = strcat(file, '/expected.txt');
-% [txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(filename, noteDet)
-% if(strcmp(choixAlgo, AH) | strcmp(choixAlgo, ALL));
-%     [confTons, confOctaves]=evaluateAH(filename, noteDet);
-% end
-% if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
-%     [confDurees]=evaluateAR(filename, noteDet, tempo, 0);
-% end
-% 
-% clear OD SEG AH AR ALL OUT choixAlgo k;
-% txErreur, ecartMoyen/Fs;
-% >>>>>>> ac416b832b2f74d74d7abba9040f35b4d17584a4
+[confDurees]=evaluateAR(filename, noteDet, tempo, 0);
+txErreur, ecartMoyen/Fs
+
+generationMidi

@@ -49,7 +49,7 @@ if(FID==-1)
 end
 
 
-confTons = zeros(12,12);
+confTons = zeros(13,13);
 confOctaves = zeros(5,5);
 
 %% Lecture des données attendues
@@ -66,8 +66,8 @@ for k=1:nbNotesExp
    characteres = sscanf(line, '%c');
    octave = str2num(characteres(end-2)); % octave attendue
    
-   rowNames = {'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};   % temp
-   for j=1:12
+   rowNames = {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};   % temp
+   for j=1:13
        if strcmp(rowNames{j}, characteres(end-4:end-3)) ~= 0
           ton=j; % note attendue
        end
@@ -109,7 +109,7 @@ end
 
 %%   Affichage de la matrice de confusion des tons
 disp('Matrice de confusion des tons');
-rowNames = {'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};
+rowNames = {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};
 firstRow = '';
 for k = 1:length(rowNames)
     firstRow = [firstRow, ' ', rowNames{k}];

@@ -1,60 +1,20 @@
-clear all
-close all
-clc
-%% Script :
-% Ce script decrit les etapes de la transformation d'un signal
-% representant les notes en sortie de la chaine de traitement a partir de
-% laquelle on veut generer un fichier MIDI lisible par un logiciel de
-% generation de tablature ou partition (Guitar Pro, etc...)
-%
 % Etapes :
 %
-% 1) Generation aleatoire d'un signal representant une suite de notes
 % 2) Pre traitement
 % 3) Construction de la matrice pour conversion MIDI 
 % 4) Piano Roll
 % 5) Conversion MIDI
 
-%% Generation aleatoire d'un signal représentant une suite de notes.
-nbNotes = 12;
-
-dur = round(15*rand(nbNotes, 1)) +1; % duree : entier positif entre 1 et 16
-ton = round(12*rand(nbNotes, 1)); % ton : entier positif entre 0 et 12
-oct = round(4*rand(nbNotes, 1)) + 2; % octave : entier positif entre 2 et 6
-
-%etablissement de l echelle des temps relatifs (en indice)
-i = 1;
-ind = zeros(size(dur));
-
-for i = 1:nbNotes 
-    if(i == 1)
-        ind(i) = 0;
-    else
-        ind(i) = ind(i - 1) + dur(i - 1);
-    end
-end
-
-% Taille de la sequence
-nbIndTotal = sum(dur)
-k = (0:nbIndTotal)';
-
-% etablissement de la sequence + display
-for j = 1:nbNotes
-    sequence(j) = Note(ind(j), dur(j), ton(j), oct(j));
-    infoNoteHuman(sequence(j)); 
-end
-
-clear ind dur ton oct
-
 %% Pre traitement
 % On considere ici une partition en 4/4
 
-tempo = 120; % bpm par defaut
 tempoSeconde = tempo/60; % bps : unite de temps
 unitDuree = 1/16; % unite minimale relative par defaut : double croche = 1/4 de temps pour mesure 4/4 donc 1/4*1/4 = 1/16
 
 FsMidi = tempoSeconde*unitDuree; % Frequence d'echantillonage pour pre traitement
-t = k*FsMidi; % echelle des temps du pretraitement
+nbIndTotal = length(x);
+id = (0:nbIndTotal)';
+t = id*FsMidi; % echelle des temps du pretraitement
 
 %% Construction de la matrice pour conversion MIDI 
 % La matrice de pre traitement (notes) est definie par rapport a la matrice
@@ -71,12 +31,13 @@ t = k*FsMidi; % echelle des temps du pretraitement
 % 5/ "on" : debut de la note sur l'echelle des temps
 % 6/ "off" : fin de la note sur l'echelle des temps
 
+nbNotes = length(noteDet);
 notes = zeros(nbNotes, 6); % matrice de pretraitement
 
 for j = 1:nbNotes
     notes(j, 1) = 1; % Track par defaut : 1
     notes(j, 2) = 1; % Channel par defaut : 1
-    notes(j, 3) = sequence(j).ton + 15 + sequence(j).octave*12; % numero de note
+    notes(j, 3) = noteDet(j).ton + 15 + noteDet(j).octave*12; % numero de note
     notes(j, 4) = 95; % velocity par defaut : 95
         
     if(j == 1) % instant "on" de la note
@@ -85,7 +46,7 @@ for j = 1:nbNotes
         notes(j, 5) = notes(j-1, 6);
     end
     
-    notes(j, 6) = notes(j, 5) + sequence(j).duree*FsMidi; % instant "off" de la note        
+    notes(j, 6) = notes(j, 5) + noteDet(j).duree*FsMidi; % instant "off" de la note        
 end
 
 % Toutes les notes portant le numero 15 sont des silences qu'il faut
@@ -94,11 +55,12 @@ notes(find(notes(:, 3) == 15), :) = [];
 
 %% Piano Roll
 
-pianoRoll = ones(size(k)).*-1;
+pianoRoll = ones(size(id)).*-1;
+pianoRoll(1) = 0;
 
 % determination de la hauteur des notes
-for n = 1:length(sequence)
-    pianoRoll(sequence(n).indice +1, 1) = sequence(n).ton;
+for n = 1:length(noteDet)
+    pianoRoll(noteDet(n).indice +1, 1) = noteDet(n).ton;
 end
 
 % determination de la duree des notes
@@ -110,7 +72,7 @@ end
 
 % piano roll
 % les notes a 0 representent les silences
-figure(2), clf, plot(t, pianoRoll, 'o')
+figure(4), clf, plot(t, pianoRoll, 'o')
 set(gca,'ytick', -1:1:13)
 axis([0 t(end) -1 13])
 grid on
@@ -119,4 +81,5 @@ grid on
 
 % Generation du fichier midi
 midi = matrix2midi(notes);
-writemidi(midi, 'testout.mid');
+out = strcat('DATA/', file, '/out.mid');
+writemidi(midi, out);
