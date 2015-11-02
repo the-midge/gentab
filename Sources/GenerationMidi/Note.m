@@ -103,7 +103,7 @@ classdef Note < handle
         
         function note = conversionTonstr(note, tonstr)
             names = {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};
-            for j=0:12
+            for j=1:13
                if strcmp(names{j}, tonstr) ~= 0
                   note.ton=j; % note attendue
                end

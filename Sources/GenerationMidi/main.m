@@ -83,7 +83,7 @@ for j = 1:nbNotes
         notes(j, 5) = notes(j-1, 6);
     end
     
-    notes(j, 6) = notes(j, 5)+sequence(j).duree*FsMidi; % instant "off" de la note        
+    notes(j, 6) = notes(j, 5) + sequence(j).duree*FsMidi; % instant "off" de la note        
 end
 
 % Toutes les notes portant le numero 15 sont des silences qu'il faut

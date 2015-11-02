@@ -15,7 +15,7 @@ addpath(genpath('../Sources'))
 disp('Fichier audio en entrée?');
 disp('1: DayTripper - 8s');
 disp('2: Blue Orchid (bends) - 30s');
-disp('3: Aller-Retour diatonique - 8s');
+disp('3: nosurprises - 26s');
 disp('5: Heart & Soul - 16s');
 disp('6: Seven Nation Army - 30s');
 disp('7: Hardest Button to Button - 35s');
@@ -40,8 +40,8 @@ switch choixEchantillon
         [x,Fs]=audioread(audioFilename);
         x=x(1:Fs*30,1);
     case 3
-        disp('Aller-Retour diatonique');
-        audioFilename='ar-diatonique-tux.wav';
+        disp('nosurprises');
+        audioFilename='nosurprises.wav';
         [x,Fs]=audioread(audioFilename);
         x=x(:,1);
     case 5
@@ -108,7 +108,7 @@ end
 
 %% Analyse rythmique
 if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
-    [durees, tempo] = analyseRythmique(sf, bornes, FsSF, Fs, 1);
+    [durees, tempo] = AnalyseRythmique(sf, bornes, FsSF, Fs, 1);
 end
     
 %% Analyse harmonique
@@ -138,9 +138,9 @@ for k = 1:length(sampleIndexOnsets)-1
 end
 
 %% Évaluation des résultats
-[~, file, ~]=fileparts(audioFilename);
-filename = strcat(file, '/expected.txt');
-[txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(filename, noteDet);
-[confTons, confOctaves]=evaluateAH(filename, noteDet);
-[confDurees]=evaluateAR(filename, noteDet, tempo, 0);
-txErreur, ecartMoyen/Fs
+% [~, file, ~]=fileparts(audioFilename);
+% filename = strcat(file, '/expected.txt');
+% [txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(filename, noteDet);
+% [confTons, confOctaves]=evaluateAH(filename, noteDet);
+% [confDurees]=evaluateAR(filename, noteDet, tempo, 0);
+% txErreur, ecartMoyen/Fs
