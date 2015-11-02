@@ -107,7 +107,7 @@ end
 
 %% Analyse rythmique
 if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
-    [durees, tempo] = analyseRythmique(sf, bornes, FsSF, Fs, 1);
+    [durees, tempo] = analyseRythmique(sf, bornes, FsSF, Fs, 0);
 end
     
 %% Analyse harmonique
@@ -139,7 +139,7 @@ end
 %% Évaluation des résultats
 [~, file, ~]=fileparts(audioFilename);
 filename = strcat(file, '/expected.txt');
-[txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(filename, noteDet)
+[txFDetection, txDetectionManquante, txReussite, ecartMoyen]=evaluateOD(filename, noteDet);
 if(strcmp(choixAlgo, AH) | strcmp(choixAlgo, ALL));
     [confTons, confOctaves]=evaluateAH(filename, noteDet);
 end
@@ -147,5 +147,5 @@ if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
     [confDurees]=evaluateAR(filename, noteDet, tempo, 0);
 end
 
-clear OD SEG AH AR ALL OUT choixAlgo k;
-txErreur, ecartMoyen/Fs;
+clear OD SEG AH AR ALL OUT k;
+txReussite, ecartMoyen/Fs;

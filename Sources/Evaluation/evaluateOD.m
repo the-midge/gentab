@@ -1,4 +1,4 @@
-function [txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(filename, noteDet)
+function [txFDetection, txDetectionManquante, txReussite, ecartMoyen]=evaluateOD(filename, noteDet)
 %evaluateOD.m
 %
 %   USAGE:   
@@ -7,7 +7,7 @@ function [txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(f
 %   
 %       txFDetection: Taux de fausse détection
 %       txDetectionManquante:   Taux de détection manquante
-%       txErreur: Taux d'erreur
+%       txReussite: Taux de réussite (100% - deux taux cités plus haut)
 %       ecartMoyen: écart moyen entre deux onsets correctement détectés
 %    
 %   DESCRIPTION:
@@ -22,7 +22,7 @@ function [txFDetection, txDetectionManquante, txErreur, ecartMoyen]=evaluateOD(f
 %       excédentaires/nombre de détections attendues)
 %       *   txDetectionManquante:   Taux de détection manquante = (nombre de
 %       détections manquées/nombre de détections attendues)
-%       *   txErreur: Somme des deux taux de détection précédents
+%       *   txReussite: 100% - Somme des deux taux de détection précédents
 %       *   ecartMoyen: écart moyen entre deux onsets correctement détectés
 
 %% Vérification sur l'argument filename
@@ -110,7 +110,7 @@ if indiceExp-nbNotesExp <0
 end
 txFDetection = nbOnsetsExcedentaires/nbNotesExp*100;
 txDetectionManquante = nbOnsetsManquants/nbNotesExp*100;
-txErreur = txFDetection+txDetectionManquante;
+txReussite = 100-txFDetection-txDetectionManquante;
 ecartMoyen = mean(ecarts);
 
 end
