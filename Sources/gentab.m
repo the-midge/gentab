@@ -8,7 +8,7 @@ close all
 clc
 beep off
 
-addpath(genpath('../Sources/DATA/'))
+addpath(genpath('../Sources/'))
 
 %% Chargement des données
 disp('Fichier audio en entrée?');
@@ -79,14 +79,12 @@ clear choixEchantillon;
 
 disp('Algo à exécuter?');
 disp('OD: Onset Detection');
-disp('SEG: Segmentation + OD');
 disp('AH: Analyse harmonique (Identification des notes jouées) + OD + SEG');
 disp('AR: Analyse Rythmique (Détermination de la composition rythmique) + OD + SEG');
 disp('ALL: Tous les algorithmes précédents');
 disp('OUT: Sortie');
 
 OD='OD';
-SEG='SEG';
 AH='AH';
 AR='AR';
 ALL='ALL';
@@ -107,7 +105,7 @@ end
 
 %% Analyse rythmique
 if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
-    [durees, tempo] = AnalyseRythmique(sf, bornes, FsSF, Fs, 1);
+    [durees, tempo] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
 end
     
 %% Analyse harmonique
@@ -123,26 +121,26 @@ end
 
 
 %% Mise en forme des résultats
-if ~exist('durees', 'var')
-    durees=ones(length(sampleIndexOnsets)-1, 1);
+if strcmp(choixAlgo, OD)
+    notesDet = miseEnForme(sampleIndexOnsets,  FsSF)
     tempo = 0;
+elseif strcmp(choixAlgo, AH)
+    notesDet = miseEnForme(sampleIndexOnsets,  FsSF, notesJouee)
+    tempo = 0;
+elseif strcmp(choixAlgo, AR)
+    notesDet = miseEnForme(sampleIndexOnsets,  FsSF, durees)
+elseif strcmp(choixAlgo, ALL)
+    notesDet = miseEnForme(sampleIndexOnsets,  FsSF, durees, notesJouee)    
 end
 
-if ~exist('notesJouee', 'var')
-    notesJouee=repmat('E 2',length(sampleIndexOnsets)-1, 1);
-end
-
-for k = 1:length(durees)-2
-   noteDet(k)=Note(round(sampleIndexOnsets(k)*length(x)/length(sf)), durees(k), notesJouee(k,:)); 
-end
 
 %% Évaluation des résultats
-% <<<<<<< HEAD
+
 [~, file, ~]=fileparts(audioFilename);
 filename = strcat('DATA/', file, '/expected.txt');
-[txFDetection, txDetectionManquante, txErreur, ecartMoyen] = evaluateOD(filename, noteDet)
-[confTons, confOctaves]=evaluateAH(filename, noteDet);
-[confDurees]=evaluateAR(filename, noteDet, tempo, 0);
-txErreur, ecartMoyen/Fs
+[txFDetection, txDetectionManquante, txReussite, ecartMoyen] = evaluateOD(filename, notesDet)
+[confTons, confOctaves]=evaluateAH(filename, notesDet);
+[confDurees]=evaluateAR(filename, notesDet, tempo, 0);
+txReussite
 
 generationMidi
