@@ -31,13 +31,13 @@ t = id*FsMidi; % echelle des temps du pretraitement
 % 5/ "on" : debut de la note sur l'echelle des temps
 % 6/ "off" : fin de la note sur l'echelle des temps
 
-nbNotes = length(noteDet);
+nbNotes = length(notesDet);
 notes = zeros(nbNotes, 6); % matrice de pretraitement
 
 for j = 1:nbNotes
     notes(j, 1) = 1; % Track par defaut : 1
     notes(j, 2) = 1; % Channel par defaut : 1
-    notes(j, 3) = noteDet(j).ton + 15 + noteDet(j).octave*12; % numero de note
+    notes(j, 3) = notesDet(j).ton + 15 + notesDet(j).octave*12; % numero de note
     notes(j, 4) = 95; % velocity par defaut : 95
         
     if(j == 1) % instant "on" de la note
@@ -46,7 +46,7 @@ for j = 1:nbNotes
         notes(j, 5) = notes(j-1, 6);
     end
     
-    notes(j, 6) = notes(j, 5) + noteDet(j).duree*FsMidi; % instant "off" de la note        
+    notes(j, 6) = notes(j, 5) + notesDet(j).duree*FsMidi; % instant "off" de la note        
 end
 
 % Toutes les notes portant le numero 15 sont des silences qu'il faut
@@ -55,27 +55,27 @@ notes(find(notes(:, 3) == 15), :) = [];
 
 %% Piano Roll
 
-pianoRoll = ones(size(id)).*-1;
-pianoRoll(1) = 0;
-
-% determination de la hauteur des notes
-for n = 1:length(noteDet)
-    pianoRoll(noteDet(n).indice +1, 1) = noteDet(n).ton;
-end
-
-% determination de la duree des notes
-for l = 1:length(pianoRoll)
-    if(pianoRoll(l) == -1)
-        pianoRoll(l) = pianoRoll(l-1);
-    end
-end
-
-% piano roll
-% les notes a 0 representent les silences
-figure(4), clf, plot(t, pianoRoll, 'o')
-set(gca,'ytick', -1:1:13)
-axis([0 t(end) -1 13])
-grid on
+% pianoRoll = ones(size(id)).*-1;
+% pianoRoll(1) = 0;
+% 
+% % determination de la hauteur des notes
+% for n = 1:length(notesDet)
+%     pianoRoll(notesDet(n).indice +1, 1) = notesDet(n).ton;
+% end
+% 
+% % determination de la duree des notes
+% for l = 1:length(pianoRoll)
+%     if(pianoRoll(l) == -1)
+%         pianoRoll(l) = pianoRoll(l-1);
+%     end
+% end
+% 
+% % piano roll
+% % les notes a 0 representent les silences
+% figure(4), clf, plot(t, pianoRoll, 'o')
+% set(gca,'ytick', -1:1:13)
+% axis([0 t(end) -1 13])
+% grid on
 
 %% Conversion MIDI
 

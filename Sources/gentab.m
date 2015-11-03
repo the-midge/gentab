@@ -15,6 +15,7 @@ disp('Fichier audio en entrée?');
 disp('1: DayTripper - 8s');
 disp('2: Blue Orchid (bends) - 30s');
 disp('3: nosurprises - 26s');
+disp('4: Aller Retour Diatonique - 8s');
 disp('5: Heart & Soul - 16s');
 disp('6: Seven Nation Army - 30s');
 disp('7: Hardest Button to Button - 35s');
@@ -43,6 +44,11 @@ switch choixEchantillon
         audioFilename='nosurprises.wav';
         [x,Fs]=audioread(audioFilename);
         x=x(:,1);
+    case 4
+        disp('A/R diatonique');
+        audioFilename = 'ar-diatonique-tux.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=x(:,1); 
     case 5
         disp('Heart & Soul');
         audioFilename='heart-and-soul-tux.wav';

@@ -33,33 +33,60 @@ clc
 
 %% Onset Detection
 if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
-        audioFilename='heart-and-soul-tux.wav';
-        [x,Fs]=audioread(audioFilename);
-        x=x(:,1);
-        OnsetDetection;
-        title(audioFilename);
-        audioFilename='ar-diatonique-tux.wav';
-        [x,Fs]=audioread(audioFilename);
-        x=x(:,1);
-        OnsetDetection;
-        title(audioFilename);
-        audioFilename='DayTripper.wav';
-        [x,Fs]=audioread(audioFilename);
-        x=x(1:Fs*8,1);
-        OnsetDetection; 
-        title(audioFilename);
-        audioFilename='BlueOrchidSansDeadNoteAvecBend.wav';
-        [x,Fs]=audioread(audioFilename);
-        x=x(1:Fs*30,1);
-        OnsetDetection; 
-        title(audioFilename); 
-end
+    disp('1: DayTripper - 8s');
+    disp('2: No Surprises - 26s');
+    disp('3: Aller Retour Diatonique - ');
+    disp('4: Heart & Soul - 16s');
+    disp('5: Seven Nation Army - 30s');
+    disp('6: Hardest Button to Button - 35s');
 
+    for k=1:6
+        switch(k)
+            case 1                
+                audioFilename='DayTripper.wav';
+            case 2
+                audioFilename='ar-diatonique-tux.wav';
+            case 3
+                audioFilename='heart-and-soul-tux.wav';
+            case 4
+                audioFilename='nosurprises.wav';
+            case 5              
+                audioFilename='seven-nation-army.wav';
+            case 6
+                audioFilename='hardest-button.wav';
+        end
+        [x,Fs]=audioread(audioFilename);
+        x=x(:,1);
+        if( k==1)   % Cas particulier de Day Tripper
+            x=x(1:Fs*8,1);
+        end
+        
+        figure(k),         
+        OnsetDetection;
+        title(audioFilename);
+        
+        notesDet = miseEnForme(sampleIndexOnsets,  FsSF);
+        tempo = 0;
+        
+        [~, file, ~]=fileparts(audioFilename);
+        filename = strcat('DATA/', file, '/expected.txt');
+        [txFDetection(k), txDetectionManquante(k), txReussite(k), ecartMoyen(k)] = evaluateOD(filename, notesDet);
+    end
+    
+    [txFDetection', txDetectionManquante', txReussite']
+    [MIN, worst] = min(txReussite);
+    MEAN = mean(txReussite);
+    [MAX, best] = max(txReussite);
+  
+    disp(['Worst is n°', num2str(worst), ' with ', num2str(MIN), '%']);
+    disp(['Best is n°', num2str(best), ' with ', num2str(MAX), '%']);
+    disp(['Mean is ', num2str(MEAN), '%']);
+    clear OD OUT;
+    break;
+end
 
 if(strcmp(choixAlgo, OUT))
     clc
     close all
     clear all
 end
-clear OD OUT;
-
