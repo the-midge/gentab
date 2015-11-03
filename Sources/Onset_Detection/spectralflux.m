@@ -28,9 +28,6 @@ sf=(sf+abs(sf))/2;  % Passage des pics négatifs en pics positifs
 %  semble pas utile car on a que des valeurs positives
 sf=sum(sf);
 
-% Filtrage pour éliminer les parasites
-[B, A]=butter(2, [0.2 0.9999], 'stop'); %Un filtre coupe-bande qui ne garde que les 20%plus basses fréquences et les 0.1% plus hautes.
-sf=filter(B,A,sf)';
 %sf=zscore(sf); % Normalisation des valeurs
 
 end

@@ -36,7 +36,7 @@ function [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, durees, notesJouee
         notesJouee=repmat('E 2',length(sampleIndexOnsets)-1, 1);
     end
 
-    for k = 1:length(durees)-2
+    for k = 1:length(durees)
        notesDet(k)=Note(round(sampleIndexOnsets(k)*FsSF), durees(k), notesJouee(k,:)); 
     end
 

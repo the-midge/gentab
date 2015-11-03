@@ -128,15 +128,15 @@ end
 
 %% Mise en forme des résultats
 if strcmp(choixAlgo, OD)
-    notesDet = miseEnForme(sampleIndexOnsets,  FsSF)
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf))
     tempo = 0;
 elseif strcmp(choixAlgo, AH)
-    notesDet = miseEnForme(sampleIndexOnsets,  FsSF, notesJouee)
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), notesJouee)
     tempo = 0;
 elseif strcmp(choixAlgo, AR)
-    notesDet = miseEnForme(sampleIndexOnsets,  FsSF, durees)
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), durees)
 elseif strcmp(choixAlgo, ALL)
-    notesDet = miseEnForme(sampleIndexOnsets,  FsSF, durees, notesJouee)    
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), durees, notesJouee)    
 end
 
 

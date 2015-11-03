@@ -6,7 +6,6 @@
 
 clear all
 close all
-clc
 beep off
 
 addpath(genpath('../Sources'))
@@ -29,14 +28,13 @@ OD='OD';
 OUT='OUT';
 choixAlgo=input('Choix? ');
 
-clc
 
 %% Onset Detection
 if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('1: DayTripper - 8s');
-    disp('2: No Surprises - 26s');
-    disp('3: Aller Retour Diatonique - ');
-    disp('4: Heart & Soul - 16s');
+    disp('2: Aller Retour Diatonique - 8s');
+    disp('3: Heart & Soul - 16s');
+    disp('4: No Surprises - 26s');
     disp('5: Seven Nation Army - 30s');
     disp('6: Hardest Button to Button - 35s');
 
@@ -65,7 +63,7 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         OnsetDetection;
         title(audioFilename);
         
-        notesDet = miseEnForme(sampleIndexOnsets,  FsSF);
+        notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf));
         tempo = 0;
         
         [~, file, ~]=fileparts(audioFilename);
@@ -86,7 +84,6 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
 end
 
 if(strcmp(choixAlgo, OUT))
-    clc
     close all
     clear all
 end
