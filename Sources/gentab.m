@@ -3,7 +3,7 @@
 % Ce script teste tous les composants de l'algorithme à partir 
 % d'un signal audio qu'il charge lui même
 %
-clear all
+
 close all
 clc
 beep off
@@ -118,7 +118,7 @@ end
 if(strcmp(choixAlgo, AH) | strcmp(choixAlgo, ALL));
     AnalyseHarmonique;
 end
-
+%%
 if(strcmp(choixAlgo, OUT))
     clc
     close all
@@ -128,15 +128,15 @@ end
 
 %% Mise en forme des résultats
 if strcmp(choixAlgo, OD)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf))
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf));
     tempo = 0;
 elseif strcmp(choixAlgo, AH)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), notesJouee)
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), notesJouee);
     tempo = 0;
 elseif strcmp(choixAlgo, AR)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), durees)
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), durees);
 elseif strcmp(choixAlgo, ALL)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), durees, notesJouee)    
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), durees, notesJouee);  
 end
 
 

@@ -24,22 +24,30 @@ degreLissage=round(Fs/h/10);
 
 %figure(1), clf, mesh(f(1:findClosest(f, 1e4)),t,20*log10(abs(stftRes((1:findClosest(f, 1e4)), :)))'); ylabel('Temps (s)'); xlabel('Fréquence (Hz)');
 
-%% Fonction d'onset
-sf=getOnsets(stftRes,70,1500,Fs,N);
+%% Fonctions d'onset
+% Pseudo-complex domain
+pseudoComplexDomain=getOnsets(stftRes,70,1500,Fs,N);
+
+% Spectral flux
+specFlux = spectralflux(stftRes);
+
 
 % Filtrage pour éliminer les parasites
 [B, A]=butter(2, [0.2 0.9999], 'stop'); %Un filtre coupe-bande qui ne garde que les 20%plus basses fréquences et les 0.1% plus hautes.
-sf=filter(B,A,sf);
-sf=filtfilt(ones(degreLissage,1)/degreLissage, 1, sf);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
-
+pseudoComplexDomain=filter(B,A,pseudoComplexDomain);
+specFlux=filter(B,A,specFlux);
+pseudoComplexDomain=filtfilt(ones(degreLissage,1)/degreLissage, 1, pseudoComplexDomain);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
+specFlux=filtfilt(ones(degreLissage,1)/degreLissage, 1, specFlux);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
 % Normalisation 0 < sf < 100
-facteurNorm = 100/max(sf);
-sf = sf.*facteurNorm;
+pseudoComplexDomain = pseudoComplexDomain.*100/max(pseudoComplexDomain);
+specFlux = specFlux.*100/max(specFlux);
 
-%% Paramètres détection de pics
-FsSF=(length(sf)/(length(x)/Fs));   %Rapport entre le nombre d'échantillon du signal sftft (et sf) et ceux du signal "réel" x.
-ecartMinimal= round(60/240*FsSF);   %ecart correspondant à 240 bpm
-sensibilite=0.00*std(sf);    %Sensibilité de la détection du pic. Relative à l'amplitude de sf. Cf help findpeaks
+% Combination des fonctions d'onset
+FsSF=(size(stftRes,2)/(length(x)/Fs));   %Rapport entre le nombre d'échantillon du signal sftft et ceux du signal "réel" x.
+ecart_ms = 50; w1 = 0.8; w2 = 1.2; %Paramètres de pondération de la combinaison
+ecart_samples = round(ecart_ms*FsSF/1000);
+%specFlux est en avance sur pseudoComplexDomain de ecart_samples environ
+sf = w1.*[zeros(ecart_samples,1); pseudoComplexDomain(1:end-ecart_samples)]+w2.*specFlux;
 
 %% Détermination du seuil
 rapportMoyenneLocale=40e-4; % regarde la moyenne locale sur plus d'échantillons 
@@ -91,8 +99,11 @@ moyenneFinale(length(sf)-nbSampleMoyenneLocale:length(sf),1)=moyenneLocaleDroite
 % moyenneFinale(length(sf)-nbSampleMoyenneLocale:length(sf),1)=moyenneLocaleDroite(length(sf)-nbSampleMoyenneLocale:length(sf),1)-ecart2;
 seuil=moyenneFinale;
 
-%% Détection des peaks
-[amplitudeOnsets, sampleIndexOnsets]=ovldFindpeaks(sf, 'MINPEAKHEIGHT', seuil, 'MINPEAKDISTANCE', floor(ecartMinimal/2), 'THRESHOLD',sensibilite);
+%% Paramètres détection de pics
+ecartMinimal= round(60/240*FsSF);   %ecart correspondant à 240 bpm
+
+%% Détection des pics
+[amplitudeOnsets, sampleIndexOnsets]=ovldFindpeaks(sf, 'MINPEAKHEIGHT', seuil, 'MINPEAKDISTANCE', floor(ecartMinimal/2), 'THRESHOLD',0);
 
 % suppression des premiers pics jusqu'au premier pic à dépasser la moitiée de la moyenne
 % globale (à terme moyenne locale long terme)

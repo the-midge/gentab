@@ -26,7 +26,7 @@ sf=filter(b, a, abs(stft)); % dérivée
 %sf=diff(abs(stft));
 sf=(sf+abs(sf))/2;  % Passage des pics négatifs en pics positifs
 %  semble pas utile car on a que des valeurs positives
-sf=sum(sf);
+sf=sum(sf)';
 
 %sf=zscore(sf); % Normalisation des valeurs
 

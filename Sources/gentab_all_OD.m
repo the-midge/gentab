@@ -59,16 +59,26 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
             x=x(1:Fs*8,1);
         end
         
-        figure(k),         
-        OnsetDetection;
-        title(audioFilename);
+        figure(k),       
         
+        OnsetDetection;        
         notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf));
         tempo = 0;
         
         [~, file, ~]=fileparts(audioFilename);
         filename = strcat('DATA/', file, '/expected.txt');
         [txFDetection(k), txDetectionManquante(k), txReussite(k), ecartMoyen(k)] = evaluateOD(filename, notesDet);
+        
+        %         AllOnsetFunctions;
+        %         plot(t, onsetRes)
+        %         legend('Pseudo complex domain',...
+        %                'Spectral flux',...
+        %                'Phase Deviation',...
+        %                'Complex Domain',...
+        %                'Rectified Complex Domain')
+        %         title(audioFilename);
+        %         
+        %         clear onsetRes;
     end
     
     [txFDetection', txDetectionManquante', txReussite']
