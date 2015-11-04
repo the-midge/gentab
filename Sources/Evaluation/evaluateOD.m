@@ -105,9 +105,13 @@ while indiceDet < length(noteDet)
     expInDet = newExpInDet;
 end
 
+
+nbNotesExp=nbNotesExp-1;
+
 if indiceExp-nbNotesExp <0
     nbOnsetsManquants = nbOnsetsManquants+(nbNotesExp-indiceExp);
 end
+
 txFDetection = nbOnsetsExcedentaires/nbNotesExp*100;
 txDetectionManquante = nbOnsetsManquants/nbNotesExp*100;
 txReussite = 100-txFDetection-txDetectionManquante;
