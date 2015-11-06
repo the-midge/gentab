@@ -8,48 +8,41 @@ clc
 
 generatePeigneGaussienne;
 
-dureesMesurees = [1.2 2.6 6.3 7.22 14.7]';
-[matriceProbaDuree] = determinationDurees(dureesMesurees, peigneGaussienne, abscisse);
+dureesMesurees = [4.3 4.2 4.9 4.6 4.4 4.7 2.2 2.3 2.2 2.1]';
 
-%% fonction affectation probas
+[out] = determinationDurees(dureesMesurees, peigneGaussienne, abscisse);
 
-% out = zeros(length(dureesMesurees), 5);
-% 
-% out(:, 1) = dureesMesurees;
-% 
-% out(:, 2) = floor(dureesMesurees);
-% 
-% for m = 1:length(dureesMesurees)
-%     [c index(m)] = min(abs(abscisse-dureesMesurees(m)));
-%     if(peigneGaussienne(index(m), out(m, 2)) ~= 0)
-%         out(m, 3) = peigneGaussienne(index(m), out(m, 2));
-%     else
-%         g = 1;
-%         while((peigneGaussienne(index(m), out(m, 2)) == 0) ...
-%             && (out(m, 2) > 0))
-%             out(m, 2) = out(m, 2) - g;
-%         end
-%         out(m, 3) = peigneGaussienne(index(m), out(m, 2));
-%     end
-% end
+%%
+mesure4_4 = 16;
 
+dureeNotes = zeros(length(dureesMesurees), 3);
+numMesure = 1;
+col = 0;
+
+for l = 1:length(dureesMesurees)
+    if(out(l, 3) > out(l, 5))
+        dureeNotes(l, 1) = out(l,2);
+        
+    else
+        dureeNotes(l, 1) = out(l,4);
+    end
+    
+    col = col +1;
+    part(numMesure, col) = dureeNotes(l, 1);
+    
+    
+    if(sum(part(numMesure, :)) >= mesure4_4)
+        if(sum(part(numMesure, :)) > mesure4_4)
+        	numMesure 
+        	col
+        else
             
-% 
-% 
-% out(:, 4) = floor(dureesMesurees) + 1;
+        end
+            numMesure = numMesure + 1
+            col = 0
+    end
+end
+    
 
-% for m = 1:length(dureesMesurees)
-%     [c index(m)] = min(abs(abscisse-dureesMesurees(m)));
-%     if(peigneGaussienne(index(m), out(m, 4)) ~= 0)
-%         out(m, 5) = peigneGaussienne(index(m), out(m, 4));
-%     else
-%         h = 1;
-%         while((peigneGaussienne(index(m), out(m, 4)) == 0) ...
-%             && (out(m, 4) < 16))
-%             out(m, 4) = out(m, 4) + h;
-%         end
-%         out(m, 5) = peigneGaussienne(index(m), out(m, 4));
-%     end
-% end
 
 
