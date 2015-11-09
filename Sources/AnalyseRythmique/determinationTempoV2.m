@@ -48,7 +48,7 @@ plot(tAutoCorr, TPS, 'b', tAutoCorr, W*max(TPS), 'r');
 [~, indRatio] = max(val);
 tempo=60/tAutoCorr(indT(indRatio));
 
-while tempo>141
+while tempo>210
     tempo=tempo/2;
 end
 tempo = 2*round(tempo/2);    % arrondi par 2

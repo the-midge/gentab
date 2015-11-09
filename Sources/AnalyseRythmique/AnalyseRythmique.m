@@ -1,17 +1,17 @@
-function [durees, tempo] = analyseRythmique(sf, bornes, FsSF, Fs, display)
+function [durees, tempo] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
 %   analyseRythmique.m
 %
 %   USAGE: 
-%       [durees, tempo] = analyseRythmique(sf, bornes, FsSF, Fs, 1);
+%       [durees, tempo] = analyseRythmique(oss, bornes, FsOSS, Fs, 1);
 %   ATTRIBUTS:
 %       durees: durees de chaque note dans l'ordre. Format: nombre de
 %       double-croches (croche = 2, noire = 4)
 %       tempo: tempo estimé du morceau
 %
-%       sf: sortie de la fonction de détection d'onset detection
+%       oss: Onset Strength Signal - sortie de la fonction de détection d'onset detection
 %       bornes: échantillons dans la base du temps d'origine pour lesquels,
 %       un onset est détecté
-%       FsSF: Fréquence d'échantillonnage après la fonction d'osnet
+%       FsOSS: Fréquence d'échantillonnage après la fonction d'osnet
 %       detection
 %       Fs : Fréquence d'échantillonnage du morceau
 %
@@ -21,7 +21,7 @@ function [durees, tempo] = analyseRythmique(sf, bornes, FsSF, Fs, display)
 %   BUT:
 %       Cette fonction tente de déterminer la durées musicale de chaque
 %       note. D'autre part elle détermine le tempo via la fonction
-%       determinationTempoV2 en passant par l'autocorrélation de sf.
+%       determinationTempoV2 en passant par l'autocorrélation de oss.
 %       Pour la détermination des durées de notes, on détermine des
 %       intervalles de durées (en s) qui correspondent à chaque durée
 %       musicale potentielle. La largeur des ces intervalles dépend de la
