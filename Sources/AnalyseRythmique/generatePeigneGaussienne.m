@@ -55,4 +55,4 @@ end
 
 abscisse = (1:length(peigneGaussienne))/facteur-1;
 % Visualisation
-plot(abscisse,    peigneGaussienne), grid on, axis([0 20 0 1]);
+%plot(abscisse,    peigneGaussienne), grid on, axis([0 20 0 1]);

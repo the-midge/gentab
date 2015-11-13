@@ -1,4 +1,4 @@
-function [durees, tempo] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
+function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
 %   analyseRythmique.m
 %
 %   USAGE: 
@@ -30,8 +30,7 @@ function [durees, tempo] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
     if nargin <4
         display = false;
     end
-    
-    %%
+        %%
     ecart=diff(bornes)/Fs; % écart entre deux bornes en secondes
 
 %     probabilitesInitiales = [0.15;0.3;0.05;0.2;0.05;0.1;0.02;0.05;0;0;0;0.05;0;0;0;0.03];
@@ -64,20 +63,18 @@ function [durees, tempo] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
     generatePeigneGaussienne;
 
     %% Détermination du tempo
-    determinationTempoV2; % Les résultats sont globalement bon mais il peut y avoir un écart d'un facteur 2.
+    determinationTempoV3; % Les résultats sont globalement bon mais il peut y avoir un écart d'un facteur 2.
      
     %% Détermination des durées de notes
     ecartRef=60/tempo; % Passage des intervalles calculés précédemment en secondes.
-    ecart/ecartRef*4;
+    
     indiceEcartsPourPeigne = findClosest(abscisse,ecart/ecartRef*4);
     
     
     
     probasEcart=peigneGaussienne(indiceEcartsPourPeigne,:);
     [~, durees] = max(probasEcart');
-   % [pop, durees] = histc(ecart, edgeHistogramme*ecartRef);
-    % pop reçoit le nombre de note dans chaque duree, durees reçoit les
-    % durées de chaque notes dans leur ordre d'apparition
+    
     
     if display
 %         figure(1), clf
@@ -90,5 +87,15 @@ function [durees, tempo] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
         legend('Durees (en s)', 'Durees déterminée (en nb de double-croches)')
         plot(repmat(edgeHistogramme*ecartRef, length(ecart), 1));
 
+    end
+    
+    if nargout==2
+        varargout{1}=durees;
+        varargout{2}=tempo;
+    end
+    if nargout == 3
+         varargout{1}=durees;
+        varargout{2}=tempo;
+        varargout{3}=features_normalized;
     end
 end

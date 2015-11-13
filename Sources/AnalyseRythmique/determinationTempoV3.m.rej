@@ -1,0 +1,73 @@
+diff a/Sources/AnalyseRythmique/determinationTempoV3.m b/Sources/AnalyseRythmique/determinationTempoV3.m	(rejected hunks)
+@@ -70,16 +70,62 @@
+ end
+ SC=SCv/sum(sum(SCv)) + SCx/sum(sum(SCx));
+ [~, Lm]=max(SC); Lm=Lm';
+-Lm=Pacc(Lm+(0:10:320)');
++Lm=Pacc(Lm+(0:10:length(Lm)*10-1)');
+ %% C. Accumulation et estimation générale
+ %   1) Gaussiennes
+-x=(min_lag:max_lag);
++x=(0:max_lag);
+ sigma=10; mu=Lm(1);
+-abscisse= bsxfun(@minus, x, Lm);
+-Gm=exp(-abscisse.^2/(2*sigma^2))/(sigma*sqrt(2*pi));
++abscisseTempo= bsxfun(@minus, x, Lm);
++Gm=exp(-abscisseTempo.^2/(2*sigma^2))/(sigma*sqrt(2*pi));
+ %   2) Accumulator
+-C=sum(Gm)';
+-%   3)  Pick a peak
+-[~, L]=max(C);
++C=sum(Gm)'; C=C/sum(C);
++%   3)  Séléctionner les 3 meilleurs pics
++[str, bpm]=findpeaks(C, 'NPEAKS', 3, 'SORTSTR', 'descend');
++L=bpm(1);
++if length(bpm)==2
++    bpm(3)=min_lag;
++end
++bpm=60*FsOSS./bpm;
+ %   4)  Octave decider
+-F1 = sum(C(1:L-10));    F2 = sum(C(round(L/2)-10:round(L/2)+10));
++%   4.1) Calcul des features
++energy_total=sum(C);
++features = [sumInRange(C,1,L-10)/energy_total; 
++            sumInRange(C,L+10,length(C))/energy_total];
++features=[features;1-sum(features)];
++features=[features;sumInRange(C,L/2-10,L/2+10)/energy_total];
++features=[features;sumInRange(C, 1*L-10, 1*L+10)/energy_total;sumInRange(C,2*L-10,2*L+10)/energy_total]; %Pb: on srt de C
++features=[features;1-sum(features(4:6));...
++            bpm(2)/bpm(1);...
++            bpm(3)/bpm(1);
++            length(find(C>0));
++            bpm(1)];
++
++%%   4.2) Prise de décision
++mult=1;
++% Valeurs déterminés par apprentissage (Cf Percival...pdf)
++mins = [ 0.0, 0.0, 0.0507398, 0.0, 0.0670043, 0.0, -4.44089e-16, 0.0, 0.0, 1.0, minBPM, 0]; %avant dernier = 41
++maxs = [ 0.875346, 0.932996, 1.0, 0.535128, 1.0, 0.738602, 0.919375, 3.93182, 4.02439, 93.0, maxBPM, 0];
++svm_weights = [ 1.1071, -0.8404, -0.1949, -0.2892, -0.2094, 2.1781, -1.369, -0.4589, -0.8486, -0.3786, 0, 0 ];
++svm_sum = 2.1748; %à la base : 2.1748
++
++features_normalized = zeros(size(features));
++for i = 1:length(features)
++    if mins(i) ~= maxs(i)
++        features_normalized(i) = ((features(i) - mins(i)) / (maxs(i) - mins(i)));
++    end
++end
++
++for i = 1:length(features_normalized)
++    svm_sum = svm_sum + (features_normalized(i) * svm_weights(i));
++end
++svm_sum
++% if svm_sum > 0
++%     mult = 2.0;
++%     disp('Tempo doit être multiplié par 2');
++% end
++% if svm_sum <-0.2
++%     mult = 0.5;
++%     disp('Tempo doit être divisé par 2');
++% end
++
++tempo = 2*round(mult*bpm(1)/2); % Arrondi au nombre pair le plus proche
+\ No newline at end of file

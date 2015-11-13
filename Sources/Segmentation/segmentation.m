@@ -22,7 +22,6 @@ function [segments, bornes]=segmentation(x, lenOd, indOnsets, Fs)
 %       correspondant à des extrait du son d'origine (sans traitement).
 
 %% Début du script
-disp('Début de la segmentation');
 FsSF=(lenOd/(length(x)/Fs));   %Calcul le rapport de réduction entre 
 %le son d'origine et la sortie de l'algo de "spectral flux".
 tX=(0:1/Fs:(length(x)-1)/Fs)'; %Vecteur temps du signal d'origine
@@ -56,7 +55,6 @@ end
 % for i=[1:length(segments)]
 % sound(segments{i},Fs);
 % end
-disp('Fin de la segmentation');
 
 end
 %% Fin de la fonction

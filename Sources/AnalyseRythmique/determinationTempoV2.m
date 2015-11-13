@@ -1,4 +1,4 @@
-%tempoDetection.m
+%déterminationTempoV2.m
 %
 %   Ce script tente de déterminer le tempo du morceau à partir de la sortie
 %   de l'algorithme d'OD.
@@ -9,16 +9,16 @@
 
 %% Filtrage passe-haut du signal 
 % Pour avoir une moyenne nulle
-f = 0.4/FsSF; % Fréquence de coupure à 4Hz
+f = 0.4/FsOSS; % Fréquence de coupure à 4Hz
 [b,a]=butter(2, 2*pi*f, 'high');
-sfFiltered = filter(b, a, sf);
+ossFiltered = filter(b, a, oss);
 
 %% Calcul des autocorrélations
 
 % Auto-corrélation classique
-autoCorr = xcorr(sfFiltered, sfFiltered, 'biased');
+autoCorr = xcorr(ossFiltered, ossFiltered, 'biased');
 autoCorr = autoCorr(floor(length(autoCorr)/2)+1:end);
-tAutoCorr = (1/FsSF:1/FsSF:length(autoCorr)/FsSF)';
+tAutoCorr = (1/FsOSS:1/FsOSS:length(autoCorr)/FsOSS)';
 
 % % Auto-corrélation facteur 2
 % autoCorr2Tau = [autoCorr(2:2:end); zeros(length(autoCorr)-length(autoCorr((2:2:end))),1)];
@@ -39,8 +39,8 @@ W=exp(-0.5*(log2(tAutoCorr/tau0)/sigma0).^2);
 TPS = W.*(autoCorr);
 % TPS2 = (TPS + 0.5*W2Tau.*abs(autoCorr2Tau) + 0.25*W2TauMoins.*abs(autoCorr2TauMoins) + 0.25*W2TauPlus.*abs(autoCorr2TauPlus));
 %% Visualisation
-figure
-plot(tAutoCorr, TPS, 'b', tAutoCorr, W*max(TPS), 'r');
+% figure
+% plot(tAutoCorr, TPS, 'b', tAutoCorr, W*max(TPS), 'r');
 % plot(tAutoCorr, TPS, 'b', tAutoCorr, W*max(TPS), 'r', tAutoCorr, TPS2 , 'g');
 
 %% Calcul du tempo
