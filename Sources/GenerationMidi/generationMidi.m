@@ -53,45 +53,45 @@ end
 % exclure de la matrice. 
 notes(find(notes(:, 3) == 15), :) = [];
 
-%% Piano Roll
+% %% Piano Roll
+% 
+% pianoRoll = ones(size(id)).*-1;
+% pianoRoll(1) = 0;
+% 
+% % determination de la hauteur des notes
+% for n = 1:length(notesDet)
+%     pianoRoll(notesDet(n).indice +1, 1) = notesDet(n).ton;
+% end
+% 
+% % determination de la duree des notes
+% for l = 1:length(pianoRoll)
+%     if(pianoRoll(l) == -1)
+%         pianoRoll(l) = pianoRoll(l-1);
+%     end
+% end
+% 
+% % piano roll
+% % les notes a 0 representent les silences
+% figure(4), clf, plot(t, pianoRoll, 'o')
+% set(gca,'ytick', -1:1:13)
+% axis([0 t(end) -1 13])
+% grid on
 
-pianoRoll = ones(size(id)).*-1;
-pianoRoll(1) = 0;
-
-% determination de la hauteur des notes
-for n = 1:length(notesDet)
-    pianoRoll(notesDet(n).indice +1, 1) = notesDet(n).ton;
-end
-
-% determination de la duree des notes
-for l = 1:length(pianoRoll)
-    if(pianoRoll(l) == -1)
-        pianoRoll(l) = pianoRoll(l-1);
-    end
-end
-
-% piano roll
-% les notes a 0 representent les silences
-figure(4), clf, plot(t, pianoRoll, 'o')
-set(gca,'ytick', -1:1:13)
-axis([0 t(end) -1 13])
-grid on
-
-%% Piano Roll
-% compute piano-roll:
-[PR,t,nn] = piano_roll(notes);
-
-% display piano-roll:
-figure(5);
-imagesc(t,nn,PR);
-axis xy;
-xlabel('time (sec)');
-ylabel('note number');
+% %% Piano Roll
+% % compute piano-roll:
+% [PR,t,nn] = piano_roll(notes);
+% 
+% % display piano-roll:
+% figure(5);
+% imagesc(t,nn,PR);
+% axis xy;
+% xlabel('time (sec)');
+% ylabel('note number');
 
 %% Conversion MIDI
 
 % Generation du fichier midi
 midi = matrix2midi(notes);
 nomMIDI = input('nom du fichier MIDI :', 's');
-out = strcat(nomMIDI, '.mid')
+out = strcat('DATA/', file, '/', nomMIDI, '.mid')
 writemidi(midi, out);

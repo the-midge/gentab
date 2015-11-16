@@ -162,3 +162,9 @@ filename = strcat(file, '/expected.txt');
 txReussite
 
 generationMidi
+
+cheminGP = 'start "" "C:\Program Files (x86)\Guitar Pro 5\GP5.exe" ';
+cheminFichier = strcat(pwd, '\', out);
+lancementMIDI = strcat([CheminGP cheminFichier])
+dos(lancementMIDI)
+% dos('start "" "C:\Program Files (x86)\Guitar Pro 5\GP5.exe" C:\Users\Louison\Google Drive\ESEO\S9\gentab\Sources\DATA\nosurprises\nosurprises.mid')
