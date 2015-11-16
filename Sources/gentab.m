@@ -143,7 +143,7 @@ end
 %% Évaluation des résultats
 
 [~, file, ~]=fileparts(audioFilename);
-filename = strcat('DATA/', file, '/expected.txt');
+filename = strcat(file, '/expected.txt');
 [txFDetection, txDetectionManquante, txReussite, ecartMoyen] = evaluateOD(filename, notesDet)
 [confTons, confOctaves]=evaluateAH(filename, notesDet);
 [confDurees]=evaluateAR(filename, notesDet, tempo, 0);
