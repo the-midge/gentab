@@ -163,8 +163,6 @@ txReussite
 
 %% Generation et ouverture du Fichier MIDI avec Guitar Pro
 generationMidi
-
-cheminGP = 'start "" "C:\Program Files (x86)\Guitar Pro 5\GP5.exe" ';
-cheminFichier = strcat(pwd, '\', out);
-lancementMIDI = strcat([CheminGP cheminFichier]);
+[cheminGP, cheminFichier]=getConfig();
+lancementMIDI = strcat('start "', cheminGP, '" "', cheminFichier, file, '\out.mid"');
 dos(lancementMIDI);
