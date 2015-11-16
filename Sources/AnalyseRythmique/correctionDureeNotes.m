@@ -1,5 +1,3 @@
-clear all
-clc
 
 %% Algo de correction de la duree des notes suivant un decoupage en mesure 4:4
 % Suite a la generation des probabilites de chaque duree de note
@@ -16,19 +14,19 @@ peigneGaussienne(:, 17:18) = 0; % on ajoute les durées 17 et 18 avec une probabi
 % simulation d'entrees
 % dureesMesurees = [4.3 4.2 5 4.6 4.4 4.7 2.2 2.3 2.2 2.1 17.91 8.6 8.4 8.9 8.2 4.1]';
 % dureesMesurees = [4.3 4.1 4.8 4.6];
-dureesMesurees = [4 4 6];
+% dureesMesurees = [4 4 6];
 
 
 % Determination des durees reelles en fonction des durees mesurées.
-[out] = determinationDurees(dureesMesurees, peigneGaussienne, abscisse);
+[out] = determinationDurees(durees, peigneGaussienne, abscisse);
 
 %% Script de correction de durees des notes en fonction de la mesure souhaitée
 
 mesure4_4 = 16;
-mesure3_4 = 12;
-mesure2_4 = 8;
+% mesure3_4 = 12;
+% mesure2_4 = 8;
 
-dureeMesure = mesure3_4
+dureeMesure = mesure4_4;
 
 numMesure = 1;
 col = 0;
@@ -39,7 +37,7 @@ colPart = 0;
 % 2) On la remplit en parallele une matrice part afin de pouvoir effectuer
 % des operations sur la mesure si celle-ci necessite une correction
 
-for l = 1:length(dureesMesurees)
+for l = 1:length(durees)
     
     col = col +1;
     colPart = colPart + 1;
@@ -119,11 +117,13 @@ for l = 1:length(dureesMesurees)
             numMesure = numMesure +1; % mesure suivante
             col = 0;
             colPart = 0; % nouvelle part 
-            somme
         end
 end
 
-mesures
+mesures = mesures';
+dureesCorrigees = mesures(:)';
+dureesCorrigees(find(dureesCorrigees == 0)) = [];
+
     
 
 

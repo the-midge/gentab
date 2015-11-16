@@ -4,6 +4,7 @@
 % d'un signal audio qu'il charge lui même
 %
 
+clear all
 close all
 clc
 beep off
@@ -124,6 +125,7 @@ end
 %% Analyse rythmique
 if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
     [durees, tempo] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
+    correctionDureeNotes;
 end
     
 %% Analyse harmonique
@@ -146,9 +148,9 @@ elseif strcmp(choixAlgo, AH)
     notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), notesJouee);
     tempo = 0;
 elseif strcmp(choixAlgo, AR)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), durees);
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), dureesCorrigees);
 elseif strcmp(choixAlgo, ALL)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), durees, notesJouee);  
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), dureesCorrigees, notesJouee);  
 end
 
 
@@ -166,5 +168,5 @@ generationMidi
 
 cheminGP = 'start "" "C:\Program Files (x86)\Guitar Pro 5\GP5.exe" ';
 cheminFichier = strcat(pwd, '\', out);
-lancementMIDI = strcat([CheminGP cheminFichier]);
+lancementMIDI = strcat([cheminGP cheminFichier]);
 dos(lancementMIDI);
