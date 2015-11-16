@@ -20,10 +20,12 @@ addpath(genpath('../Sources'))
 %   Réquête utilisateur et exécution de tout où partie de l'algorithme
 
 
-disp('OD: Onset Detection des fichiers audios');
+disp('D: Onset Detection des fichiers audios (D: Display)');
+disp('ND: Idem (ND: No Display)');
 disp('OUT: Sortie');
 
-OD='OD';
+D='D';
+ND='ND';
 
 OUT='OUT';
 choixAlgo=input('Choix? ');
@@ -37,8 +39,10 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('4: No Surprises - 26s');
     disp('5: Seven Nation Army - 30s');
     disp('6: Hardest Button to Button - 35s');
-
-    for k=1:6
+    disp('7: Johnny B Good - 47s');
+    disp('8: Voodoo Child - 40s');
+    
+    for k=1:8
         switch(k)
             case 1                
                 audioFilename='DayTripper.wav';
@@ -52,16 +56,23 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
                 audioFilename='seven-nation-army.wav';
             case 6
                 audioFilename='hardest-button.wav';
+            case 7
+                audioFilename='Johnny_B_Good.wav';
+            case 8
+                audioFilename='Voodoo_Child.wav';
         end
         [x,Fs]=audioread(audioFilename);
         x=x(:,1);
         if( k==1)   % Cas particulier de Day Tripper
             x=x(1:Fs*8,1);
         end
-        
-        figure(k),       
-        
-        OnsetDetection;        
+        if(strcmp(choixAlgo, D))
+            figure(k),       
+        end
+        OnsetDetection;   
+        if(strcmp(choixAlgo, ND))
+            close all
+        end
         notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf));
         tempo = 0;
         
@@ -89,7 +100,7 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp(['Worst is n°', num2str(worst), ' with ', num2str(MIN), '%']);
     disp(['Best is n°', num2str(best), ' with ', num2str(MAX), '%']);
     disp(['Mean is ', num2str(MEAN), '%']);
-    clear OD OUT;
+    clear D ND OUT;
     break;
 end
 

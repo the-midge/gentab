@@ -19,6 +19,8 @@ disp('4: Aller Retour Diatonique - 8s');
 disp('5: Heart & Soul - 16s');
 disp('6: Seven Nation Army - 30s');
 disp('7: Hardest Button to Button - 35s');
+disp('8: Johnny B Good - 47s');
+disp('9: Voodoo Child - 40s');
 disp('0: Sortie');
 
 choixEchantillon=input('Choix? '); %Attend une action utilisateur
@@ -31,39 +33,49 @@ switch choixEchantillon
         % Dans cet échantillon, de la guitare est jouée en solo
         audioFilename='DayTripper.wav';
         [x,Fs]=audioread(audioFilename);
-        x=x(1:Fs*8,1);
+        x=sum(x(1:Fs*8,:),2);
     case 2
         disp('Blue Orchid (bends)');
         %Où un echantillon généré logiciellement contenant de la guitare et des
         %durées de notes variées.
         audioFilename='BlueOrchidSansDeadNoteAvecBend.wav';
         [x,Fs]=audioread(audioFilename);
-        x=x(1:Fs*30,1);
+        x=sum(x(1:Fs*30,:),2);
     case 3
         disp('nosurprises');
         audioFilename='nosurprises.wav';
         [x,Fs]=audioread(audioFilename);
-        x=x(:,1);
+        x=sum(x,2);
     case 4
         disp('A/R diatonique');
         audioFilename = 'ar-diatonique-tux.wav';
         [x,Fs]=audioread(audioFilename);
-        x=x(:,1); 
+        x=sum(x,2); 
     case 5
         disp('Heart & Soul');
         audioFilename='heart-and-soul-tux.wav';
         [x,Fs]=audioread(audioFilename);
-        x=x(:,1); 
+        x=sum(x,2); 
     case 6
         disp('Seven Nation Army');
         audioFilename='seven-nation-army.wav';
         [x,Fs]=audioread(audioFilename);
-        x=x(:,1);  
+        x=sum(x,2);  
     case 7
         disp('Hardest Button to Button');
         audioFilename='hardest-button.wav';
         [x,Fs]=audioread(audioFilename);
-        x=x(:,1); 
+        x=sum(x,2); 
+    case 8
+        disp('Johnny B Good');
+        audioFilename='Johnny_B_Good.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=sum(x,2); 
+    case 9
+        disp('Voodoo Child');
+        audioFilename='Voodoo_Child.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=sum(x,2); 
     case 0
         clc
         clear all;
