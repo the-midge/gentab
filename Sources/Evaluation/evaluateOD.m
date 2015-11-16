@@ -70,7 +70,7 @@ end
 if nbNotesExp~=length(noteExp)
     error('Erreur de lecture: le fichier ne contient pas le nombre de notes indiquées');
 end
-
+fclose(FID);
 %% Calcul des indicateurs
 nbOnsetsExcedentaires = 0;
 nbOnsetsManquants = 0;
