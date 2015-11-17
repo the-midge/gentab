@@ -164,6 +164,7 @@ filename = strcat(file, '/expected.txt');
 txReussite
 
 %% Generation et ouverture du Fichier MIDI avec Guitar Pro
+<<<<<<< HEAD
 generationMidi
 
 cheminGP = 'start "" "C:\Program Files (x86)\Guitar Pro 5\GP5.exe" ';
@@ -173,3 +174,14 @@ lancementMIDI = strcat([cheminGP cheminFichier]);
 [cheminGP, cheminFichier]=getConfig();
 lancementMIDI = strcat('start "" "', cheminGP, '" "', cheminFichier, out);
 dos(lancementMIDI);
+=======
+o='o'; O='O'; n='n'; N='N';
+choix=input('Générer un fichier MIDI (o/n)? ');
+if strcmp(choix, 'o') || strcmp(choix, 'O')
+    generationMidi;
+    [cheminGP, cheminFichier]=getConfig();
+    lancementMIDI = strcat('start "', cheminGP, '" "', cheminFichier, file, '\out.mid"');
+    dos(lancementMIDI);
+end
+clear choix choixAlgo OD AR AH ALL filename o O n N;
+>>>>>>> 3489c4faf21a3eb8efc687f82684e02594933fbe
