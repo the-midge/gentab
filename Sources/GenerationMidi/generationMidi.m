@@ -92,6 +92,6 @@ notes(find(notes(:, 3) == 15), :) = [];
 
 % Generation du fichier midi
 midi = matrix2midi(notes);
-nomMIDI = input('nom du fichier MIDI :', 's');
-out = strcat('DATA/', file, '/', nomMIDI, '.mid')
+% nomMIDI = input('nom du fichier MIDI :', 's');
+out = strcat('DATA/', file, '/', file, '.mid')
 writemidi(midi, out);

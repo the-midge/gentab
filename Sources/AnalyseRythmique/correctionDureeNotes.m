@@ -1,4 +1,7 @@
-
+% clear all
+% clc
+% 
+% durees = [4.3 4.2 5 4.6 4.4 5.1 2.2 2.3 2.2 2.1];
 %% Algo de correction de la duree des notes suivant un decoupage en mesure 4:4
 % Suite a la generation des probabilites de chaque duree de note
 % (generatePeigneGaussienne), on determine en cas de conflit la duree la
