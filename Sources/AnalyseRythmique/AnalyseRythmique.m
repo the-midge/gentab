@@ -37,7 +37,7 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
     %% Détermination de la densité de probabilité des tempos
     determinationTempoV3; % Les résultats sont globalement bon mais il peut y avoir un écart d'un facteur 2.
     % Séléection des candidats
-    [~, temposCandidats]=findpeaks(C);
+    [~, temposCandidats]=findpeaks(C, 'SORTSTR', 'descend');
     
     for tau=1:length(temposCandidats)
     %% Détermination des durées de notes
@@ -52,7 +52,7 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
     tempo=temposCandidats(tauMeilleur);
     
     %% Doublement ou division via la SVM
-    
+    doubleOrHalve;
     %% Détermination des durées de notes avec le bon tempo (normalement)
     ecartRef=60/tempo; %coefficient de normalisation des écarts
     indiceEcartsPourPeigne = findClosest(abscisse,ecart/ecartRef*4);

@@ -4,7 +4,7 @@
 % d'un signal audio qu'il charge lui même
 %
 
-clear all
+% clear all
 close all
 clc
 beep off
@@ -125,7 +125,8 @@ end
 %% Analyse rythmique
 if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
     [durees, tempo] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
-    correctionDureeNotes;
+    %correctionDureeNotes;
+    dureesCorrigees = durees;
 end
     
 %% Analyse harmonique
