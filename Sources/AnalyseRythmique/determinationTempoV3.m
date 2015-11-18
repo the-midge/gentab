@@ -78,6 +78,9 @@ x=(1:maxBPM);
 sigma=8;
 abscisseTempo= bsxfun(@minus, x, Lm);
 Gm=exp(-abscisseTempo.^2/(2*sigma^2))/(sigma*sqrt(2*pi));
+indicesMinima= findClosest(x, Lm+2.33*sigma);
+Gm=bsxfun(@minus, Gm, diag(Gm(:,indicesMinima)));
+Gm(Gm<0)=0;
 %   2) Accumulator
 if M>1
     C=sum(Gm)'; 

@@ -75,7 +75,7 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
     if nargout == 3
          varargout{1}=durees;
         varargout{2}=tempo;
-        varargout{3}=svm_sum;
+        varargout{3}=features_normalized;
     end
     if nargout == 4
          varargout{1}=durees;
