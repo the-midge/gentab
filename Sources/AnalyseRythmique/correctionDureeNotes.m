@@ -1,15 +1,11 @@
-% clear all
-% clc
-% 
-% load('..\DATA\Voodoo_Child\durees_brutes_voodoo_child_mod');
+clear all
+clc
 
-addpath('../utils')
-% % durees = [4.3 3.2 5.9 4.6 4.4 5.1 1.8 1.8 2.2 2.1];
-% % durees = [3 1 2 2 2 2 1 1 2 ...
-%             3 1 2 4 6]; % theorique voodoo child
-% durees = [2.733 0.9484 1.9245 2.0919 2.0082 1.7852 0.9483 1.1993 2.0082 ...
-%           2.7892 1.1158 ]; % exp voodoo child
-% durees = dureesBrutes(1:24);
+ load('..\DATA\Voodoo_Child\durees_brutes_voodoo_child_mod.mat')
+
+% addpath('../utils')
+
+durees = dureesBrutes(1:end);
 %% Algo de correction de la duree des notes suivant un decoupage en mesure 4:4
 % Suite a la generation des probabilites de chaque duree de note
 % (generatePeigneGaussienne), on determine en cas de conflit la duree la
@@ -22,20 +18,12 @@ generatePeigneGaussienne; % On genere les probabilités de duree de notes
 
 peigneGaussienne(:, 17:18) = 0; % on ajoute les durées 17 et 18 avec une probabilité de 0 pour gerer les depassements de duree > 16
 
-% simulation d'entrees
-% dureesMesurees = [4.3 4.2 5 4.6 4.4 4.7 2.2 2.3 2.2 2.1 17.91 8.6 8.4 8.9 8.2 4.1]';
-% dureesMesurees = [4.3 4.1 4.8 4.6];
-% dureesMesurees = [4 4 6];
-
-
 % Determination des durees reelles en fonction des durees mesurées.
 [out] = determinationDurees(durees, peigneGaussienne, abscisse);
 
 %% Script de correction de durees des notes en fonction de la mesure souhaitée
 
 mesure4_4 = 16;
-% mesure3_4 = 12;
-% mesure2_4 = 8;
 
 dureeMesure = mesure4_4;
 
@@ -44,6 +32,7 @@ col = 0;
 colPart = 0;
 l = 1;
 depassementMesure = 0; % booleen
+echecCorrection = 0;
 
 while(l <= length(durees))
     col = col +1;
@@ -86,36 +75,50 @@ while(l <= length(durees))
             mesures(numMesure, ind) = mesureTemporaire(3, ind);
             mesureTemporaire(6, ind) = 1;
             
-            if(mesureTemporaire(6, :) == 1)
-                mesures(numMesure, ind) = mesures(numMesure, ind) - 1;
+            if(mesureTemporaire(6, :) == 1) 
+                mesureTemporaire = [mesureTemporaire derniereNote];
+                mesures(numMesure, 1:col) = mesureTemporaire(1, colPart);
+                l = l + 1;
+                echecCorrection = 1;
             end
         else
-            mesureTemporaire(:, col) = [];
+            derniereNote = mesureTemporaire(:, colPart);
+            mesureTemporaire(:, colPart) = [];
             mesures(numMesure, col) = 0;
             l = l - 1;
         end
         
         somme = sum(mesures(numMesure, :));
-               
+     
     end
     
     if(depassementMesure == 1)
         
         while(somme < dureeMesure)
-            
+
             [val ind] = min(mesureTemporaire(6, :));
-            
-            mesures(numMesure, ind) = mesureTemporaire(3, ind);
-            mesureTemporaire(6, ind) = 1;
-            
-            somme = sum(mesures(numMesure, :));
-            
+
             if(mesureTemporaire(6, :) == 1)
-                mesures(numMesure, ind) = mesures(numMesure, ind) + 1;
+                mesureTemporaire = [mesureTemporaire derniereNote];
+                mesures(numMesure, 1:col) = mesureTemporaire(1, 1:colPart);
+                l = l + 1;
+                echecCorrection = 1;
+            else
+                mesures(numMesure, ind) = mesureTemporaire(3, ind);
+                mesureTemporaire(6, ind) = 1;
             end
+
+            somme = sum(mesures(numMesure, :));
         end
         
         depassementMesure = 0;
+    
+        if(somme > dureeMesure)
+            mesureTemporaire = [mesureTemporaire derniereNote];
+            mesures(numMesure, 1:col) = mesureTemporaire(1, 1:colPart);
+            l = l + 1;
+            echecCorrection = 1;
+        end
     end
     
     % Si le morceau fait moins d'une mesure
@@ -123,20 +126,30 @@ while(l <= length(durees))
         morceauCourt = 1
     end
 
-    if(somme == dureeMesure)
-            numMesure = numMesure +1; % mesure suivante
-            col = 0;
-            colPart = 0; % nouvelle part 
-            mesureTemporaire = [];
+    if((somme == dureeMesure) || (echecCorrection == 1))
+        if(echecCorrection == 1)
+            vectEchec(numMesure) = 1;
+        else
+            vectEchec(numMesure) = 0;
+        end
+        
+        numMesure = numMesure +1; % mesure suivante
+        col = 0;
+        colPart = 0; % nouvelle part 
+        mesureTemporaire = [];
+        derniereNote = [];
+
+        echecCorrection = 0;
     end
     
 l = l + 1;
 end
 
 mesures
-mesures = mesures';
-dureesCorrigees = mesures(:)';
-dureesCorrigees(find(dureesCorrigees == 0)) = [];
+vectEchec = vectEchec'
+% mesures = mesures';
+% dureesCorrigees = mesures(:)';
+% dureesCorrigees(find(dureesCorrigees == 0)) = [];
 
     
 

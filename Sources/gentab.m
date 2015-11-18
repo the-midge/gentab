@@ -4,7 +4,7 @@
 % d'un signal audio qu'il charge lui même
 %
 
-clear all
+% clear all
 close all
 clc
 beep off
@@ -128,11 +128,12 @@ end
 if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
 
     [durees, tempo] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
+%     correctionDureeNotes;
     dureesCorrigees=durees;
-    %correctionDureeNotes;
 elseif strcmp(choixAlgo, ALLtemp)
-    tempo=input('Tempo? ');
+    tempo = input('Tempo? ');
     [durees] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0, tempo);
+%     correctionDureeNotes;
     dureesCorrigees=durees;
 end
     

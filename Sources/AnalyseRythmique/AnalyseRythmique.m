@@ -29,7 +29,7 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
 %       musicale potentielle. La largeur des ces intervalles dépend de la
 %       probabilité pour une note d'appartenir à une certaine classe.      
 
-    if nargin <4
+    if nargin < 4
         display = false;
     end
         %%
@@ -87,12 +87,15 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
     end
     %% Détermination des durées de notes avec le bon tempo (normalement)
     ecartRef=60/tempo; %coefficient de normalisation des écarts
-    indiceEcartsPourPeigne = findClosest(abscisse,ecart/ecartRef*4);
+    indiceEcartsPourPeigne = findClosest(abscisse,ecart/ecartRef*4); % abscisse de indiceEcartsPourPeigne = dureesBrutes
     
+    %% Correction
+%     dureesBrutes = abscisse(indiceEcartsPourPeigne);
+%     durees = dureesBrutes;
     
-    
-    probasEcart=peigneGaussienne(indiceEcartsPourPeigne,:);
-    [~, durees] = max(probasEcart');
+    %% No correction
+    probasEcart = peigneGaussienne(indiceEcartsPourPeigne,:);
+    [~, durees] = max(probasEcart')
     
     
     if display
