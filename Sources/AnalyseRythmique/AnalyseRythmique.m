@@ -1,4 +1,4 @@
-function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
+function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
 %   analyseRythmique.m
 %
 %   USAGE: 
@@ -14,9 +14,11 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
 %       FsOSS: Fréquence d'échantillonnage après la fonction d'osnet
 %       detection
 %       Fs : Fréquence d'échantillonnage du morceau
-%
+%       
 %       display: si vrai, affiche deux graphe représentant la répartition
 %       des durées de notes.
+%       tempo: si le tempo est donné en entrée, il n'est pas estimé dans
+%       l'algorithme.
 %
 %   BUT:
 %       Cette fonction tente de déterminer la durées musicale de chaque
@@ -62,12 +64,29 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
 %     edgeHistogramme(k+1) = 5;
     generatePeigneGaussienne;
 
-    %% Détermination du tempo
-    determinationTempoV3; % Les résultats sont globalement bon mais il peut y avoir un écart d'un facteur 2.
-     
-    %% Détermination des durées de notes
-    ecartRef=60/tempo; % Passage des intervalles calculés précédemment en secondes.
+    if ~exist('tempo', 'var')
+            %% Détermination de la densité de probabilité des tempos
+            determinationTempoV3; % Les résultats sont globalement bon mais il peut y avoir un écart d'un facteur 2.
+            % Séléection des candidats
+            [~, temposCandidats]=findpeaks(C);
+
+            for tau=1:length(temposCandidats)
+            %% Détermination des durées de notes
+                ecartRef=60/temposCandidats(tau); %coefficient de normalisation des écarts
+                indiceEcartsPourPeigne = findClosest(abscisse,ecart/ecartRef*4);
+                probas=peigneGaussienne(indiceEcartsPourPeigne,:);
+                [probasMax(:,tau), durees] = max(probas');
+            end
+            % Choix du meilleur tempo candidat
+            mu_Tau=mean(probasMax);
+            [~, tauMeilleur]=max(mu_Tau);
+            tempo=temposCandidats(tauMeilleur);
     
+    %% Doublement ou division via la SVM
+    
+    end
+    %% Détermination des durées de notes avec le bon tempo (normalement)
+    ecartRef=60/tempo; %coefficient de normalisation des écarts
     indiceEcartsPourPeigne = findClosest(abscisse,ecart/ecartRef*4);
     
     
@@ -89,13 +108,17 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
 
     end
     
-    if nargout==2
-        varargout{1}=durees;
+    varargout{1}=durees;
+    if nargout==2        
         varargout{2}=tempo;
     end
     if nargout == 3
-         varargout{1}=durees;
+         varargout{2}=tempo;
+        varargout{3}=svm_sum;
+    end
+    if nargout == 4
         varargout{2}=tempo;
-        varargout{3}=features_normalized;
+        varargout{3}=svm_sum;
+        varargout{4}=mult;
     end
 end

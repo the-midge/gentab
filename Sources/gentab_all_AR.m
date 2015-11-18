@@ -68,14 +68,15 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         end
         
         [segments, bornes]=segmentation(x, length(sf), sampleIndexOnsets, Fs);
-        [durees, tempo, features(:,k)] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
+        [durees, tempo] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
         
         notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), durees);
         tempos(k) = tempo;
         
         [~, file, ~]=fileparts(audioFilename);
         filename = strcat('DATA/', file, '/expected.txt');
-        [ecartTempo(k), tempoExp(k)]=evaluateTempo(filename, tempo);        
+        evaluateAR(filename, notesDet, tempos(k), 0);
+%         [ecartTempo(k), tempoExp(k)]=evaluateTempo(filename, tempo);        
     end
     
     [tempos', tempoExp', ecartTempo']

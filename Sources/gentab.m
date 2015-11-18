@@ -101,12 +101,14 @@ disp('OD: Onset Detection');
 disp('AH: Analyse harmonique (Identification des notes jouées) + OD + SEG');
 disp('AR: Analyse Rythmique (Détermination de la composition rythmique) + OD + SEG');
 disp('ALL: Tous les algorithmes précédents');
+disp('ALLtemp: Tous les algorithmes précédents. Le tempo vous sera demandé au lieu d''être déterminé');
 disp('OUT: Sortie');
 
 OD='OD';
 AH='AH';
 AR='AR';
 ALL='ALL';
+ALLtemp='ALLtemp';
 OUT='OUT';
 choixAlgo=input('Choix? ');
 
@@ -125,11 +127,16 @@ end
 %% Analyse rythmique
 if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
     [durees, tempo] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
-    correctionDureeNotes;
+    dureesCorrigees=durees;
+    %correctionDureeNotes;
+elseif strcmp(choixAlgo, ALLtemp)
+    tempo=input('Tempo? ');
+    [durees] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0, tempo);
+    dureesCorrigees=durees;
 end
     
 %% Analyse harmonique
-if(strcmp(choixAlgo, AH) | strcmp(choixAlgo, ALL));
+if(strcmp(choixAlgo, AH) | strcmp(choixAlgo, ALL)| strcmp(choixAlgo, ALLtemp));
     AnalyseHarmonique;
 end
 %%
@@ -149,7 +156,7 @@ elseif strcmp(choixAlgo, AH)
     tempo = 0;
 elseif strcmp(choixAlgo, AR)
     notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), dureesCorrigees);
-elseif strcmp(choixAlgo, ALL)
+elseif strcmp(choixAlgo, ALL) | strcmp(choixAlgo, ALLtemp)
     notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), dureesCorrigees, notesJouee);  
 end
 
@@ -164,17 +171,7 @@ filename = strcat(file, '/expected.txt');
 txReussite
 
 %% Generation et ouverture du Fichier MIDI avec Guitar Pro
-<<<<<<< HEAD
-generationMidi
 
-cheminGP = 'start "" "C:\Program Files (x86)\Guitar Pro 5\GP5.exe" ';
-cheminFichier = strcat(pwd, '\', out);
-lancementMIDI = strcat([cheminGP cheminFichier]);
-
-[cheminGP, cheminFichier]=getConfig();
-lancementMIDI = strcat('start "" "', cheminGP, '" "', cheminFichier, out);
-dos(lancementMIDI);
-=======
 o='o'; O='O'; n='n'; N='N';
 choix=input('Générer un fichier MIDI (o/n)? ');
 if strcmp(choix, 'o') || strcmp(choix, 'O')
@@ -184,4 +181,3 @@ if strcmp(choix, 'o') || strcmp(choix, 'O')
     dos(lancementMIDI);
 end
 clear choix choixAlgo OD AR AH ALL filename o O n N;
->>>>>>> 3489c4faf21a3eb8efc687f82684e02594933fbe
