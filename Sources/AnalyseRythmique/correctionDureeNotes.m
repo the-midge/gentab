@@ -1,7 +1,15 @@
 % clear all
 % clc
 % 
-% durees = [4.3 4.2 5 4.6 4.4 5.1 2.2 2.3 2.2 2.1];
+% load('..\DATA\Voodoo_Child\durees_brutes_voodoo_child_mod');
+
+addpath('../utils')
+% % durees = [4.3 3.2 5.9 4.6 4.4 5.1 1.8 1.8 2.2 2.1];
+% % durees = [3 1 2 2 2 2 1 1 2 ...
+%             3 1 2 4 6]; % theorique voodoo child
+% durees = [2.733 0.9484 1.9245 2.0919 2.0082 1.7852 0.9483 1.1993 2.0082 ...
+%           2.7892 1.1158 ]; % exp voodoo child
+% durees = dureesBrutes(1:24);
 %% Algo de correction de la duree des notes suivant un decoupage en mesure 4:4
 % Suite a la generation des probabilites de chaque duree de note
 % (generatePeigneGaussienne), on determine en cas de conflit la duree la
@@ -34,14 +42,10 @@ dureeMesure = mesure4_4;
 numMesure = 1;
 col = 0;
 colPart = 0;
+l = 1;
+depassementMesure = 0; % booleen
 
-% Description de l'algorithme de correction de duree
-
-% 2) On la remplit en parallele une matrice part afin de pouvoir effectuer
-% des operations sur la mesure si celle-ci necessite une correction
-
-for l = 1:length(durees)
-    
+while(l <= length(durees))
     col = col +1;
     colPart = colPart + 1;
     
@@ -56,73 +60,80 @@ for l = 1:length(durees)
         mesureTemporaire(1, colPart) = out(l, 2);
         mesureTemporaire(2, colPart) = out(l, 3);
         mesureTemporaire(3, colPart) = out(l, 4);
-        mesureTemporaire(4, colPart) = out(l, 5);        
+        mesureTemporaire(4, colPart) = out(l, 5);      
     else
         mesures(numMesure, col) = out(l,4);
         mesureTemporaire(1, colPart) = out(l, 4);
         mesureTemporaire(2, colPart) = out(l, 5);
         mesureTemporaire(3, colPart) = out(l, 2);
-        mesureTemporaire(4, colPart) = out(l, 3);
+        mesureTemporaire(4, colPart) = out(l, 3);  
     end
     
-    % on determine la duree entiere de la mesure
-    somme = sum(mesures(numMesure, :));
-
-        % On gere ici seulement le cas d'un depassement de duree sur la
-        % mesure.
-        while(somme > dureeMesure)
+    mesureTemporaire(5, colPart) = mesureTemporaire(2, colPart) + mesureTemporaire(4, colPart);
+    mesureTemporaire(6, colPart) = mesureTemporaire(2, colPart) - mesureTemporaire(4, colPart);
     
-            %% TODO
+    % on determine la duree de la mesure entiere
+    somme = sum(mesures(numMesure, :));
+    
+    % On gere le cas où il y a dépassement de duree sur la mesure
+    while(somme > dureeMesure)
+        
+        depassementMesure = 1;
+        
+        [val ind] = min(mesureTemporaire(6, :));
+
+        if(ind == col)
+            mesures(numMesure, ind) = mesureTemporaire(3, ind);
+            mesureTemporaire(6, ind) = 1;
             
-            % On gere ici la liaison de prolongation.
-            % Si la derniere duree est trop longue, on la decoupe en
-            % deux durees. La premiere reste de la mesure pour combler
-            % le manque et la seconde est reportée en tant que premiere
-            % note de la mesure suivante
-            
-            % on traite les eventuelles corrections en fonction des
-            % probabilités du second choix calculé dans la fonction
-            % determinationDurees de maniere crossante. 
-            %
-            %% FIN TODO
-            [val ind] = max(mesureTemporaire(4, :));
-                
-            % Dans le cas où il reste une probabilité non egale à 0, On
-            % permutte les durees et on passe la probabilité à 0. cette
-            % etape permet d'eviter de tomber dans une boucle infinie et de
-            % passer a la deuxieme etape de l'algo de correction.
-            % Notons que si cette etape reussit à obtenir une duree de mesure
-            % conforme à ce que l'on veut ( par defaut mesure 4:4), on
-            % ignore la deuxieme etape qui suit
-            if(val ~= 0)
-                mesures(numMesure, ind) = mesureTemporaire(3, ind);
-                mesureTemporaire(4, ind) = 0;
-            % l'etape precedente nous donne une info importante dans le cas
-            % où l'on arrive pas a ajuster convenablement les notes meme
-            % en utilisant leur probabilités : La derniere note a avoir été
-            % traité.
-            % On fait le postulat que si la premiere etape echoue, c'est a
-            % cause de cette derniere note. On decide alors de la
-            % decrementer jusqu'a parvenir a la duree de mesure souhaiter
-            % (4:4 par defaut)
-            else
-                [valMin indMin] = min(abs(mesureTemporaire(3, :) - mesureTemporaire(1, :)));  
-                mesures(numMesure, indMin) = mesures(numMesure, indMin) - 1;
+            if(mesureTemporaire(6, :) == 1)
+                mesures(numMesure, ind) = mesures(numMesure, ind) - 1;
             end
+        else
+            mesureTemporaire(:, col) = [];
+            mesures(numMesure, col) = 0;
+            l = l - 1;
+        end
+        
+        somme = sum(mesures(numMesure, :));
+               
+    end
+    
+    if(depassementMesure == 1)
+        
+        while(somme < dureeMesure)
+            
+            [val ind] = min(mesureTemporaire(6, :));
+            
+            mesures(numMesure, ind) = mesureTemporaire(3, ind);
+            mesureTemporaire(6, ind) = 1;
             
             somme = sum(mesures(numMesure, :));
             
+            if(mesureTemporaire(6, :) == 1)
+                mesures(numMesure, ind) = mesures(numMesure, ind) + 1;
+            end
         end
         
-        % Lorsqu'on arrive a avoir une mesure correcte, on passe a la
-        % suivante, etc...
-        if(somme == dureeMesure)
+        depassementMesure = 0;
+    end
+    
+    % Si le morceau fait moins d'une mesure
+    if(l == length(durees) && numMesure == 1)
+        morceauCourt = 1
+    end
+
+    if(somme == dureeMesure)
             numMesure = numMesure +1; % mesure suivante
             col = 0;
             colPart = 0; % nouvelle part 
-        end
+            mesureTemporaire = [];
+    end
+    
+l = l + 1;
 end
 
+mesures
 mesures = mesures';
 dureesCorrigees = mesures(:)';
 dureesCorrigees(find(dureesCorrigees == 0)) = [];

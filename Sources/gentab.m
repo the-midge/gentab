@@ -126,6 +126,7 @@ end
 
 %% Analyse rythmique
 if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
+
     [durees, tempo] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
     dureesCorrigees=durees;
     %correctionDureeNotes;

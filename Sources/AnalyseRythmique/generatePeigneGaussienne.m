@@ -7,7 +7,7 @@
     %probabilitesInitiales = probabilitesInitialesV2;    
     facteursReferences = (0.25:0.25:4)'; % facteur multiplicatif par rapport à la noire=1 (ronde=4, croche = 0.5)
 
-        probabilitesInitiales = [0.15;0.3;0.05;0.2;0.05;0.1;0.02;0.05;0;0;0;0.05;0;0;0;0.03];
+        probabilitesInitiales = [0.15;0.3;0.1;0.2;0.05;0.1;0;0.05;0;0;0;0.05;0;0;0;0.03];
     %                             1     2   3   4   5   6   7       8 9 10 11 12 13 14 15 16
     %% Calcul des intervalles
     edgeHistogramme = [0];
@@ -41,12 +41,12 @@ MAX = 2*facteur*centres(end);
 
 largeurs_droites=floor((edgeHistogramme(2:end)-centres)*facteur/2)*2*2;
 largeurs_droites(largeurs_droites<=0)=2;
-largeurs_droites([(9:11),(13:15)])=2;
+largeurs_droites([7 (9:11),(13:15)])=2;
 largeurs_seuil_droit=zeros(size(largeurs_droites));
 largeurs_seuil_droit(largeurs_droites<facteur)=facteur-largeurs_droites(largeurs_droites<facteur);
 
 largeurs_gauches=floor((centres-edgeHistogramme(1:end-1))*facteur/2)*2*2;
-largeurs_gauches([(9:11),(13:15)])=2;
+largeurs_gauches([7 (9:11),(13:15)])=2;
 largeurs_gauches(largeurs_gauches<=0)=2;
 largeurs_seuil_gauche=zeros(size(largeurs_gauches));
 largeurs_seuil_gauche(largeurs_gauches<facteur)=facteur-largeurs_gauches(largeurs_gauches<facteur);

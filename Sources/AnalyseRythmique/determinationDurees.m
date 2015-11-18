@@ -1,4 +1,4 @@
-function [out] = determinationDurees(dureesMesurees, peigneGaussienne, abscisse)
+function [out] = determinationDurees(durresBrutes, peigneGaussienne, abscisse)
 %%
 % Cette fonction determine les deux meilleures durees normalisées (une 
 % inférieure et une supérieure) suivant leur probabilités a partir de 
@@ -15,56 +15,28 @@ function [out] = determinationDurees(dureesMesurees, peigneGaussienne, abscisse)
 %        out : matrice de sortie se presentant de la maniere suivante 
 %
 %   out(:, 1) = durees mesurees
-%   out(:, 2) = durees inferieures normalisées (DIN)
-%   out(:, 1) = probabilités des DIN
-%   out(:, 1) = durees superieures normalisées (DSN)
-%   out(:, 1) = proba des DSN
+%   out(:, 2) = durees inferieures (DI)
+%   out(:, 1) = probabilités des DI
+%   out(:, 1) = durees superieures (DS)
+%   out(:, 1) = proba des DS
 %
-out = zeros(length(dureesMesurees), 5);
+out = zeros(length(durresBrutes), 5);
 
-out(:, 1) = dureesMesurees;
+out(:, 1) = durresBrutes;
 
-out(:, 2) = floor(dureesMesurees);
+indice = findClosest(abscisse, durresBrutes);
+proba = peigneGaussienne(indice, :);
+[out(:, 3), out(:, 2)] = max(proba');
 
-for m = 1:length(dureesMesurees)
-    % on cherche l'indice correspondant a la duree mesuree dans le peigne
-    % de gaussienne. c'est le vecteur abscisse qui s'occupe de faire le
-    % lien entre les deux.
-    % On cherche l'indice correspondant entre abscisse et dureesMesurees
-    [c index(m)] = min(abs(abscisse-dureesMesurees(m)));
-    
-    % Si on tombe sur une probabilité de duree normalisée = 0, on va voir
-    % la probabilité de la DIN suivante, et ainsi de suite jusqu'a 0;
-    if(peigneGaussienne(index(m), out(m, 2)) ~= 0)
-        out(m, 3) = peigneGaussienne(index(m), out(m, 2));
-    else
-        g = 1;
-        while((peigneGaussienne(index(m), out(m, 2)) == 0) ...
-            && (out(m, 2) > 0))
-            out(m, 2) = out(m, 2) - g;
-        end
-        out(m, 3) = peigneGaussienne(index(m), out(m, 2));
-    end
-end
+indice = findClosest(abscisse, durresBrutes);
+proba = peigneGaussienne(indice, :);
+[probaDS DS] = sort(proba, 2, 'descend');
 
-out(:, 4) = floor(dureesMesurees) + 1;
+out(:, 4) = DS(:, 2);
+out(:, 5) = probaDS(:, 2);
 
 % memes operations que dans la premiere boucle for mais pour gerer cette 
 % fois-ci les DSN 
-for m = 1:length(dureesMesurees)
-    [c index(m)] = min(abs(abscisse-dureesMesurees(m)));
-    if(peigneGaussienne(index(m), out(m, 4)) ~= 0)
-        out(m, 5) = peigneGaussienne(index(m), out(m, 4));
-    else
-        h = 1;
-        while((peigneGaussienne(index(m), out(m, 4)) == 0) ...
-            && (out(m, 4) < 16))
-            out(m, 4) = out(m, 4) + h;
-        end
-        out(m, 5) = peigneGaussienne(index(m), out(m, 4));
-    end
-end
-
 
 end
 

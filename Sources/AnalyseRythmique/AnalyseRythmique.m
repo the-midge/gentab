@@ -63,7 +63,6 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
 %     end
 %     edgeHistogramme(k+1) = 5;
     generatePeigneGaussienne;
-
     if ~exist('tempo', 'var')
             %% Détermination de la densité de probabilité des tempos
             determinationTempoV3; % Les résultats sont globalement bon mais il peut y avoir un écart d'un facteur 2.
@@ -83,6 +82,7 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
             tempo=temposCandidats(tauMeilleur);
     
     %% Doublement ou division via la SVM
+
     
     end
     %% Détermination des durées de notes avec le bon tempo (normalement)
