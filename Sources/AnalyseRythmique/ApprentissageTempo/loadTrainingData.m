@@ -4,7 +4,7 @@ addpath('..\..\Onset_Detection');
 addpath('..\..\Segmentation');
 addpath('..\..\Utils');
 addpath('..');
-% La base Ismir-2006 contient 20 morceaux;
+%% La base Mirex-2006 contient 20 morceaux;
 for ech = [1:20]
     [tempoExp(ech), x, Fs]=loadTrain2006data(ech);
     OnsetDetection;
@@ -12,3 +12,5 @@ for ech = [1:20]
     [segments, bornes]=segmentation(x, length(sf), sampleIndexOnsets, Fs);
     [tempoDet(ech), features(:, ech)] = AnalyseRythmiquePourApprentissage(sf, bornes, FsSF, Fs, 0);
 end
+
+%% La base Mirex-2004 contient 71 morceaux
