@@ -51,6 +51,7 @@ max_lag = floor(60*FsOSS/minBPM);
 nPeaksMax = 10;
 for m=1:M
     [pks, P]=findpeaks(EAC(min_lag:max_lag,m), 'NPEAKS', nPeaksMax, 'SORTSTR', 'descend');
+    P=[P;zeros(10-length(P),1)];
     P=P+min_lag;
     %% B.5 Train d'impulsion
     indices1 = bsxfun(@times,P, 0:3)+1;
