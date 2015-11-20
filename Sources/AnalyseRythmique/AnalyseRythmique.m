@@ -89,13 +89,13 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
     ecartRef=60/tempo; %coefficient de normalisation des écarts
     indiceEcartsPourPeigne = findClosest(abscisse,ecart/ecartRef*4); % abscisse de indiceEcartsPourPeigne = dureesBrutes
     
-    %% Correction
-%     dureesBrutes = abscisse(indiceEcartsPourPeigne);
-%     durees = dureesBrutes;
+    % Correction
+    dureesBrutes = abscisse(indiceEcartsPourPeigne);
+    durees = dureesBrutes;
     
     %% No correction
-    probasEcart = peigneGaussienne(indiceEcartsPourPeigne,:);
-    [~, durees] = max(probasEcart')
+%     probasEcart = peigneGaussienne(indiceEcartsPourPeigne,:);
+%     [~, durees] = max(probasEcart')
     
     
     if display

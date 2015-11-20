@@ -128,13 +128,13 @@ end
 if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
 
     [durees, tempo] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
-%     correctionDureeNotes;
-    dureesCorrigees=durees;
+    correctionDureeNotes;
+%     dureesCorrigees = durees;
 elseif strcmp(choixAlgo, ALLtemp)
     tempo = input('Tempo? ');
     [durees] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0, tempo);
-%     correctionDureeNotes;
-    dureesCorrigees=durees;
+    correctionDureeNotes;
+%     dureesCorrigees=durees;
 end
     
 %% Analyse harmonique
@@ -179,7 +179,7 @@ choix=input('Générer un fichier MIDI (o/n)? ');
 if strcmp(choix, 'o') || strcmp(choix, 'O')
     generationMidi;
     [cheminGP, cheminFichier]=getConfig();
-    lancementMIDI = strcat('start "', cheminGP, '" "', cheminFichier, file, '\out.mid"');
+    lancementMIDI = strcat('start "', cheminGP, '" "', cheminFichier, out);
     dos(lancementMIDI);
 end
 clear choix choixAlgo OD AR AH ALL filename o O n N;

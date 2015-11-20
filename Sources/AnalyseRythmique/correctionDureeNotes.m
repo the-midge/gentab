@@ -1,9 +1,9 @@
 clear all
 clc
 
- load('..\DATA\Voodoo_Child\durees_brutes_voodoo_child_mod.mat')
+ load('..\DATA\Voodoo_Child\durees_brutes_voodoo_child.mat')
 
-% addpath('../utils')
+addpath('../utils')
 
 durees = dureesBrutes(1:end);
 %% Algo de correction de la duree des notes suivant un decoupage en mesure 4:4
@@ -52,6 +52,7 @@ while(l <= length(durees))
         mesureTemporaire(4, colPart) = out(l, 5);      
     else
         mesures(numMesure, col) = out(l,4);
+        
         mesureTemporaire(1, colPart) = out(l, 4);
         mesureTemporaire(2, colPart) = out(l, 5);
         mesureTemporaire(3, colPart) = out(l, 2);
@@ -75,11 +76,14 @@ while(l <= length(durees))
             mesures(numMesure, ind) = mesureTemporaire(3, ind);
             mesureTemporaire(6, ind) = 1;
             
-            if(mesureTemporaire(6, :) == 1) 
-                mesureTemporaire = [mesureTemporaire derniereNote];
-                mesures(numMesure, 1:col) = mesureTemporaire(1, colPart);
-                l = l + 1;
-                echecCorrection = 1;
+            if((mesureTemporaire(6, :) == 1))
+                if(echecCorrection == 0)
+                    mesureTemporaire = [mesureTemporaire derniereNote];
+                    derniereNote = [];
+                    mesures(numMesure, 1:col) = mesureTemporaire(1, 1:colPart);
+                    l = l + 1;
+                    echecCorrection = 1;
+                end
             end
         else
             derniereNote = mesureTemporaire(:, colPart);
@@ -98,11 +102,14 @@ while(l <= length(durees))
 
             [val ind] = min(mesureTemporaire(6, :));
 
-            if(mesureTemporaire(6, :) == 1)
-                mesureTemporaire = [mesureTemporaire derniereNote];
-                mesures(numMesure, 1:col) = mesureTemporaire(1, 1:colPart);
-                l = l + 1;
-                echecCorrection = 1;
+            if((mesureTemporaire(6, :) == 1))
+                if(echecCorrection == 0)
+                    mesureTemporaire = [mesureTemporaire derniereNote];
+                    derniereNote = [];
+                    mesures(numMesure, 1:col) = mesureTemporaire(1, 1:colPart);
+                    l = l + 1;
+                    echecCorrection = 1;
+                end
             else
                 mesures(numMesure, ind) = mesureTemporaire(3, ind);
                 mesureTemporaire(6, ind) = 1;
@@ -113,17 +120,29 @@ while(l <= length(durees))
         
         depassementMesure = 0;
     
-        if(somme > dureeMesure)
-            mesureTemporaire = [mesureTemporaire derniereNote];
-            mesures(numMesure, 1:col) = mesureTemporaire(1, 1:colPart);
-            l = l + 1;
-            echecCorrection = 1;
+        % Test de fin de traitement
+        if((somme > dureeMesure))
+            if(echecCorrection == 0)
+                    mesureTemporaire = [mesureTemporaire derniereNote];
+                    derniereNote = [];
+                    mesures(numMesure, 1:col) = mesureTemporaire(1, 1:colPart);
+                    l = l + 1;
+                    echecCorrection = 1;
+           end
         end
     end
     
     % Si le morceau fait moins d'une mesure
     if(l == length(durees) && numMesure == 1)
         morceauCourt = 1
+    end
+    
+    if(somme == 17 && echecCorrection == 1)
+        mesures(numMesure, col) = mesures(numMesure, col) - 1;
+    end
+    
+    if(somme == 15 && echecCorrection == 1)
+        mesures(numMesure, col) = mesures(numMesure, col) + 1;
     end
 
     if((somme == dureeMesure) || (echecCorrection == 1))
@@ -147,10 +166,10 @@ end
 
 mesures
 vectEchec = vectEchec'
-% mesures = mesures';
-% dureesCorrigees = mesures(:)';
-% dureesCorrigees(find(dureesCorrigees == 0)) = [];
-
+mesures = mesures';
+dureesCorrigees = mesures(:)';
+dureesCorrigees(find(dureesCorrigees == 0)) = [];
+dureesCorrigees'
     
 
 
