@@ -5,7 +5,7 @@
 %       segment par segment, incluant l'octave de la note.
 disp('Début identification des notes');
 for index= [1:length(segments)]
-    notesJouee(index,:)=determinationNoteSegmentOctave_HPS(segments{index} , Fs);
+    notesJouee(index,:)=determinationNoteSegmentOctave_YIN(segments{index} , Fs);
 end
 disp('Fin identification des notes');
 

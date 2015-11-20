@@ -1,4 +1,4 @@
-function [ note ] = determinationNoteSegmentOctave_HPS( segment , Fs)
+function [ note ] = determinationNoteSegmentOctave_Harmonic_Product_Spectrum( segment , Fs)
 %determinationNoteSegment.m
 
 % HPS pour Harmonic Product Spectrum 
