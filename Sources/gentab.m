@@ -10,6 +10,8 @@ clc
 beep off
 
 addpath(genpath('../Sources/'))
+[cheminGP, cheminFichier,cheminEvaluation]=getConfig();
+rmpath('../Sources/Evaluation')
 
 %% Chargement des données
 disp('Fichier audio en entrée?');
@@ -178,8 +180,14 @@ o='o'; O='O'; n='n'; N='N';
 choix=input('Générer un fichier MIDI (o/n)? ');
 if strcmp(choix, 'o') || strcmp(choix, 'O')
     generationMidi;
-    [cheminGP, cheminFichier]=getConfig();
-    lancementMIDI = strcat('start "', cheminGP, '" "', cheminFichier, file, '\out.mid"');
-    dos(lancementMIDI);
+    
+    os=computer;
+    s2='MACI64';
+    if strcmp(os,s2)==1
+    lancementMIDI = strcat('open -a "', cheminGP, '" "', cheminFichier, file,'/',file, '.mid"')
+    else  
+    lancementMIDI = strcat('"', cheminGP, '" "', cheminFichier, file, '\out.mid"');
+    end
+    system(lancementMIDI);
 end
 clear choix choixAlgo OD AR AH ALL filename o O n N;

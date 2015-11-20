@@ -1,4 +1,4 @@
-function [ applicationPath, FilesFolder ] = getConfig(~)
+function [ applicationPath, FilesFolder ,EvaluationFolder] = getConfig(~)
     filename = '../config.txt';
     if ~exist(filename, 'file');
         error(strcat('[ERREUR] Le fichier ', filename, ' n''existe pas dans ', path));
@@ -10,6 +10,7 @@ function [ applicationPath, FilesFolder ] = getConfig(~)
     end
     applicationPath = fgets(FID);
     FilesFolder = fgets(FID);
+EvaluationFolder=fgets(FID);
     fclose(FID);
 end
 
