@@ -10,8 +10,9 @@ clc
 beep off
 
 addpath(genpath('../Sources/'))
-[cheminGP, cheminFichier,cheminEvaluation]=getConfig();
-rmpath('../Sources/Evaluation')
+[cheminGP, cheminFichier, cheminEvaluation]=getConfig();
+rmpath(cheminEvaluation)
+path
 
 %% Chargement des données
 disp('Fichier audio en entrée?');
