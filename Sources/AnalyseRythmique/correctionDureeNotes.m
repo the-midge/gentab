@@ -169,8 +169,5 @@ vectEchec = vectEchec'
 mesures = mesures';
 dureesCorrigees = mesures(:)';
 dureesCorrigees(find(dureesCorrigees == 0)) = [];
-% dureesCorrigees'
-    
 
-
-
+clear mesureTemporaire mesures somme;
