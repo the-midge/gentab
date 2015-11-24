@@ -1,11 +1,11 @@
-clear all
-clc
-
- load('..\DATA\Voodoo_Child\durees_brutes_voodoo_child.mat')
-
-addpath('../utils')
-
-durees = dureesBrutes(1:end);
+% clear all
+% clc
+% 
+%  load('..\DATA\Voodoo_Child\durees_brutes_voodoo_child.mat')
+% 
+% addpath('../utils')
+% 
+% durees = dureesBrutes(1:end);
 %% Algo de correction de la duree des notes suivant un decoupage en mesure 4:4
 % Suite a la generation des probabilites de chaque duree de note
 % (generatePeigneGaussienne), on determine en cas de conflit la duree la
@@ -169,7 +169,7 @@ vectEchec = vectEchec'
 mesures = mesures';
 dureesCorrigees = mesures(:)';
 dureesCorrigees(find(dureesCorrigees == 0)) = [];
-dureesCorrigees'
+% dureesCorrigees'
     
 
 

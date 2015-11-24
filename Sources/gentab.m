@@ -4,14 +4,14 @@
 % d'un signal audio qu'il charge lui même
 %
 
-% clear all
+clear all
 close all
 clc
 beep off
 
 addpath(genpath('../Sources/'))
 [cheminGP, cheminFichier, cheminEvaluation]=getConfig();
-rmpath(cheminEvaluation)
+% rmpath(cheminEvaluation)
 
 
 %% Chargement des données
@@ -181,20 +181,20 @@ o='o'; O='O'; n='n'; N='N';
 choix=input('Générer un fichier MIDI (o/n)? ');
 if strcmp(choix, 'o') || strcmp(choix, 'O')
     generationMidi;
-<<<<<<< HEAD
+% <<<<<<< HEAD
     [cheminGP, cheminFichier]=getConfig();
     lancementMIDI = strcat('start "', cheminGP, '" "', cheminFichier, out);
     dos(lancementMIDI);
-=======
-    
-    os=computer;
-    s2='MACI64';
-    if strcmp(os,s2)==1
-    lancementMIDI = strcat('open -a "', cheminGP, '" "', cheminFichier, file,'/',file, '.mid"')
-    else  
-    lancementMIDI = strcat('"', cheminGP, '" "', cheminFichier, file, '\out.mid"');
-    end
-    system(lancementMIDI);
->>>>>>> 4baee390a1629b479ff6b1f1c55a475350d21dca
+% =======
+%     
+%     os=computer;
+%     s2='MACI64';
+%     if strcmp(os,s2)==1
+%     lancementMIDI = strcat('open -a "', cheminGP, '" "', cheminFichier, file,'/',file, '.mid"')
+%     else  
+%     lancementMIDI = strcat('"', cheminGP, '" "', cheminFichier, file, '\out.mid"');
+%     end
+%     system(lancementMIDI);
+% >>>>>>> 4baee390a1629b479ff6b1f1c55a475350d21dca
 end
 clear choix choixAlgo OD AR AH ALL filename o O n N;
