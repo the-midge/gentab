@@ -76,5 +76,9 @@ function [varargout] = analyseRythmiquePourApprentissage(oss, bornes, FsOSS, Fs,
     if nargout==2
         varargout{1}=tempo;
         varargout{2}=features_normalized;
+    elseif nargout==3
+        varargout{1}=tempo;
+        varargout{2}=features_normalized;
+        varargout{3}=C;
     end
 end

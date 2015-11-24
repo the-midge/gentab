@@ -53,6 +53,13 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
     
     %% Doublement ou division via la SVM
     doubleOrHalve;
+    load nnTrained
+    [probDoubleOrHalve]=sim(nnTrained, features_normalized)*100;    %Probabilité (%) qu'il faille diviser par 2, ne rien faire ou doubler le tempo trouvé).
+    if(probDoubleOrHalve(1)>10)  %Si la proba de diviser est supérieure à 9% on divise
+        tempo=tempo/2;
+    elseif(probDoubleOrHalve(3)>66) %Si la proba de double est supérieure à 66% on double
+        tempo=2*tempo;
+    end %Sinon on ne fait rien
     %% Détermination des durées de notes avec le bon tempo (normalement)
     ecartRef=60/tempo; %coefficient de normalisation des écarts
     indiceEcartsPourPeigne = findClosest(abscisse,ecart/ecartRef*4);
@@ -80,7 +87,7 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display)
     if nargout == 4
          varargout{1}=durees;
         varargout{2}=tempo;
-        varargout{3}=svm_sum;
-        varargout{4}=mult;
+        varargout{3}=features_normalized;
+        varargout{4}=probDoubleOrHalve;
     end
 end
