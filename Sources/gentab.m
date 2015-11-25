@@ -1,3 +1,4 @@
+
 %%%
 % gentab.m
 % Ce script teste tous les composants de l'algorithme à partir 
@@ -16,15 +17,18 @@ addpath(genpath('../Sources/'))
 
 %% Chargement des données
 disp('Fichier audio en entrée?');
-disp('1: DayTripper - 8s');
-disp('2: Blue Orchid (bends) - 30s');
-disp('3: nosurprises - 26s');
-disp('4: Aller Retour Diatonique - 8s');
-disp('5: Heart & Soul - 16s');
-disp('6: Seven Nation Army - 30s');
-disp('7: Hardest Button to Button - 35s');
-disp('8: Johnny B Good - 47s');
-disp('9: Voodoo Child - 40s');
+disp('1:	DayTripper - 8s');
+disp('2:	Blue Orchid (bends) - 30s');
+disp('3:	nosurprises - 26s');
+disp('4:	Aller Retour Diatonique - 8s');
+disp('5:	Heart & Soul - 16s');
+disp('6:	Seven Nation Army - 30s');
+disp('7:	Hardest Button to Button - 35s');
+disp('8:	Johnny B Good - 47s');
+disp('9:	Voodoo Child - 40s');
+disp('10:	Kashmir - 33s');
+disp('11:	Plugin Baby - 16s');
+disp('12:	Time is Running Out - 24s');
 disp('0: Sortie');
 
 choixEchantillon=input('Choix? '); %Attend une action utilisateur
@@ -80,6 +84,21 @@ switch choixEchantillon
         audioFilename='Voodoo_Child.wav';
         [x,Fs]=audioread(audioFilename);
         x=sum(x,2); 
+    case 10
+        disp('Kashmir');
+        audioFilename='Kashmir.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=sum(x,2);
+    case 11
+        disp('Plugin Baby');
+        audioFilename='Plugin_Baby.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=sum(x,2);
+    case 12
+        disp('Time is Running Out');
+        audioFilename='Time_Running_Out.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=sum(x,2);
     case 0
         clc
         clear all;
@@ -183,7 +202,7 @@ if strcmp(choix, 'o') || strcmp(choix, 'O')
     generationMidi;
 % <<<<<<< HEAD
     [cheminGP, cheminFichier]=getConfig();
-    lancementMIDI = strcat('start "', cheminGP, '" "', cheminFichier, out);
+    lancementMIDI = strcat(' "', cheminGP, '" "', cheminFichier, out);
     dos(lancementMIDI);
 % =======
 %     

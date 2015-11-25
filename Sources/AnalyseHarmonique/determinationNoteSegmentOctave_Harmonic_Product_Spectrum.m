@@ -23,7 +23,7 @@ function [ note ] = determinationNoteSegmentOctave_Harmonic_Product_Spectrum( se
 %	BUT:    
 %       Renvoyer les notes jouées dans le 'segment'
 
-tabNomNotes=['E '; 'F '; 'F#'; 'G '; 'G#'; 'A '; 'A#'; 'B '; 'C '; 'C#'; 'D '; 'D#'];
+tabNomNotes=['R '; 'E '; 'F '; 'F#'; 'G '; 'G#'; 'A '; 'A#'; 'B '; 'C '; 'C#'; 'D '; 'D#'];
 
 %% Calcul de la fft sur le segment
 if(length(segment)<2^19)
@@ -69,23 +69,24 @@ tableNotes=generateTableNotes(false);   % Génère dans une table, les fréquences 
 tableNotes(:,:,3);
 A = reshape(tableNotes(:,:,3),1,[]);
 g=findClosest(A, indicemax_freq);
-h=mod(g,12);
-if (indicemax_freq>63.5 && indicemax_freq<127)
-    octave=2;
-end
-if (indicemax_freq>127 && indicemax_freq<244.5)
-    octave=3;
-end
-if (indicemax_freq>244.5 && indicemax_freq<508)
-    octave=4;
-end
-if (indicemax_freq>508 && indicemax_freq<1014)
-octave=5;
-end
-if (indicemax_freq>1014 && indicemax_freq<2000)
-octave=6;
+h=mod(g,12)+1;
+if h==1
+    h=h+12;
 end
 
+if (indicemax_freq<=63.5)
+    octave=1;
+elseif (indicemax_freq>63.5 && indicemax_freq<=127)
+    octave=2;
+elseif (indicemax_freq>127 && indicemax_freq<=244.5)
+    octave=3;
+elseif (indicemax_freq>244.5 && indicemax_freq<=508)
+    octave=4;
+elseif (indicemax_freq>508 && indicemax_freq<=1014)
+    octave=5;
+elseif (indicemax_freq>1014 && indicemax_freq<=2000)
+    octave=6;
+end
 note=[tabNomNotes(h,:)  num2str(octave)];
 
 end

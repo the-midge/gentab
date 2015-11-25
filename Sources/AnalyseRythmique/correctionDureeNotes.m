@@ -164,8 +164,7 @@ while(l <= length(durees))
 l = l + 1;
 end
 
-mesures
-vectEchec = vectEchec'
+vectEchec = vectEchec';
 mesures = mesures';
 dureesCorrigees = mesures(:)';
 dureesCorrigees(find(dureesCorrigees == 0)) = [];
