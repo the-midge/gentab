@@ -79,7 +79,7 @@ end
 if nbNotesExp~=length(noteExp)
     error('Erreur de lecture: le fichier ne contient pas le nombre de notes indiquées');
 end
-
+fclose(FID);
 %% Construction des matrices de confusions
 indiceDet = 0;
 indiceExp = 0;
@@ -90,6 +90,9 @@ for k=1:length(noteDet)
     onsetsDet(k)=noteDet(k).indice;
 end
 
+tonsAComparer=[];
+octavesAComparer=[];
+k=1;
 while indiceDet < length(noteDet)
     if indiceDet < length(noteDet)
         indiceDet=indiceDet+1;
@@ -100,33 +103,57 @@ while indiceDet < length(noteDet)
     newExpInDet = findClosest(onsetsDet, noteExp(indiceExp).indice);
    
    if newExpInDet-newDetInExp == expInDet-detInExp && newExpInDet> expInDet
+        tonsAComparer(k,:)=[noteDet(indiceDet).ton noteExp(indiceExp).ton];
+        octavesAComparer(k,:)=[noteDet(indiceDet).octave noteExp(indiceExp).octave];
+        k=k+1;
         confTons(noteDet(indiceDet).ton,noteExp(indiceExp).ton) = confTons(noteDet(indiceDet).ton,noteExp(indiceExp).ton) + 1;
-        confOctaves(noteDet(indiceDet).octave-1,noteExp(indiceExp).octave-1) = confOctaves(noteDet(indiceDet).octave-1,noteExp(indiceExp).octave-1) + 1;
+        confOctaves(noteDet(indiceDet).octave,noteExp(indiceExp).octave) = confOctaves(noteDet(indiceDet).octave,noteExp(indiceExp).octave) + 1;
     end
     detInExp = newDetInExp;
     expInDet = newExpInDet;
 end
 
 %%   Affichage de la matrice de confusion des tons
-disp('Matrice de confusion des tons');
-rowNames = {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};
-firstRow = '';
-for k = 1:length(rowNames)
-    firstRow = [firstRow, ' ', rowNames{k}];
-end
-disp(['    ', firstRow]);
-for k = 1:length(rowNames)
-    disp([rowNames{k}, '   ', num2str(confTons(k,:))]);
-end
+figure(2)
+mask=eye(13);
+plotconfusion(mask(tonsAComparer(:,2),:)', mask(tonsAComparer(:,1),:)');
+PTFS = nnplots.title_font_size;
+titleStyle = {'fontweight','bold','fontsize',PTFS};
+xlabel('Tons Cibles',titleStyle{:});
+ylabel('Tons Détectés',titleStyle{:});
+title(['Matrice de confusion des tons'],titleStyle{:});
+ax = gca;
+set(ax, 'XTickLabel', {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'});
+set(ax, 'YTickLabel', {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'});
 
-%% Affichage de la matrice de confusion des octaves
-disp('Matrice de confusion des octaves');
-disp(['    ', num2str(2:6)]);
-for k = 2:6
-    disp([num2str(k), '   ', num2str(confOctaves(k-1,:))]);
-end
+figure(3)
+mask=[0 zeros(1,5); zeros(5,1), eye(5)];
+plotconfusion(mask(octavesAComparer(:,2),:)', mask(octavesAComparer(:,1),:)');
+PTFS = nnplots.title_font_size;
+titleStyle = {'fontweight','bold','fontsize',PTFS};
+xlabel('Octaves Cibles',titleStyle{:});
+ylabel('Octaves Détectés',titleStyle{:});
+title(['Matrice de confusion des octaves'],titleStyle{:});
 
-disp(['Taux de succès tons: ' num2str(sum(diag(confTons))/sum(sum(confTons))*100) '%']);
-disp(['Taux de succès octaves: ' num2str(sum(diag(confOctaves))/sum(sum(confOctaves))*100) '%']);
-fclose(FID);
+%%   Affichage de la matrice de confusion des tons (texte)
+% disp('Matrice de confusion des tons');
+% rowNames = {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};
+% firstRow = '';
+% for k = 1:length(rowNames)
+%     firstRow = [firstRow, ' ', rowNames{k}];
+% end
+% disp(['    ', firstRow]);
+% for k = 1:length(rowNames)
+%     disp([rowNames{k}, '   ', num2str(confTons(k,:))]);
+% end
+% 
+% %% Affichage de la matrice de confusion des octaves
+% disp('Matrice de confusion des octaves');
+% disp(['    ', num2str(2:6)]);
+% for k = 2:6
+%     disp([num2str(k), '   ', num2str(confOctaves(k-1,:))]);
+% end
+% 
+% disp(['Taux de succès tons: ' num2str(sum(diag(confTons))/sum(sum(confTons))*100) '%']);
+% disp(['Taux de succès octaves: ' num2str(sum(diag(confOctaves))/sum(sum(confOctaves))*100) '%']);
 end

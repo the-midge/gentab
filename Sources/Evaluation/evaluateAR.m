@@ -88,6 +88,8 @@ for k=1:length(noteDet)
     onsetsDet(k)=noteDet(k).indice;
 end
 
+k=1;
+dureesAComparer=[];
 while indiceDet < length(noteDet)
     if indiceDet < length(noteDet)
         indiceDet=indiceDet+1;
@@ -98,18 +100,30 @@ while indiceDet < length(noteDet)
     newExpInDet = findClosest(onsetsDet, noteExp(indiceExp).indice);
    
     if newExpInDet-newDetInExp == expInDet-detInExp && newExpInDet> expInDet
+        dureesAComparer(k,:)=[noteDet(indiceDet).octave noteExp(indiceExp).octave];
+        k=k+1;
         confDurees(noteDet(indiceDet).duree,noteExp(indiceExp).duree) = confDurees(noteDet(indiceDet).duree,noteExp(indiceExp).duree) + 1;
     end
     detInExp = newDetInExp;
     expInDet = newExpInDet;
 end
 
-%%   Affichage de la matrice de confusion des durees
-disp('Matrice de confusion des durees');
-disp(['    ', num2str(1:length(confDurees))]);
-for k = 1:16
-    disp([num2str(k), '   ', num2str(confDurees(k,:))]);
-end
+%%
+figure(4)
+mask=eye(16);
+plotconfusion(mask(dureesAComparer(:,2),:)', mask(dureesAComparer(:,1),:)');
+PTFS = nnplots.title_font_size;
+titleStyle = {'fontweight','bold','fontsize',PTFS};
+xlabel('Tons Cibles',titleStyle{:});
+ylabel('Tons Détectés',titleStyle{:});
+title(['Matrice de confusion des durees'],titleStyle{:});
+
+% %%   Affichage de la matrice de confusion des durees
+% disp('Matrice de confusion des durees');
+% disp(['    ', num2str(1:length(confDurees))]);
+% for k = 1:16
+%     disp([num2str(k), '   ', num2str(confDurees(k,:))]);
+% end
 
 %% Affichage de l'histogramme des écarts
 toeplitz(-15:15);
