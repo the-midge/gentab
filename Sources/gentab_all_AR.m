@@ -32,10 +32,12 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('5: Seven Nation Army - 30s');
     disp('6: Hardest Button to Button - 35s');
     disp('7: Johnny B Good - 47s');
-    disp('8: Voodoo Child - 40s');
+    disp('8: Voodoo Child - 40s');    
+    disp('9:	Kashmir - 33s');
+    disp('10:   Time is Running Out - 24s'); 
     
-    for k=2:8
-        tic
+    for k=2:10
+
         switch(k)
             case 1                
                 audioFilename='DayTripper.wav';
@@ -53,6 +55,10 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
                 audioFilename='Johnny_B_Good.wav';
             case 8
                 audioFilename='Voodoo_Child.wav';
+            case 9
+                audioFilename='Kashmir.wav';
+            case 10
+                audioFilename='Time_Running_Out.wav';
         end
         [x,Fs]=audioread(audioFilename);
         x=x(:,1);
@@ -69,8 +75,8 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         end
         
         [segments, bornes]=segmentation(x, length(sf), sampleIndexOnsets, Fs);
-        [durees, tempo, features(:,k), probDoubleOrHalve(:,k)] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
-
+        [durees, tempo, ~,  proba(:, k)] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
+        durees=round(durees);
         notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), durees);
         tempos(k) = tempo;
         
@@ -78,7 +84,7 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         filename = strcat('DATA/', file, '/expected.txt');
 
         [ecartTempo(k), tempoExp(k)]=evaluateTempo(filename, tempo); 
-        toc
+
     end
     
     [tempos', tempoExp', ecartTempo']

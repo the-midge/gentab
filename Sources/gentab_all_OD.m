@@ -42,6 +42,7 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('7:	Johnny B Good - 47s');
     disp('8:	Voodoo Child - 40s');
     disp('9:	Kashmir - 33s');
+    disp('10:   Time is Running Out - 24s');
     for k=1:9
         switch(k)
             case 1                
@@ -62,6 +63,8 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
                 audioFilename='Voodoo_Child.wav';
             case 9
                 audioFilename='Kashmir.wav';
+            case 10
+                audioFilename='Time_Running_Out.wav';
         end
         [x,Fs]=audioread(audioFilename);
         x=x(:,1);
