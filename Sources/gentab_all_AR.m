@@ -34,7 +34,8 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('7: Johnny B Good - 47s');
     disp('8: Voodoo Child - 40s');
     
-    for k=1:8
+    for k=2:8
+        tic
         switch(k)
             case 1                
                 audioFilename='DayTripper.wav';
@@ -68,15 +69,16 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         end
         
         [segments, bornes]=segmentation(x, length(sf), sampleIndexOnsets, Fs);
-        [durees, tempo] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
-        
+        [durees, tempo, features(:,k), probDoubleOrHalve(:,k)] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
+
         notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), durees);
         tempos(k) = tempo;
         
         [~, file, ~]=fileparts(audioFilename);
         filename = strcat('DATA/', file, '/expected.txt');
-        evaluateAR(filename, notesDet, tempos(k), 0);
-%         [ecartTempo(k), tempoExp(k)]=evaluateTempo(filename, tempo);        
+
+        [ecartTempo(k), tempoExp(k)]=evaluateTempo(filename, tempo); 
+        toc
     end
     
     [tempos', tempoExp', ecartTempo']

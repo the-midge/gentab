@@ -33,16 +33,16 @@ choixAlgo=input('Choix? ');
 
 %% Onset Detection
 if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
-    disp('1: DayTripper - 8s');
-    disp('2: Aller Retour Diatonique - 8s');
-    disp('3: Heart & Soul - 16s');
-    disp('4: No Surprises - 26s');
-    disp('5: Seven Nation Army - 30s');
-    disp('6: Hardest Button to Button - 35s');
-    disp('7: Johnny B Good - 47s');
-    disp('8: Voodoo Child - 40s');
-    
-    for k=1:8
+    disp('1:	DayTripper - 8s');
+    disp('2:	Aller Retour Diatonique - 8s');
+    disp('3:	Heart & Soul - 16s');
+    disp('4:	No Surprises - 26s');
+    disp('5:	Seven Nation Army - 30s');
+    disp('6:	Hardest Button to Button - 35s');
+    disp('7:	Johnny B Good - 47s');
+    disp('8:	Voodoo Child - 40s');
+    disp('9:	Kashmir - 33s');
+    for k=1:9
         switch(k)
             case 1                
                 audioFilename='DayTripper.wav';
@@ -60,6 +60,8 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
                 audioFilename='Johnny_B_Good.wav';
             case 8
                 audioFilename='Voodoo_Child.wav';
+            case 9
+                audioFilename='Kashmir.wav';
         end
         [x,Fs]=audioread(audioFilename);
         x=x(:,1);
