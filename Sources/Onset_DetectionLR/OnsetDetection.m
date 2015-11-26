@@ -1,5 +1,5 @@
-clear all
-clc
+% clear all
+% clc
 
 % OnsetDetection.m
 %   DESCRIPTION: Script de haut niveau (wrapper), rassemblant les différentes fonctions ordonnées
@@ -15,10 +15,10 @@ clc
 %   ne peut y avoir qu'un onset (offset) entre deux notes.
 
 %%Chargement fichier son
-audioFilename='BlueOrchidGP2.wav';
-[x,Fs] = wavread(audioFilename);
-tailleSequence = 12; % en secondes
-x=x(1:Fs*tailleSequence, 1);
+% audioFilename='BlueOrchidGP2.wav';
+% [x,Fs] = wavread(audioFilename);
+% tailleSequence = 12; % en secondes
+% x=x(1:Fs*tailleSequence, 1);
 
 %% Définition des paramètres de prétraitement
 % Degré de lissage
@@ -38,13 +38,13 @@ h=190;   %fonctionne bien pour h=190 sur BlueOrchidGP2
 
 % On elimine les fréquences superieures a la note Mi6 (1300 Hz) + 200 Hz de
 % tolerance pour eviter les parasites dus aux frequences harmoniques
-Mi6 = 1300; % Hz
+% Mi6 = 1300; % Hz
 % 
 % % on cherche les frequences utiles
-indexFreqOpti = find(f < (Mi6 + 200));
+% indexFreqOpti = find(f < (Mi6 + 200));
 % 
 % % On les cale sur la matrice stftRes pour en reduire la taille
-stftRes = stftRes(1:indexFreqOpti(end), 1:length(t));
+% stftRes = stftRes(1:indexFreqOpti(end), 1:length(t));
 
 % Spectral flux
 sf=spectralflux(stftRes)';
@@ -125,8 +125,8 @@ indexSilence = find(detectionSilence == 1); % indices utiles pour la suite dans 
 %% Fin de l'algorithme
 % Visualisation des résultats
 if(length(seuil)==1)
-    figure(2),plot(t, [sf max(sf)*visualOnsets ones(size(sf))*seuil max(sf)*detectionSilence]), axis([0 tailleSequence 0 110])
+    figure(2),plot(t, [sf max(sf)*visualOnsets ones(size(sf))*seuil max(sf)*detectionSilence]), axis([0 30 0 110])
 else
-    figure(2),plot(t, [sf max(sf)*visualOnsets seuil seuilGlobal max(sf)*detectionSilence]), axis([0 tailleSequence 0 110]) 
+    figure(2),plot(t, [sf max(sf)*visualOnsets seuil seuilGlobal max(sf)*detectionSilence]), axis([0 30 0 110]) 
 end
 %clear N h degreLissage indexPremierPic indexDernierPic amplitudeOnsets moyenneLocale rapportMoyenneLocale nbSampleMoyenneLocale ecartMinimal sensibilite;

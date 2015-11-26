@@ -28,6 +28,9 @@ degreLissage=round(Fs/h/10);
 % Pseudo-complex domain
 pseudoComplexDomain=getOnsets(stftRes,70,1500,Fs,N);
 
+% Phase deviation
+CD_out = phase_deviation(stftRes,70,1500,Fs,N);
+
 % Spectral flux
 specFlux = spectralflux(stftRes);
 
@@ -48,6 +51,8 @@ ecart_ms = 50; w1 = 0.8; w2 = 1.2; %Paramètres de pondération de la combinaison
 ecart_samples = round(ecart_ms*FsSF/1000);
 %specFlux est en avance sur pseudoComplexDomain de ecart_samples environ
 sf = w1.*[zeros(ecart_samples,1); pseudoComplexDomain(1:end-ecart_samples)]+w2.*specFlux;
+
+
 
 %% Détermination du seuil
 rapportMoyenneLocale=40e-4; % regarde la moyenne locale sur plus d'échantillons 
@@ -71,7 +76,7 @@ moyenneLocaleCentre = filtfilt(ones(nbSampleMoyenneLocale,1)/nbSampleMoyenneLoca
 % Moyenne locale pour la partie droite du signal
 sommeSf_droit=0;
 for u=length(sf)-nbSampleMoyenneLocale:length(sf)
-    for l=u-nbPointMoyenneExtremite-1:u
+    for l = u-nbPointMoyenneExtremite-1:u
 
           sommeSf_droit=sommeSf_droit+sf(l);
     end
@@ -82,7 +87,7 @@ end
 
 % Création du vecteur final représentant la moyenne locale         
 moyenneFinale=zeros(length(sf),1);
-moyenneFinale(1:nbSampleMoyenneLocale-1,1)=moyenneLocaleGauche(1:nbSampleMoyenneLocale-1,1);
+moyenneFinale(1:nbSampleMoyenneLocale-1,1)= moyenneLocaleGauche(1:nbSampleMoyenneLocale-1,1);
 moyenneFinale(nbSampleMoyenneLocale:length(sf)-nbSampleMoyenneLocale,1)=moyenneLocaleCentre(nbSampleMoyenneLocale:length(sf)-nbSampleMoyenneLocale,1);
 moyenneFinale(length(sf)-nbSampleMoyenneLocale:length(sf),1)=moyenneLocaleDroite(length(sf)-nbSampleMoyenneLocale:length(sf),1);
 
@@ -99,6 +104,14 @@ moyenneFinale(length(sf)-nbSampleMoyenneLocale:length(sf),1)=moyenneLocaleDroite
 % moyenneFinale(length(sf)-nbSampleMoyenneLocale:length(sf),1)=moyenneLocaleDroite(length(sf)-nbSampleMoyenneLocale:length(sf),1)-ecart2;
 seuil=moyenneFinale;
 
+% Moyenne globale pour detection des silences
+moyenneGlobale = mean(sf);
+
+% Seuil minimal à atteindre pour détecter un pic.
+% un seuil global fixe a 50% de la moyenne donne de bons resultats
+PourcentSeuilGlogal = 50;
+seuilGlobal(1:size(sf), 1) = moyenneGlobale*PourcentSeuilGlogal/100;
+
 %% Paramètres détection de pics
 ecartMinimal= round(60/240*FsSF);   %ecart correspondant à 240 bpm
 
@@ -114,7 +127,7 @@ end
 % suppression des derniers pics jusqu'au premier pic à dépasser la moitiée de la moyenne
 % globale (à terme moyenne locale long terme)
 indexDernierPic=length(amplitudeOnsets);
-while(amplitudeOnsets(indexDernierPic)<mean(sf)/2)
+while(amplitudeOnsets(indexDernierPic)< mean(sf)/2)
     indexDernierPic=indexDernierPic-1;
 end
 
@@ -122,12 +135,58 @@ sampleIndexOnsets=sampleIndexOnsets(indexPremierPic:indexDernierPic);
 visualOnsets=zeros(size(sf));
 visualOnsets(round(sampleIndexOnsets))=1;
 
+%% OFFSET
+
+% Coefficients d'un filtre de dérivée.
+a=1; b=[1 -1];
+ 
+% derivee du seuil
+d_seuil = filter(b, a, seuil);
+% normalisation 0 < d_seuil < 100
+facteurNorm = 100/max(d_seuil(2:end));
+d_seuil(1) = 0;
+d_seuil = d_seuil.*facteurNorm;
+
+% derivee seconde du seuil
+dd_seuil = filter(b, a, d_seuil);
+% normalisation 0 < dd_seuil < 100
+facteurNorm = 100/max(dd_seuil(2:end));
+dd_seuil(1) = 0;
+dd_seuil = dd_seuil.*facteurNorm;
+
+sil = -d_seuil;
+
+% find peaks with defaults
+
+d = sf-sil;
+% At the moment of crossing, the sign will change:
+s = diff(sign(d));
+% Now just find the point where it changes
+[~, locs] = findpeaks(s);
+
+coefSeuilSilence = 2;
+
+seuil_silence = std(sf)/coefSeuilSilence;
+locs(sf(locs) > seuil_silence) = [];
+ 
+
+silence = zeros(size(t));
+silence(locs) = 1;
+     
+     
+
+% visualisation des variations
+figure(43), clf
+plot(t, [sil sf]); hold on;
+% offset values of peak heights for plotting
+plot(t(locs),sf(locs),'k^','markerfacecolor', [1 0 0]);    
+
 %% Fin de l'algorithme
 % Visualisation des résultats
-if(length(seuil)==1)
-    plot(t, [sf max(sf)*visualOnsets ones(size(sf))*seuil])
-else
-    plot(t, [sf max(sf)*visualOnsets seuil])  
-end
+% if(length(seuil)==1)
+%     figure(1), plot(t, [sf max(sf)*visualOnsets ones(size(sf))*seuil seuilGlobal max(sf)*silence])
+% else
+    figure(1), plot(t, [sf max(sf)*visualOnsets seuil max(sf)*silence])  
+% end
 
 clear N h degreLissage indexPremierPic indexDernierPic amplitudeOnsets rapportMoyenneLocale ecartMinimal sensibilite;
