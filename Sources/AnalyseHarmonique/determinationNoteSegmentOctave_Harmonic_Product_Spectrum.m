@@ -39,7 +39,7 @@ end
 y=length(segFftWin);
 axe_freq = (0:y/2-1)*Fs/y;
 segFftWin=abs(segFftWin(1:(length(segFftWin)/2)));
- %figure, plot(axe_freq,segFftWin);
+%figure, plot(axe_freq,segFftWin);
 
                                                   
 hps1=downsample(segFftWin,1);
@@ -58,7 +58,7 @@ end
 Maximum = n(1);
 
 
-% Recherche des maximum de la fft 
+% Recherche des maximums de la fft 
 
 indicemax_freq=Maximum*Fs/y;
 
