@@ -56,7 +56,7 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
 
         %% Doublement ou division via la SVM
         doubleOrHalve;
-        load nnTrained
+        load nntrained
         [probDoubleOrHalve]=sim(nnTrained, features_normalized)*100;    %Probabilité (%) qu'il faille diviser par 2, ne rien faire ou doubler le tempo trouvé).
         if(probDoubleOrHalve(1)>10)  %Si la proba de diviser est supérieure à 9% on divise
             tempo=tempo/2;
