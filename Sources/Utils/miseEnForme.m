@@ -1,4 +1,4 @@
-function [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, durees, notesJouee)
+function [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, durees, notesJouees)
 %miseEnForme.m
 %   USAGE:
 %       [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, durees, notesJouee)
@@ -23,7 +23,7 @@ function [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, durees, notesJouee
 
     if nargin==3
         if isa(durees, 'char')
-            notesJoue = durees;
+            notesJouees = durees;
             clear durees;
         end
     end
@@ -32,12 +32,12 @@ function [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, durees, notesJouee
         durees=ones(length(sampleIndexOnsets)-1, 1);
     end
 
-    if ~exist('notesJouee', 'var')
-        notesJouee=repmat('E 2',length(sampleIndexOnsets)-1, 1);
+    if ~exist('notesJouees', 'var')
+        notesJouees=repmat('E 2',length(sampleIndexOnsets)-1, 1);
     end
 
     for k = 1:length(durees)
-       notesDet(k)=Note(round(sampleIndexOnsets(k)*FsSF), durees(k), notesJouee(k,:)); 
+       notesDet(k)=Note(round(sampleIndexOnsets(k)*FsSF), durees(k), notesJouees(k,:)); 
     end
 
 end
