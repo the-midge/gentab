@@ -1,7 +1,6 @@
 %%%
-% gentab.m
-% Ce script teste tous les composants de l'algorithme à partir 
-% d'un signal audio qu'il charge lui même
+% gentab_all_OD.m
+% Ce script teste tous les morceaux avec la fonction d'OD
 %
 
 clear all
@@ -43,7 +42,7 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('8:	Voodoo Child - 40s');
     disp('9:	Kashmir - 33s');
     disp('10:   Time is Running Out - 24s');
-    for k=1:9
+    for k=1:10
         switch(k)
             case 1                
                 audioFilename='DayTripper.wav';

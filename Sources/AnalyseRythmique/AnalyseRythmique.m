@@ -39,6 +39,7 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
     if ~exist('tempo', 'var')
         %% Détermination de la densité de probabilité des tempos
         determinationTempoV3; % Les résultats sont globalement bon mais il peut y avoir un écart d'un facteur 2.
+
         % Séléection des candidats
         [~, temposCandidats]=findpeaks(C, 'SORTSTR', 'descend');
 
@@ -49,20 +50,22 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
             probas=peigneGaussienne(indiceEcartsPourPeigne,:);
             [probasMax(:,tau), durees] = max(probas');
         end
+       
         % Choix du meilleur tempo candidat
         mu_Tau=mean(probasMax);
         [~, tauMeilleur]=max(mu_Tau);
-        tempo=temposCandidats(tauMeilleur);
-
+        tempo=temposCandidats(tauMeilleur);      
+        
         %% Doublement ou division via la SVM
         doubleOrHalve;
-        load nntrained
-        [probDoubleOrHalve]=sim(nnTrained, features_normalized)*100;    %Probabilité (%) qu'il faille diviser par 2, ne rien faire ou doubler le tempo trouvé).
-        if(probDoubleOrHalve(1)>10)  %Si la proba de diviser est supérieure à 9% on divise
+        load nnTrained
+        [probDoubleOrHalve]=sim(nnTrained, features_normalized)*100 ;   %Probabilité (%) qu'il faille diviser par 2, ne rien faire ou doubler le tempo trouvé).
+        if(probDoubleOrHalve(1)>25)  %Si la proba de diviser est supérieure à 25% on divise
             tempo=tempo/2;
         elseif(probDoubleOrHalve(3)>66) %Si la proba de double est supérieure à 66% on double
             tempo=2*tempo;
         end %Sinon on ne fait rien
+        tempo=round(tempo);
     end
     %% Détermination des durées de notes avec le bon tempo (normalement)
     ecartRef=60/tempo; %coefficient de normalisation des écarts
@@ -89,19 +92,10 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
     if nargout==2        
         varargout{2}=tempo;
     end
-    if nargout == 3
-         varargout{2}=tempo;
-        varargout{3}=svm_sum;
-    end
-    if nargout == 4
-        varargout{2}=tempo;
-        varargout{3}=svm_sum;
-        varargout{4}=mult;
-    end
     if nargout == 4
          varargout{1}=durees;
         varargout{2}=tempo;
         varargout{3}=features_normalized;
-        varargout{4}=probDoubleOrHalve;
+        varargout{4}=0;
     end
 end

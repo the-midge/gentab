@@ -41,16 +41,16 @@ pseudoComplexDomain=filter(B,A,pseudoComplexDomain);
 specFlux=filter(B,A,specFlux);
 pseudoComplexDomain=filtfilt(ones(degreLissage,1)/degreLissage, 1, pseudoComplexDomain);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
 specFlux=filtfilt(ones(degreLissage,1)/degreLissage, 1, specFlux);  % Lissage du spectral flux (pour éviter les faux pics de faible amplitude)
-% Normalisation 0 < sf < 100
+% Normalisation 0 < oss < 100
 pseudoComplexDomain = pseudoComplexDomain.*100/max(pseudoComplexDomain);
 specFlux = specFlux.*100/max(specFlux);
 
 % Combination des fonctions d'onset
-FsSF=(size(stftRes,2)/(length(x)/Fs));   %Rapport entre le nombre d'échantillon du signal sftft et ceux du signal "réel" x.
+FsOSS=(size(stftRes,2)/(length(x)/Fs));   %Rapport entre le nombre d'échantillon du signal stft et ceux du signal "réel" x.
 ecart_ms = 50; w1 = 0.8; w2 = 1.2; %Paramètres de pondération de la combinaison
-ecart_samples = round(ecart_ms*FsSF/1000);
+ecart_samples = round(ecart_ms*FsOSS/1000);
 %specFlux est en avance sur pseudoComplexDomain de ecart_samples environ
-sf = w1.*[zeros(ecart_samples,1); pseudoComplexDomain(1:end-ecart_samples)]+w2.*specFlux;
+oss = w1.*[zeros(ecart_samples,1); pseudoComplexDomain(1:end-ecart_samples)]+w2.*specFlux;
 
 
 
@@ -63,7 +63,7 @@ nbPointMoyenneExtremite=round(Fs/h);
 sommeSf_gauche=0;
 for i=1:nbSampleMoyenneLocale
     for j=i:nbPointMoyenneExtremite+i
-          sommeSf_gauche=sommeSf_gauche+sf(j);
+          sommeSf_gauche=sommeSf_gauche+oss(j);
     end
     moyenneLocaleGauche(i,1)=sommeSf_gauche/nbPointMoyenneExtremite;
     sommeSf_gauche=0;
@@ -71,14 +71,14 @@ end
 
 
 % Moyenne locale pour le milieu du signal
-moyenneLocaleCentre = filtfilt(ones(nbSampleMoyenneLocale,1)/nbSampleMoyenneLocale,1, sf);
+moyenneLocaleCentre = filtfilt(ones(nbSampleMoyenneLocale,1)/nbSampleMoyenneLocale,1, oss);
 
 % Moyenne locale pour la partie droite du signal
 sommeSf_droit=0;
-for u=length(sf)-nbSampleMoyenneLocale:length(sf)
+for u=length(oss)-nbSampleMoyenneLocale:length(oss)
     for l = u-nbPointMoyenneExtremite-1:u
 
-          sommeSf_droit=sommeSf_droit+sf(l);
+          sommeSf_droit=sommeSf_droit+oss(l);
     end
     moyenneLocaleDroite(u,1)=sommeSf_droit/nbPointMoyenneExtremite;
     sommeSf_droit=0;
@@ -86,10 +86,10 @@ end
 
 
 % Création du vecteur final représentant la moyenne locale         
-moyenneFinale=zeros(length(sf),1);
+moyenneFinale=zeros(length(oss),1);
 moyenneFinale(1:nbSampleMoyenneLocale-1,1)= moyenneLocaleGauche(1:nbSampleMoyenneLocale-1,1);
-moyenneFinale(nbSampleMoyenneLocale:length(sf)-nbSampleMoyenneLocale,1)=moyenneLocaleCentre(nbSampleMoyenneLocale:length(sf)-nbSampleMoyenneLocale,1);
-moyenneFinale(length(sf)-nbSampleMoyenneLocale:length(sf),1)=moyenneLocaleDroite(length(sf)-nbSampleMoyenneLocale:length(sf),1);
+moyenneFinale(nbSampleMoyenneLocale:length(oss)-nbSampleMoyenneLocale,1)=moyenneLocaleCentre(nbSampleMoyenneLocale:length(oss)-nbSampleMoyenneLocale,1);
+moyenneFinale(length(oss)-nbSampleMoyenneLocale:length(oss),1)=moyenneLocaleDroite(length(oss)-nbSampleMoyenneLocale:length(oss),1);
 
 % Ajustement des courbes (compensation des discontinuités)
 % ecart1=moyenneFinale(nbSampleMoyenneLocale-1)-moyenneFinale(nbSampleMoyenneLocale);
@@ -97,42 +97,42 @@ moyenneFinale(length(sf)-nbSampleMoyenneLocale:length(sf),1)=moyenneLocaleDroite
 coef=moyenneFinale(nbSampleMoyenneLocale)/moyenneFinale(nbSampleMoyenneLocale-1);
 moyenneFinale(1:nbSampleMoyenneLocale,1)=moyenneLocaleGauche(1:nbSampleMoyenneLocale,1)*coef;
 
-coef2=moyenneFinale(length(sf)-(nbSampleMoyenneLocale+1))/moyenneFinale(length(sf)-nbSampleMoyenneLocale);
-moyenneFinale(length(sf)-nbSampleMoyenneLocale:length(sf),1)=moyenneLocaleDroite(length(sf)-nbSampleMoyenneLocale:length(sf),1)*coef2;
+coef2=moyenneFinale(length(oss)-(nbSampleMoyenneLocale+1))/moyenneFinale(length(oss)-nbSampleMoyenneLocale);
+moyenneFinale(length(oss)-nbSampleMoyenneLocale:length(oss),1)=moyenneLocaleDroite(length(oss)-nbSampleMoyenneLocale:length(oss),1)*coef2;
 
-% ecart2=moyenneFinale(length(sf)-nbSampleMoyenneLocale)-moyenneFinale(length(sf)-(nbSampleMoyenneLocale+1));
-% moyenneFinale(length(sf)-nbSampleMoyenneLocale:length(sf),1)=moyenneLocaleDroite(length(sf)-nbSampleMoyenneLocale:length(sf),1)-ecart2;
+% ecart2=moyenneFinale(length(oss)-nbSampleMoyenneLocale)-moyenneFinale(length(oss)-(nbSampleMoyenneLocale+1));
+% moyenneFinale(length(oss)-nbSampleMoyenneLocale:length(oss),1)=moyenneLocaleDroite(length(oss)-nbSampleMoyenneLocale:length(oss),1)-ecart2;
 seuil=moyenneFinale;
 
 % Moyenne globale pour detection des silences
-moyenneGlobale = mean(sf);
+moyenneGlobale = mean(oss);
 
 % Seuil minimal à atteindre pour détecter un pic.
 % un seuil global fixe a 50% de la moyenne donne de bons resultats
 PourcentSeuilGlogal = 50;
-seuilGlobal(1:size(sf), 1) = moyenneGlobale*PourcentSeuilGlogal/100;
+seuilGlobal(1:size(oss), 1) = moyenneGlobale*PourcentSeuilGlogal/100;
 
 %% Paramètres détection de pics
-ecartMinimal= round(60/240*FsSF);   %ecart correspondant à 240 bpm
+ecartMinimal= round(60/240*FsOSS);   %ecart correspondant à 240 bpm
 
 %% Détection des pics
-[amplitudeOnsets, sampleIndexOnsets]=ovldFindpeaks(sf, 'MINPEAKHEIGHT', seuil, 'MINPEAKDISTANCE', floor(ecartMinimal/2), 'THRESHOLD',0);
+[amplitudeOnsets, sampleIndexOnsets]=ovldFindpeaks(oss, 'MINPEAKHEIGHT', seuil, 'MINPEAKDISTANCE', floor(ecartMinimal/2), 'THRESHOLD',0);
 
 % suppression des premiers pics jusqu'au premier pic à dépasser la moitiée de la moyenne
 % globale (à terme moyenne locale long terme)
 indexPremierPic=1;
-while(amplitudeOnsets(indexPremierPic)<mean(sf)/2)
+while(amplitudeOnsets(indexPremierPic)<mean(oss)/2)
     indexPremierPic=indexPremierPic+1;
 end
 % suppression des derniers pics jusqu'au premier pic à dépasser la moitiée de la moyenne
 % globale (à terme moyenne locale long terme)
 indexDernierPic=length(amplitudeOnsets);
-while(amplitudeOnsets(indexDernierPic)< mean(sf)/2)
+while(amplitudeOnsets(indexDernierPic)< mean(oss)/2)
     indexDernierPic=indexDernierPic-1;
 end
 
 sampleIndexOnsets=sampleIndexOnsets(indexPremierPic:indexDernierPic);
-visualOnsets=zeros(size(sf));
+visualOnsets=zeros(size(oss));
 visualOnsets(round(sampleIndexOnsets))=1;
 
 %% OFFSET
@@ -158,7 +158,7 @@ sil = -d_seuil;
 
 % find peaks with defaults
 
-d = sf-sil;
+d = oss-sil;
 % At the moment of crossing, the sign will change:
 s = diff(sign(d));
 % Now just find the point where it changes
@@ -166,8 +166,8 @@ s = diff(sign(d));
 
 coefSeuilSilence = 2;
 
-seuil_silence = std(sf)/coefSeuilSilence;
-locs(sf(locs) > seuil_silence) = [];
+seuil_silence = std(oss)/coefSeuilSilence;
+locs(oss(locs) > seuil_silence) = [];
  
 
 silence = zeros(size(t));
@@ -177,16 +177,16 @@ silence(locs) = 1;
 
 % visualisation des variations
 figure(43), clf
-plot(t, [sil sf]); hold on;
+plot(t, [sil oss]); hold on;
 % offset values of peak heights for plotting
-plot(t(locs),sf(locs),'k^','markerfacecolor', [1 0 0]);    
+plot(t(locs),oss(locs),'k^','markerfacecolor', [1 0 0]);    
 
 %% Fin de l'algorithme
 % Visualisation des résultats
 % if(length(seuil)==1)
-%     figure(1), plot(t, [sf max(sf)*visualOnsets ones(size(sf))*seuil seuilGlobal max(sf)*silence])
+%     figure(1), plot(t, [oss max(oss)*visualOnsets ones(size(oss))*seuil seuilGlobal max(oss)*silence])
 % else
-    figure(1), plot(t, [sf max(sf)*visualOnsets seuil max(sf)*silence])  
+    figure(1), plot(t, [oss max(oss)*visualOnsets seuil max(oss)*silence])  
 % end
 
 clear N h degreLissage indexPremierPic indexDernierPic amplitudeOnsets rapportMoyenneLocale ecartMinimal sensibilite;

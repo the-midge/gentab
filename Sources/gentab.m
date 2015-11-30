@@ -1,11 +1,10 @@
-
 %%%
 % gentab.m
 % Ce script teste tous les composants de l'algorithme à partir 
 % d'un signal audio qu'il charge lui même
 %
 
-% clear all
+clear all
 close all
 clc
 beep off
@@ -13,7 +12,6 @@ beep off
 addpath(genpath('../Sources/'))
 [cheminGP, cheminFichier, cheminEvaluation]=getConfig();
 rmpath(cheminEvaluation)
-
 
 %% Chargement des données
 disp('Fichier audio en entrée?');
@@ -143,18 +141,18 @@ end
     
 %% Segmentation
 if(~strcmp(choixAlgo, OUT) & ~strcmp(choixAlgo, OD)) % Dans tout les cas sauf une sortie ou OD
-        [segments, bornes]=segmentation(x, length(sf), sampleIndexOnsets, Fs);
+        [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs);
 end
 
 %% Analyse rythmique
 if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
 
-    [durees, tempo] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
+    [durees, tempo] = AnalyseRythmique(oss, bornes, FsOSS, Fs, 0);
     correctionDureeNotes;
 %     dureesCorrigees = durees;
 elseif strcmp(choixAlgo, ALLtemp)
     tempo = input('Tempo? ');
-    [durees] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0, tempo);
+    [durees] = AnalyseRythmique(oss, bornes, FsOSS, Fs, 0, tempo);
     correctionDureeNotes;
 %     dureesCorrigees=durees;
 end
@@ -170,20 +168,18 @@ if(strcmp(choixAlgo, OUT))
     clear all
 end
 
-
 %% Mise en forme des résultats
 if strcmp(choixAlgo, OD)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf));
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss));
     tempo = 0;
 elseif strcmp(choixAlgo, AH)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), notesJouee);
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), notesJouee);
     tempo = 0;
 elseif strcmp(choixAlgo, AR)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), dureesCorrigees);
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), dureesCorrigees);
 elseif strcmp(choixAlgo, ALL) | strcmp(choixAlgo, ALLtemp)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), dureesCorrigees, notesJouee);  
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), dureesCorrigees, notesJouee);  
 end
-
 
 %% Évaluation des résultats
 
@@ -200,10 +196,6 @@ o='o'; O='O'; n='n'; N='N';
 choix=input('Générer un fichier MIDI (o/n)? ');
 if strcmp(choix, 'o') || strcmp(choix, 'O')
     generationMidi;
-%     [cheminGP, cheminFichier]=getConfig();
-%     lancementMIDI = strcat(' "', cheminGP, '" "', cheminFichier, out);
-%     dos(lancementMIDI);
-%     
     os=computer;
     s2='MACI64';
     if strcmp(os,s2)==1

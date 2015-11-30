@@ -92,6 +92,8 @@ end
 
 tonsAComparer=[];
 octavesAComparer=[];
+confOctaves=zeros(6);
+confTons=zeros(13);
 k=1;
 while indiceDet < length(noteDet)
     if indiceDet < length(noteDet)
