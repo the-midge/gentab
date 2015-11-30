@@ -185,24 +185,32 @@ end
 
 [~, file, ~]=fileparts(audioFilename);
 filename = strcat(file, '/expected.txt');
-[txFDetection, txDetectionManquante, txReussite, ecartMoyen] = evaluateOD(filename, notesDet)
-[confTons, confOctaves]=evaluateAH(filename, notesDet);
-[confDurees]=evaluateAR(filename, notesDet, tempo, 0);
-txReussite
+if strcmp(choixAlgo, OD)
+    [txFDetection, txDetectionManquante, txReussite, ecartMoyen] = evaluateOD(filename, notesDet)
+elseif strcmp(choixAlgo, AH)
+    [txFDetection, txDetectionManquante, txReussite, ecartMoyen] = evaluateOD(filename, notesDet)
+    [confTons, confOctaves]=evaluateAH(filename, notesDet);
+elseif strcmp(choixAlgo, AR)
+    [txFDetection, txDetectionManquante, txReussite, ecartMoyen] = evaluateOD(filename, notesDet)
+    [confDurees]=evaluateAR(filename, notesDet, tempo, 0);
+elseif strcmp(choixAlgo, ALL) | strcmp(choixAlgo, ALLtemp)
+    [txFDetection, txDetectionManquante, txReussite, ecartMoyen] = evaluateOD(filename, notesDet)
+    [confTons, confOctaves]=evaluateAH(filename, notesDet);
+    [confDurees]=evaluateAR(filename, notesDet, tempo, 0);
 
-%% Generation et ouverture du Fichier MIDI avec Guitar Pro
-
-o='o'; O='O'; n='n'; N='N';
-choix=input('Générer un fichier MIDI (o/n)? ');
-if strcmp(choix, 'o') || strcmp(choix, 'O')
-    generationMidi;
-    os=computer;
-    s2='MACI64';
-    if strcmp(os,s2)==1
-    lancementMIDI = strcat('open -a "', cheminGP, '" "', cheminFichier, file,'/',file, '.mid"')
-    else  
-    lancementMIDI = strcat('"', cheminGP, '" "', cheminFichier, file, '\out.mid"');
+    %% Generation et ouverture du Fichier MIDI avec Guitar Pro
+    o='o'; O='O'; n='n'; N='N';
+    choix=input('Générer un fichier MIDI (o/n)? ');
+    if strcmp(choix, 'o') || strcmp(choix, 'O')
+        generationMidi;
+        os=computer;
+        s2='MACI64';
+        if strcmp(os,s2)==1
+        lancementMIDI = strcat('open -a "', cheminGP, '" "', cheminFichier, file,'/',file, '.mid"')
+        else  
+        lancementMIDI = strcat('"', cheminGP, '" "', cheminFichier, file, '\out.mid"');
+        end
+        system(lancementMIDI);
     end
-    system(lancementMIDI);
 end
 clear choix choixAlgo OD AR AH ALL filename o O n N;

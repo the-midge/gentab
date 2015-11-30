@@ -137,56 +137,57 @@ visualOnsets(round(sampleIndexOnsets))=1;
 
 %% OFFSET
 
-% Coefficients d'un filtre de dérivée.
-a=1; b=[1 -1];
- 
-% derivee du seuil
-d_seuil = filter(b, a, seuil);
-% normalisation 0 < d_seuil < 100
-facteurNorm = 100/max(d_seuil(2:end));
-d_seuil(1) = 0;
-d_seuil = d_seuil.*facteurNorm;
-
-% derivee seconde du seuil
-dd_seuil = filter(b, a, d_seuil);
-% normalisation 0 < dd_seuil < 100
-facteurNorm = 100/max(dd_seuil(2:end));
-dd_seuil(1) = 0;
-dd_seuil = dd_seuil.*facteurNorm;
-
-sil = -d_seuil;
-
-% find peaks with defaults
-
-d = oss-sil;
-% At the moment of crossing, the sign will change:
-s = diff(sign(d));
-% Now just find the point where it changes
-[~, locs] = findpeaks(s);
-
-coefSeuilSilence = 2;
-
-seuil_silence = std(oss)/coefSeuilSilence;
-locs(oss(locs) > seuil_silence) = [];
- 
-
-silence = zeros(size(t));
-silence(locs) = 1;
-     
-     
-
-% visualisation des variations
-figure(43), clf
-plot(t, [sil oss]); hold on;
-% offset values of peak heights for plotting
-plot(t(locs),oss(locs),'k^','markerfacecolor', [1 0 0]);    
+% % Coefficients d'un filtre de dérivée.
+% a=1; b=[1 -1];
+%  
+% % derivee du seuil
+% d_seuil = filter(b, a, seuil);
+% % normalisation 0 < d_seuil < 100
+% facteurNorm = 100/max(d_seuil(2:end));
+% d_seuil(1) = 0;
+% d_seuil = d_seuil.*facteurNorm;
+% 
+% % derivee seconde du seuil
+% dd_seuil = filter(b, a, d_seuil);
+% % normalisation 0 < dd_seuil < 100
+% facteurNorm = 100/max(dd_seuil(2:end));
+% dd_seuil(1) = 0;
+% dd_seuil = dd_seuil.*facteurNorm;
+% 
+% sil = -d_seuil;
+% 
+% % find peaks with defaults
+% 
+% d = oss-sil;
+% % At the moment of crossing, the sign will change:
+% s = diff(sign(d));
+% % Now just find the point where it changes
+% [~, locs] = findpeaks(s);
+% 
+% coefSeuilSilence = 2;
+% 
+% seuil_silence = std(oss)/coefSeuilSilence;
+% locs(oss(locs) > seuil_silence) = [];
+%  
+% 
+% silence = zeros(size(t));
+% silence(locs) = 1;
+%      
+%      
+% 
+% % visualisation des variations
+% figure(43), clf
+% plot(t, [sil oss]); hold on;
+% % offset values of peak heights for plotting
+% plot(t(locs),oss(locs),'k^','markerfacecolor', [1 0 0]);    
 
 %% Fin de l'algorithme
+sampleIndexOnsets=sampleIndexOnsets-ecart_samples;% Correction de l'écart temporel apporté par la combinaision des deux fonctions d'onsets.
 % Visualisation des résultats
 % if(length(seuil)==1)
 %     figure(1), plot(t, [oss max(oss)*visualOnsets ones(size(oss))*seuil seuilGlobal max(oss)*silence])
 % else
-    figure(1), plot(t, [oss max(oss)*visualOnsets seuil max(oss)*silence])  
+%     figure(1), plot(t, [oss max(oss)*visualOnsets seuil max(oss)*silence])  
 % end
 
 clear N h degreLissage indexPremierPic indexDernierPic amplitudeOnsets rapportMoyenneLocale ecartMinimal sensibilite;
