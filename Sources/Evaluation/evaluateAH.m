@@ -1,4 +1,4 @@
-function [confTons, confOctaves]=evaluateAH(filename, noteDet)
+function [confTons, confOctaves]=evaluateAH(filename, noteDet, display)
 %evaluateAH.m
 %
 %   USAGE:   
@@ -26,7 +26,9 @@ function [confTons, confOctaves]=evaluateAH(filename, noteDet)
 %       détectées
 %       *   Histogramme des écarts entre le tons attendue et le ton détecté
 
-
+if nargin == 2
+    display = 1;
+end
 %% Vérification sur l'argument filename
 filename = strrep(filename, '\', '/');  % Conversion Win -> linux
 % if filename(end) ~= '/'
@@ -116,27 +118,28 @@ while indiceDet < length(noteDet)
 end
 
 %%   Affichage de la matrice de confusion des tons
-figure(2)
-mask=eye(13);
-plotconfusion(mask(tonsAComparer(:,2),:)', mask(tonsAComparer(:,1),:)');
-PTFS = nnplots.title_font_size;
-titleStyle = {'fontweight','bold','fontsize',PTFS};
-xlabel('Tons Cibles',titleStyle{:});
-ylabel('Tons Détectés',titleStyle{:});
-title(['Matrice de confusion des tons'],titleStyle{:});
-ax = gca;
-set(ax, 'XTickLabel', {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'});
-set(ax, 'YTickLabel', {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'});
+if display
+    figure(2)
+    mask=eye(13);
+    plotconfusion(mask(tonsAComparer(:,2),:)', mask(tonsAComparer(:,1),:)');
+    PTFS = nnplots.title_font_size;
+    titleStyle = {'fontweight','bold','fontsize',PTFS};
+    xlabel('Tons Cibles',titleStyle{:});
+    ylabel('Tons Détectés',titleStyle{:});
+    title(['Matrice de confusion des tons'],titleStyle{:});
+    ax = gca;
+    set(ax, 'XTickLabel', {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'});
+    set(ax, 'YTickLabel', {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'});
 
-figure(3)
-mask=[0 zeros(1,5); zeros(5,1), eye(5)];
-plotconfusion(mask(octavesAComparer(:,2),:)', mask(octavesAComparer(:,1),:)');
-PTFS = nnplots.title_font_size;
-titleStyle = {'fontweight','bold','fontsize',PTFS};
-xlabel('Octaves Cibles',titleStyle{:});
-ylabel('Octaves Détectés',titleStyle{:});
-title(['Matrice de confusion des octaves'],titleStyle{:});
-
+    figure(3)
+    mask=[0 zeros(1,5); zeros(5,1), eye(5)];
+    plotconfusion(mask(octavesAComparer(:,2),:)', mask(octavesAComparer(:,1),:)');
+    PTFS = nnplots.title_font_size;
+    titleStyle = {'fontweight','bold','fontsize',PTFS};
+    xlabel('Octaves Cibles',titleStyle{:});
+    ylabel('Octaves Détectés',titleStyle{:});
+    title(['Matrice de confusion des octaves'],titleStyle{:});
+end
 %%   Affichage de la matrice de confusion des tons (texte)
 % disp('Matrice de confusion des tons');
 % rowNames = {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};

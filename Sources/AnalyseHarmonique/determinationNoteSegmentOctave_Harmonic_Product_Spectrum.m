@@ -111,22 +111,22 @@ h=mod(g,12);
 if mod(g,12)==0
     h=12;
 end
-if (indicemax_freq>63.5 && indicemax_freq<127)
+if (indicemax_freq>tableNotes(9,1,2)/2 && indicemax_freq<tableNotes(9,1,2))
     octave=2;
 end
-if (indicemax_freq>127 && indicemax_freq<244.5)
+if (indicemax_freq>tableNotes(9,1,2) && indicemax_freq<tableNotes(9,2,2))
     octave=3;
 end
-if (indicemax_freq>244.5 && indicemax_freq<508)
+if (indicemax_freq>tableNotes(9,2,2) && indicemax_freq<tableNotes(9,3,2))
     octave=4;
 end
-if (indicemax_freq>508 && indicemax_freq<1014)
+if (indicemax_freq>tableNotes(9,3,2) && indicemax_freq<tableNotes(9,4,2))
 octave=5;
 end
-if (indicemax_freq>1014 && indicemax_freq<2000)
+if (indicemax_freq>tableNotes(9,4,2) && indicemax_freq<tableNotes(end, end,4))
 octave=6;
 end
-if (indicemax_freq>2000)
+if (indicemax_freq>tableNotes(end, end,4))
 octave=7;
 end
 

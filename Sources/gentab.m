@@ -208,9 +208,10 @@ elseif strcmp(choixAlgo, ALL) | strcmp(choixAlgo, ALLtemp)
         if strcmp(os,s2)==1
         lancementMIDI = strcat('open -a "', cheminGP, '" "', cheminFichier, file,'/',file, '.mid"')
         else  
-        lancementMIDI = strcat('"', cheminGP, '" "', cheminFichier, file, '\out.mid"');
+        lancementMIDI = strcat('start "" "', cheminGP, '" "', cheminFichier, file, '\', file, '.mid" ');
         end
         system(lancementMIDI);
     end
 end
+%%
 clear choix choixAlgo OD AR AH ALL filename o O n N;
