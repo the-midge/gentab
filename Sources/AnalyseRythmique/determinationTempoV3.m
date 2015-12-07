@@ -7,7 +7,7 @@
 
 clear fenetres;
 %% B.1 Fenêtrage du OSS
-largeur = 2048;
+largeur = 1280;
 overlap = 128;
 M = floor((length(oss)-largeur)/overlap)+1;
 if M <0  % Si le morceau est très court (<6s)

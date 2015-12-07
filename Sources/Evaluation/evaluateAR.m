@@ -100,7 +100,7 @@ while indiceDet < length(noteDet)
     newExpInDet = findClosest(onsetsDet, noteExp(indiceExp).indice);
    
     if newExpInDet-newDetInExp == expInDet-detInExp && newExpInDet> expInDet
-        dureesAComparer(k,:)=[noteDet(indiceDet).octave noteExp(indiceExp).octave];
+        dureesAComparer(k,:)=[noteDet(indiceDet).duree noteExp(indiceExp).duree];
         k=k+1;
         confDurees(noteDet(indiceDet).duree,noteExp(indiceExp).duree) = confDurees(noteDet(indiceDet).duree,noteExp(indiceExp).duree) + 1;
     end

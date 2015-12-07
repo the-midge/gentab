@@ -1,5 +1,5 @@
 %%%
-% gentab_all_AR.m
+% gentab_all_AH.m
 % Ce script teste tous les composants de l'algorithme à partir 
 % d'un signal audio qu'il charge lui même
 %
@@ -12,7 +12,7 @@ addpath(genpath('../Sources'))
 
 %% Éxécution
 
-disp('D: Analyse rythmique des fichiers audios (D: Display)');
+disp('D: Analyse harmonique des fichiers audios (D: Display)');
 disp('ND: Idem (ND: No Display)');
 disp('OUT: Sortie');
 
@@ -22,7 +22,7 @@ ND='ND';
 OUT='OUT';
 choixAlgo=input('Choix? ');
 
-
+nMorceaux = 10;
 %% Onset Detection
 if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('1: DayTripper - 8s');
@@ -36,30 +36,43 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('9:	Kashmir - 33s');
     disp('10:   Time is Running Out - 24s'); 
     
-    for k=2:10
-
+    h1 = waitbar(0,'Analyse Harmonique...');
+    for k=2:nMorceaux
+        tic
         switch(k)
             case 1                
                 audioFilename='DayTripper.wav';
+                disp(audioFilename);
             case 2
                 audioFilename='ar-diatonique-tux.wav';
+                disp(audioFilename);
             case 3
                 audioFilename='heart-and-soul-tux.wav';
+                disp(audioFilename);
             case 4
                 audioFilename='nosurprises.wav';
+                disp(audioFilename);
             case 5              
                 audioFilename='seven-nation-army.wav';
+                disp(audioFilename);
             case 6
                 audioFilename='hardest-button.wav';
+                disp(audioFilename);
             case 7
                 audioFilename='Johnny_B_Good.wav';
+                disp(audioFilename);
             case 8
                 audioFilename='Voodoo_Child.wav';
+                disp(audioFilename);
             case 9
                 audioFilename='Kashmir.wav';
+                disp(audioFilename);
             case 10
                 audioFilename='Time_Running_Out.wav';
+                disp(audioFilename);
         end
+        waitbar((k-1)/(nMorceaux-1),h1,strcat(num2str(k-1), '/', num2str(nMorceaux), ': ', audioFilename));
+
         [x,Fs]=audioread(audioFilename);
         x=x(:,1);
         if( k==1)   % Cas particulier de Day Tripper
@@ -71,30 +84,24 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         end
         OnsetDetection;   
         if(strcmp(choixAlgo, ND))
-            close all
+%             close all
         end
         
-        [segments, bornes]=segmentation(x, length(sf), sampleIndexOnsets, Fs);
-        [durees, tempo, features(:,k), ~] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
-        durees=round(durees);
-        notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), durees);
-        tempos(k) = tempo;
-        
+        [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs);
+        AnalyseHarmonique
+        notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), notesJouee);
+        tempo = 0;
         [~, file, ~]=fileparts(audioFilename);
         filename = strcat('DATA/', file, '/expected.txt');
-
-        [ecartTempo(k), tempoExp(k)]=evaluateTempo(filename, tempo); 
+        [confTons, confOctaves]=evaluateAH(filename, notesDet, 0);
+        tauxTons(k)=	sum(diag(confTons))/sum(sum(confTons))*100;
+        tauxOctaves(k)=	sum(diag(confOctaves))/sum(sum(confOctaves))*100;
+        disp(['Taux de succès tons: ' num2str(sum(diag(confTons))/sum(sum(confTons))*100) '%']);
+        disp(['Taux de succès octaves: ' num2str(sum(diag(confOctaves))/sum(sum(confOctaves))*100) '%']);
+        
+        toc
 
     end
-    
-    [tempos', tempoExp', ecartTempo']
-    [MIN, worst] = min(tempos);
-    MEAN = mean(tempos);
-    [MAX, best] = max(tempos);
-  
-%     disp(['Worst is n°', num2str(worst), ' with ', num2str(MIN), '%']);
-%     disp(['Best is n°', num2str(best), ' with ', num2str(MAX), '%']);
-%     disp(['Mean is ', num2str(MEAN), '%']);
         clear D ND OUT;
     break;
 end

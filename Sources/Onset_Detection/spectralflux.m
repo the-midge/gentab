@@ -24,7 +24,7 @@ stft=log10(abs(stft)+1); % Passage en échelle logarithmique pour minimiser les é
 %Algo de sf
 sf=filter(b, a, abs(stft)); % dérivée
 %sf=diff(abs(stft));
-% sf=(sf+abs(sf))/2;  % Passage des pics négatifs en pics positifs
+sf=(sf+abs(sf))/2;  % Passage des pics négatifs en pics positifs
 %  semble pas utile car on a que des valeurs positives
 sf=sum(sf)';
 
