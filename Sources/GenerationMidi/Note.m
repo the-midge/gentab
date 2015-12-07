@@ -50,13 +50,19 @@ classdef Note < handle
                     note.octave = oct;
                 end
             elseif nargin == 3
-                % prototype devient Note(ind, dur, [tonstr octave])
+                % prototype devient Note(ind, dur, {tonstr octave})
             	note.indice = ind;
                 note.duree = dur;
                 conversionDuree(note, note.duree);
                 note.tonstr = ton(1:2);
-                conversionTonstr(note, note.tonstr);
                 note.octave = str2num(ton(3));
+                if length(ton)>3
+                    for i=2:length(ton)/3 %La chaine à une longueur d'un multiple de 3 (3 caractères par "note")
+                        note.tonstr(i,:) = ton(i*3-3+(1:2));
+                        note.octave(i) = str2num(ton(i*3-3+3));
+                    end
+                end
+                conversionTonstr(note, note.tonstr);
             else
                 disp('nombre argument pour Note(ind, dur, ton, oct) incorrect')
             end            
@@ -102,53 +108,63 @@ classdef Note < handle
         end
         
         function note = conversionTonstr(note, tonstr)
-            names = {'R ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#', 'A ', 'A#', 'B '};
-            for j=1:13
-               if strcmp(names{j}, tonstr) ~= 0
-                  note.ton=j; % note attendue
-               end
+            names = {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};
+            for i=1:length(tonstr)/2
+                for j=1:13
+                   if strcmp(names{j}, tonstr(i,:)) ~= 0
+                      note.ton(i)=j; % note attendue
+                   end
+                end
             end
         end
         
         function note = conversionTon(note, ton)
+        for i=1:length(ton)
             switch ton
-                case -1
-                    note.tonstr = 'R '; % rest
                 case 0
-                    note.tonstr = 'C ';
+                    note.tonstr(i,1:2) = 'R '; % rest
                 case 1
-                    note.tonstr = 'C#';
+                    note.tonstr(i,1:2) = 'A ';
                 case 2
-                    note.tonstr = 'D ';
+                    note.tonstr(i,1:2) = 'A#';    
                 case 3
-                    note.tonstr = 'D#';
+                    note.tonstr(i,1:2) = 'B ';
                 case 4
-                    note.tonstr = 'E ';
+                    note.tonstr(i,1:2) = 'C ';
                 case 5
-                    note.tonstr = 'F ';    
+                    note.tonstr(i,1:2) = 'C#';
                 case 6
-                    note.tonstr = 'F#';
+                    note.tonstr(i,1:2) = 'D ';
                 case 7
-                    note.tonstr = 'G ';
+                    note.tonstr(i,1:2) = 'D#';
                 case 8
-                    note.tonstr = 'G#';
+                    note.tonstr(i,1:2) = 'E ';
                 case 9
-                    note.tonstr = 'A ';
+                    note.tonstr(i,1:2) = 'F ';    
                 case 10
-                    note.tonstr = 'A#';    
+                    note.tonstr(i,1:2) = 'F#';
                 case 11
-                    note.tonstr = 'B ';
+                    note.tonstr(i,1:2) = 'G ';
+                case 12
+                    note.tonstr(i,1:2) = 'G#';
                 otherwise
                     disp('Erreur Ton note');
             end
         end
+        end
         
          function note = infoNoteHuman(note)
-             disp([num2str(note.indice), '    ', note.dureestr, '    ', note.tonstr, num2str(note.octave)]) 
+             disp([num2str(note.indice), '    ', note.dureestr]);
+             for i=1:length(note.octave)
+                disp(['    ', note.tonstr(i,:), num2str(note.octave(i))]) ;
+             end
          end
          
          function note = infoNote(note)
-             disp([num2str(note.indice), '    ', num2str(note.duree), '    ', num2str(note.ton), num2str(note.octave)]) 
+             disp([num2str(note.indice), '    ', num2str(note.duree)]);
+             for i=1:length(note.octave)
+                disp(['    ', num2str(note.ton(i)), num2str(note.octave(i))]) ;
+             end
          end
     end       
 end

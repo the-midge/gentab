@@ -29,7 +29,7 @@ degreLissage=round(Fs/h/10);
 pseudoComplexDomain=getOnsets(stftRes,70,1500,Fs,N);
 
 % Phase deviation
-CD_out = phase_deviation(stftRes,70,1500,Fs,N);
+% CD_out = phase_deviation(stftRes,70,1500,Fs,N);
 
 % Spectral flux
 specFlux = spectralflux(stftRes);
@@ -44,7 +44,7 @@ specFlux=filtfilt(ones(degreLissage,1)/degreLissage, 1, specFlux);  % Lissage du
 % Normalisation 0 < oss < 100
 pseudoComplexDomain = pseudoComplexDomain.*100/max(pseudoComplexDomain);
 specFlux = specFlux.*100/max(specFlux);
-
+% CD_out=CD_out.*100/max(CD_out);
 % Combination des fonctions d'onset
 FsOSS=(size(stftRes,2)/(length(x)/Fs));   %Rapport entre le nombre d'échantillon du signal stft et ceux du signal "réel" x.
 ecart_ms = 50; w1 = 0.8; w2 = 1.2; %Paramètres de pondération de la combinaison
@@ -132,8 +132,7 @@ while(amplitudeOnsets(indexDernierPic)< mean(oss)/2)
 end
 
 sampleIndexOnsets=sampleIndexOnsets(indexPremierPic:indexDernierPic);
-visualOnsets=zeros(size(oss));
-visualOnsets(round(sampleIndexOnsets))=1;
+
 
 %% OFFSET
 
@@ -181,13 +180,27 @@ visualOnsets(round(sampleIndexOnsets))=1;
 % % offset values of peak heights for plotting
 % plot(t(locs),oss(locs),'k^','markerfacecolor', [1 0 0]);    
 
+%% Postprocessing
+sampleIndexOnsets=sampleIndexOnsets-ecart_samples-5;% Correction de l'écart temporel apporté par la combinaision des deux fonctions d'onsets.
+% Recherche du moment ou l'attaque commence (ou le dernier moment où la dérivée de oss  est nulle avant l'onset)
+% ossPrim=diff(oss);
+% for index= 2:length(sampleIndexOnsets)
+%     if sampleIndexOnsets(index)>70
+%         sampleIndexOnsets(index)=sampleIndexOnsets(index)-findClosest(ossPrim(sampleIndexOnsets(index):-1:sampleIndexOnsets(index)-70),0);
+%     else
+%         sampleIndexOnsets(index)=sampleIndexOnsets(index)-findClosest(ossPrim(sampleIndexOnsets(index):-1:1),0);
+%     end
+% end
+
+visualOnsets=zeros(size(oss));
+visualOnsets(round(sampleIndexOnsets))=1;
 %% Fin de l'algorithme
-sampleIndexOnsets=sampleIndexOnsets-ecart_samples;% Correction de l'écart temporel apporté par la combinaision des deux fonctions d'onsets.
+
 % Visualisation des résultats
 % if(length(seuil)==1)
 %     figure(1), plot(t, [oss max(oss)*visualOnsets ones(size(oss))*seuil seuilGlobal max(oss)*silence])
 % else
-%     figure(1), plot(t, [oss max(oss)*visualOnsets seuil max(oss)*silence])  
+%      figure(1), plot(t, [oss max(oss)*visualOnsets seuil])  
 % end
 
 clear N h degreLissage indexPremierPic indexDernierPic amplitudeOnsets rapportMoyenneLocale ecartMinimal sensibilite;

@@ -25,8 +25,8 @@ disp('7:	Hardest Button to Button - 35s');
 disp('8:	Johnny B Good - 47s');
 disp('9:	Voodoo Child - 40s');
 disp('10:	Kashmir - 33s');
-disp('11:	Plugin Baby - 16s');
-disp('12:	Time is Running Out - 24s');
+disp('11:	Time is Running Out - 24s');
+disp('12:	Blackbird - 24s');
 disp('0: Sortie');
 
 choixEchantillon=input('Choix? '); %Attend une action utilisateur
@@ -88,13 +88,13 @@ switch choixEchantillon
         [x,Fs]=audioread(audioFilename);
         x=sum(x,2);
     case 11
-        disp('Plugin Baby');
-        audioFilename='Plugin_Baby.wav';
+        disp('Time is Running Out');
+        audioFilename='Time_Running_Out.wav';
         [x,Fs]=audioread(audioFilename);
         x=sum(x,2);
     case 12
-        disp('Time is Running Out');
-        audioFilename='Time_Running_Out.wav';
+        disp('Blackbird');
+        audioFilename='Blackbird.wav';
         [x,Fs]=audioread(audioFilename);
         x=sum(x,2);
     case 0
@@ -173,12 +173,12 @@ if strcmp(choixAlgo, OD)
     notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss));
     tempo = 0;
 elseif strcmp(choixAlgo, AH)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), notesJouee);
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), notesJouees);
     tempo = 0;
 elseif strcmp(choixAlgo, AR)
     notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), dureesCorrigees);
 elseif strcmp(choixAlgo, ALL) | strcmp(choixAlgo, ALLtemp)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), dureesCorrigees, notesJouee);  
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), dureesCorrigees, notesJouees);  
 end
 
 %% Évaluation des résultats

@@ -37,7 +37,7 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('10:   Time is Running Out - 24s'); 
     
     h1 = waitbar(0,'Analyse Harmonique...');
-    for k=2:nMorceaux
+    for k=1:nMorceaux
         tic
         switch(k)
             case 1                
@@ -102,6 +102,7 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         toc
 
     end
+    [tauxTons' tauxOctaves']
         clear D ND OUT;
     break;
 end
