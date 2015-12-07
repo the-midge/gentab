@@ -36,5 +36,5 @@ for index= [1:length(segments)]
     
     notesJouee(index,:)=determinationNoteSegmentOctave_Harmonic_Product_Spectrum(segments{index} , Fs);
     notesJouee(index,1:2)=[tabNomNotes(h,:)];
-    time(index)=toc;
+%     time(index)=toc;
 end

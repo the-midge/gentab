@@ -44,7 +44,7 @@ classdef Note < handle
                 conversionDuree(note, note.duree);
                 note.ton = ton;
                 conversionTon(note, note.ton);
-                if(ton == 0)
+                if(ton == -1)
                     note.octave = 0;
                 else
                     note.octave = oct;
@@ -102,7 +102,7 @@ classdef Note < handle
         end
         
         function note = conversionTonstr(note, tonstr)
-            names = {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};
+            names = {'R ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#', 'A ', 'A#', 'B '};
             for j=1:13
                if strcmp(names{j}, tonstr) ~= 0
                   note.ton=j; % note attendue
@@ -112,32 +112,32 @@ classdef Note < handle
         
         function note = conversionTon(note, ton)
             switch ton
-                case 0
+                case -1
                     note.tonstr = 'R '; % rest
-                case 1
-                    note.tonstr = 'A ';
-                case 2
-                    note.tonstr = 'A#';    
-                case 3
-                    note.tonstr = 'B ';
-                case 4
+                case 0
                     note.tonstr = 'C ';
-                case 5
+                case 1
                     note.tonstr = 'C#';
-                case 6
+                case 2
                     note.tonstr = 'D ';
-                case 7
+                case 3
                     note.tonstr = 'D#';
-                case 8
+                case 4
                     note.tonstr = 'E ';
-                case 9
+                case 5
                     note.tonstr = 'F ';    
-                case 10
+                case 6
                     note.tonstr = 'F#';
-                case 11
+                case 7
                     note.tonstr = 'G ';
-                case 12
+                case 8
                     note.tonstr = 'G#';
+                case 9
+                    note.tonstr = 'A ';
+                case 10
+                    note.tonstr = 'A#';    
+                case 11
+                    note.tonstr = 'B ';
                 otherwise
                     disp('Erreur Ton note');
             end

@@ -37,7 +37,7 @@ notes = zeros(nbNotes, 6); % matrice de pretraitement
 for j = 1:nbNotes
     notes(j, 1) = 0; % Track par defaut : 1
     notes(j, 2) = 1; % Channel par defaut : 1
-    notes(j, 3) = notesDet(j).ton + 15 + notesDet(j).octave*12; % numero de note
+    notes(j, 3) = (notesDet(j).ton +10) + notesDet(j).octave*12; % numero de note
     notes(j, 4) = 95; % velocity par defaut : 95
         
     if(j == 1) % instant "on" de la note
@@ -51,7 +51,7 @@ end
 
 % Toutes les notes portant le numero 15 sont des silences qu'il faut
 % exclure de la matrice. 
-notes(find(notes(:, 3) == 15), :) = [];
+notes(find(notes(:, 3) < 0), :) = [];
 
 % %% Piano Roll
 % 
@@ -94,4 +94,6 @@ notes(find(notes(:, 3) == 15), :) = [];
 midi = matrix2midi(notes);
 % nomMIDI = input('nom du fichier MIDI :', 's');
 out = strcat('DATA/', file, '/', file, '.mid')
+% out = strcat('DATA/', file, '/', 'essaiAR', '.mid')
+
 writemidi(midi, out);
