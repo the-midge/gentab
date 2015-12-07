@@ -29,7 +29,7 @@ degreLissage=round(Fs/h/10);
 pseudoComplexDomain=getOnsets(stftRes,70,1500,Fs,N);
 
 % Phase deviation
-CD_out = phase_deviation(stftRes,70,1500,Fs,N);
+% CD_out = phase_deviation(stftRes,70,1500,Fs,N);
 
 % Spectral flux
 specFlux = spectralflux(stftRes);
@@ -44,7 +44,7 @@ specFlux=filtfilt(ones(degreLissage,1)/degreLissage, 1, specFlux);  % Lissage du
 % Normalisation 0 < oss < 100
 pseudoComplexDomain = pseudoComplexDomain.*100/max(pseudoComplexDomain);
 specFlux = specFlux.*100/max(specFlux);
-CD_out=CD_out.*100/max(CD_out);
+% CD_out=CD_out.*100/max(CD_out);
 % Combination des fonctions d'onset
 FsOSS=(size(stftRes,2)/(length(x)/Fs));   %Rapport entre le nombre d'échantillon du signal stft et ceux du signal "réel" x.
 ecart_ms = 50; w1 = 0.8; w2 = 1.2; %Paramètres de pondération de la combinaison

@@ -11,11 +11,11 @@
 % [b(5,:), a(5,:)]=butter(2, [tableNotes(9,3,2)/(Fs/2) tableNotes(9,4,2)/(Fs/2)]);
 % [b(6,:), a(6,:)]=butter(2, [tableNotes(9,4,2)/(Fs/2) tableNotes(9,4,2)*2/(Fs/2)]);
 
-clear notesJouee;
+clear notesJouees;
 for index= [1:length(segments)]
-
     segment=segments{index}.*hamming(length(segments{index}));
-    notesJouee(index,:) = determinationNoteSegmentOctave_convolution(segments{index}, Fs);
-    aux =determinationNoteSegmentOctave_Harmonic_Product_Spectrum(segments{index} , Fs);
-    notesJouee(index,3)=[aux(3)];
+    notesJouees{index} = determinationNoteSegmentOctave_convolution(segment, Fs);
+%     notesJouees(index,:) = determinationNoteSegmentOctave_MultiPitch(segment ,Fs);
+    aux =determinationNoteSegmentOctave_Harmonic_Product_Spectrum(segment , Fs);
+    notesJouees{index}(3)=[aux(3)];
 end
