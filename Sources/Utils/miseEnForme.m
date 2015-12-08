@@ -22,7 +22,7 @@ function [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, durees, notesJouee
 %       Mettre en forme les données avant génération de sortie
 
     if nargin==3
-        if isa(durees, 'char')
+        if isa(durees, 'cell')
             notesJouees = durees;
             clear durees;
         end

@@ -113,21 +113,18 @@ if mod(g,12)==0
 end
 if (indicemax_freq>tableNotes(9,1,2)/2 && indicemax_freq<tableNotes(9,1,2))
     octave=2;
-end
-if (indicemax_freq>tableNotes(9,1,2) && indicemax_freq<tableNotes(9,2,2))
+elseif (indicemax_freq>tableNotes(9,1,2) && indicemax_freq<tableNotes(9,2,2))
     octave=3;
-end
-if (indicemax_freq>tableNotes(9,2,2) && indicemax_freq<tableNotes(9,3,2))
+elseif (indicemax_freq>tableNotes(9,2,2) && indicemax_freq<tableNotes(9,3,2))
     octave=4;
-end
-if (indicemax_freq>tableNotes(9,3,2) && indicemax_freq<tableNotes(9,4,2))
-octave=5;
-end
-if (indicemax_freq>tableNotes(9,4,2) && indicemax_freq<tableNotes(end, end,4))
-octave=6;
-end
-if (indicemax_freq>tableNotes(end, end,4))
-octave=7;
+elseif (indicemax_freq>tableNotes(9,3,2) && indicemax_freq<tableNotes(9,4,2))
+    octave=5;
+elseif (indicemax_freq>tableNotes(9,4,2) && indicemax_freq<tableNotes(end, end,4))
+    octave=6;
+elseif (indicemax_freq>tableNotes(end, end,4))
+    octave=7;
+else
+    octave = 1;
 end
 
 note=[tabNomNotes(h,:)  num2str(octave)];

@@ -9,11 +9,14 @@ function [ note ] = determinationNoteSegmentOctave_convolution(x, Fs)
     tableNotes=tableNotes(:,:,3);
     tableNotes=tableNotes(:);
     bankOfSines= sin(2*pi*tableNotes*(0:1/Fs:len/Fs));
+    
 
     for kTon=1:48;
-        ton(kTon+1,:)=conv(x, bankOfSines(kTon,:));
+        temp=conv(x, bankOfSines(kTon,:));
+        ton(kTon+1)=sum(temp.^2).*length(bankOfSines(kTon,:)); % Normalisation par le nombre d'échantillon dans le sinus
     end
-    [~, loc]=findpeaks(sum(ton.^2, 2), 'NPEAKS', 1,'MINPEAKHEIGHT', mean(sum(ton.^2, 2))+2*std((sum(ton.^2, 2))));
+
+    [~, loc]=findpeaks(ton, 'NPEAKS', 1,'MINPEAKHEIGHT', mean(ton)+2*std(ton));
     h=mod(loc-1,12);
     if mod(loc-1,12)==0
         h=12;
