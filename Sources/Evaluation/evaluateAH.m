@@ -66,16 +66,26 @@ for k=1:nbNotesExp
    duree = entiers(2);  % durée attendue
    
    characteres = sscanf(line, '%c');
-   octave = str2num(characteres(end-2)); % octave attendue
-   
-   rowNames = {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};   % temp
-   for j=1:13
-       if strcmp(rowNames{j}, characteres(end-4:end-3)) ~= 0
-          ton=j; % note attendue
+   idxNote=regexpi(characteres, '[A-G][ #][1-9]');
+    
+   if idxNote>0
+       for i=1:length(idxNote)
+           octave(i) = str2num(characteres(idxNote(i)+2)); % octave attendue
+
+           rowNames = {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};   % temp
+           for j=1:13
+               if strcmp(rowNames{j}, characteres(idxNote(i):idxNote(i)+1)) ~= 0
+                  ton(i)=j; % note attendue
+               end
+           end
        end
+       if k==87
+           info=0;
+       end
+       noteExp(k)=Note(onset, duree, ton, octave);
+       onsetsExp(k)=onset;
+       clear ton octave characteres;
    end
-   noteExp(k)=Note(onset, duree, ton, octave);
-   onsetsExp(k)=onset;
 end
 
 if nbNotesExp~=length(noteExp)
@@ -97,6 +107,7 @@ octavesAComparer=[];
 confOctaves=zeros(6);
 confTons=zeros(13);
 k=1;
+l=1;
 while indiceDet < length(noteDet)
     if indiceDet < length(noteDet)
         indiceDet=indiceDet+1;
@@ -107,11 +118,74 @@ while indiceDet < length(noteDet)
     newExpInDet = findClosest(onsetsDet, noteExp(indiceExp).indice);
    
    if newExpInDet-newDetInExp == expInDet-detInExp && newExpInDet> expInDet
-        tonsAComparer(k,:)=[noteDet(indiceDet).ton noteExp(indiceExp).ton];
-        octavesAComparer(k,:)=[noteDet(indiceDet).octave noteExp(indiceExp).octave];
+       noteDetUtilisees = [];
+       noteExpUtilisees = [];
+       detTon=noteDet(indiceDet).ton;
+       expTon=noteExp(indiceExp).ton;
+       detOctave=noteDet(indiceDet).octave;
+       expOctave=noteExp(indiceExp).octave;
+       % 1. Recherche des résultats exact
+        for m=1:length(detTon)
+            if find(find(detTon(m)==expTon)==find(detOctave(m)==expOctave))
+                % On a trouvé un résultat exact
+                idxExpTrouve=find(detTon(m)==expTon);
+                idxExpTrouve=idxExpTrouve(find(find(detTon(m)==expTon)==find(detOctave(m)==expOctave)));
+                tonsAComparer(l,:)=[noteDet(indiceDet).ton(m) noteExp(indiceExp).ton(idxExpTrouve)];
+                octavesAComparer(l,:)=[noteDet(indiceDet).octave(m) noteExp(indiceExp).octave(idxExpTrouve)];
+                l=l+1;
+                noteDetUtilisees=[noteDetUtilisees;m];
+                noteExpUtilisees=[noteExpUtilisees;idxExpTrouve];
+            end
+        end
+       %2. Recherche même ton parmi les restant
+       for m=1:length(detTon)
+            if ~length(find(m==noteDetUtilisees))
+                idxExpTrouve=find(detTon(m)==expTon);   % Si on trouve pour detTon(m) un ton qui correspond dans exp
+                if length(idxExpTrouve)>0
+                    idxExpTrouve(idxExpTrouve==noteExpUtilisees)=[];      % On enlève les indices qui sont déjà utilisés
+                end
+                if length(idxExpTrouve)>0  % S'il en reste...
+                    distances= abs(detOctave(m)-expOctave(idxExpTrouve));
+                    [~, idxMeilleurCand]=min(distances);    % Retourne l'indice du premier minimum (même s'il y a des égalité)
+                    idxExpTrouve=idxExpTrouve(idxMeilleurCand); % On ne garde que celui là
+                    tonsAComparer(l,:)=[noteDet(indiceDet).ton(m) noteExp(indiceExp).ton(idxExpTrouve)];
+                    octavesAComparer(l,:)=[noteDet(indiceDet).octave(m) noteExp(indiceExp).octave(idxExpTrouve)];
+                    l=l+1;
+                    noteDetUtilisees=[noteDetUtilisees;m];
+                    noteExpUtilisees=[noteExpUtilisees;idxExpTrouve];
+                end
+            end
+       end
+        %3. Associer les éléments restants entre eux en minimisant les
+        %distances dans les matrices de confusions
+        for m=1:length(detTon)
+            if ~length(find(m==noteDetUtilisees))
+                idxExpRestants=1:length(expTon);
+                idxExpRestants(noteExpUtilisees)=[];
+            	distances= abs(detOctave(m)-expOctave(idxExpRestants))+abs(detTon(m)-expTon(idxExpRestants));
+                [~, idxMeilleurCand]=min(distances);    % Retourne l'indice du premier minimum (même s'il y a des égalité)
+                idxExpTrouve=idxExpRestants(idxMeilleurCand); % On ne garde que celui là
+                tonsAComparer(l,:)=[noteDet(indiceDet).ton(m) noteExp(indiceExp).ton(idxExpTrouve)];
+                octavesAComparer(l,:)=[noteDet(indiceDet).octave(m) noteExp(indiceExp).octave(idxExpTrouve)];
+                l=l+1;
+                noteDetUtilisees=[noteDetUtilisees;m];
+                noteExpUtilisees=[noteExpUtilisees;idxExpTrouve];
+            end
+        end
+        %4. Associer les éléments détecté restants à des silences
+        for m=1:length(detTon)
+            if ~length(find(m==noteDetUtilisees))
+                tonsAComparer(l,:)=[noteDet(indiceDet).ton(m) 0];
+                octavesAComparer(l,:)=[noteDet(indiceDet).octave(m) 0]; % Erreur possible ici car on met une octave à0
+                noteDetUtilisees=[noteDetUtilisees;m];
+                l=l+1;
+            end
+        end
+%         tonsAComparer(l,:)=[noteDet(indiceDet).ton noteExp(indiceExp).ton];
+%         octavesAComparer(l,:)=[noteDet(indiceDet).octave noteExp(indiceExp).octave];
         k=k+1;
-        confTons(noteDet(indiceDet).ton,noteExp(indiceExp).ton) = confTons(noteDet(indiceDet).ton,noteExp(indiceExp).ton) + 1;
-        confOctaves(noteDet(indiceDet).octave,noteExp(indiceExp).octave) = confOctaves(noteDet(indiceDet).octave,noteExp(indiceExp).octave) + 1;
+%         confTons(noteDet(indiceDet).ton,noteExp(indiceExp).ton) = confTons(noteDet(indiceDet).ton,noteExp(indiceExp).ton) + 1;
+%         confOctaves(noteDet(indiceDet).octave,noteExp(indiceExp).octave) = confOctaves(noteDet(indiceDet).octave,noteExp(indiceExp).octave) + 1;
     end
     detInExp = newDetInExp;
     expInDet = newExpInDet;
@@ -140,6 +214,10 @@ if display
     ylabel('Octaves Détectés',titleStyle{:});
     title(['Matrice de confusion des octaves'],titleStyle{:});
 end
+mask=eye(13);
+[~, confTons, ~, ~]=confusion(mask(tonsAComparer(:,2),:)', mask(tonsAComparer(:,1),:)');
+mask=[0 zeros(1,5); zeros(5,1), eye(5)];
+[~, confOctaves, ~, ~]=confusion(mask(octavesAComparer(:,2),:)', mask(octavesAComparer(:,1),:)');
 %%   Affichage de la matrice de confusion des tons (texte)
 % disp('Matrice de confusion des tons');
 % rowNames = {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};

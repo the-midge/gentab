@@ -17,7 +17,7 @@ classdef Note < handle
     % - le ton de la note jouee
     %   * 0  <=>  Silence (R)
     %   * 1  <=>  La      (A)
-    %   * 2  <=>  Si      (B)
+    %   * 3  <=>  Si      (B)
     %   * 4  <=>  Do      (C)
     %   * 6  <=>  Re      (D)
     %   * 8  <=>  Mi      (E)
@@ -43,6 +43,7 @@ classdef Note < handle
                 note.duree = dur;
                 conversionDuree(note, note.duree);
                 note.ton = ton;
+                note.tonstr='';
                 conversionTon(note, note.ton);
                 if(ton == -1)
                     note.octave = 0;
@@ -120,7 +121,7 @@ classdef Note < handle
         
         function note = conversionTon(note, ton)
         for i=1:length(ton)
-            switch ton
+            switch ton(i)
                 case 0
                     note.tonstr(i,1:2) = 'R '; % rest
                 case 1
@@ -146,7 +147,7 @@ classdef Note < handle
                 case 11
                     note.tonstr(i,1:2) = 'G ';
                 case 12
-                    note.tonstr(i,1:2) = 'G#';
+                    note.tonstr(i,1:2) = char('G#');
                 otherwise
                     disp('Erreur Ton note');
             end

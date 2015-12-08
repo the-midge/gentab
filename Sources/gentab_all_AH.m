@@ -102,6 +102,7 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         toc
 
     end
+    close(h1);
     [tauxTons' tauxOctaves']
         clear D ND OUT;
     break;

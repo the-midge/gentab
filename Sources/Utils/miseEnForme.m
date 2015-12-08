@@ -33,7 +33,8 @@ function [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, durees, notesJouee
     end
 
     if ~exist('notesJouees', 'var')
-        notesJouees=repmat('E 2',length(sampleIndexOnsets)-1, 1);
+        notesJouees{1}='E 2';
+        notesJouees=repmat(notesJouees, length(sampleIndexOnsets)-1,1);
     end
 
     for k = 1:length(durees)
