@@ -102,7 +102,7 @@ moyenneFinale(length(oss)-nbSampleMoyenneLocale:length(oss),1)=moyenneLocaleDroi
 
 % ecart2=moyenneFinale(length(oss)-nbSampleMoyenneLocale)-moyenneFinale(length(oss)-(nbSampleMoyenneLocale+1));
 % moyenneFinale(length(oss)-nbSampleMoyenneLocale:length(oss),1)=moyenneLocaleDroite(length(oss)-nbSampleMoyenneLocale:length(oss),1)-ecart2;
-seuil=moyenneFinale;
+seuil=moyenneFinale*1;
 
 % Moyenne globale pour detection des silences
 moyenneGlobale = mean(oss);
@@ -121,18 +121,25 @@ ecartMinimal= round(60/240*FsOSS);   %ecart correspondant à 240 bpm
 % suppression des premiers pics jusqu'au premier pic à dépasser la moitiée de la moyenne
 % globale (à terme moyenne locale long terme)
 indexPremierPic=1;
-while(amplitudeOnsets(indexPremierPic)<mean(oss)/2)
+while(amplitudeOnsets(indexPremierPic)<moyenneGlobale*PourcentSeuilGlogal/100)
     indexPremierPic=indexPremierPic+1;
 end
 % suppression des derniers pics jusqu'au premier pic à dépasser la moitiée de la moyenne
 % globale (à terme moyenne locale long terme)
 indexDernierPic=length(amplitudeOnsets);
-while(amplitudeOnsets(indexDernierPic)< mean(oss)/2)
+while(amplitudeOnsets(indexDernierPic)< moyenneGlobale*PourcentSeuilGlogal/100)
     indexDernierPic=indexDernierPic-1;
 end
 
 sampleIndexOnsets=sampleIndexOnsets(indexPremierPic:indexDernierPic);
 
+% %% Méthode annexe, globalement la même chose ...
+% difference=[1; -1];
+% deriveeOSS = sign(filter(difference, 1, oss));
+% sampleIndexOnsets=find(integrateur(deriveeOSS)==1)'-ecart_samples;
+% sampleIndexOnsets(sampleIndexOnsets<0)=[];
+% sampleIndexOnsets(oss(sampleIndexOnsets)<seuil(sampleIndexOnsets)*0.85)=[];
+% sampleIndexOnsets(oss(sampleIndexOnsets)<mean(oss)*0.5)=[];
 
 %% OFFSET
 
@@ -181,7 +188,7 @@ sampleIndexOnsets=sampleIndexOnsets(indexPremierPic:indexDernierPic);
 % plot(t(locs),oss(locs),'k^','markerfacecolor', [1 0 0]);    
 
 %% Postprocessing
-sampleIndexOnsets=sampleIndexOnsets-ecart_samples-5;% Correction de l'écart temporel apporté par la combinaision des deux fonctions d'onsets.
+sampleIndexOnsets=sampleIndexOnsets-ecart_samples;% Correction de l'écart temporel apporté par la combinaision des deux fonctions d'onsets.
 % Recherche du moment ou l'attaque commence (ou le dernier moment où la dérivée de oss  est nulle avant l'onset)
 % ossPrim=diff(oss);
 % for index= 2:length(sampleIndexOnsets)

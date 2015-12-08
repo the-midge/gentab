@@ -149,7 +149,7 @@ classdef Note < handle
                 case 12
                     note.tonstr(i,1:2) = char('G#');
                 otherwise
-                    disp('Erreur Ton note');
+%                     disp('Erreur Ton note');
             end
         end
         end

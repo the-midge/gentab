@@ -214,4 +214,4 @@ elseif strcmp(choixAlgo, ALL) | strcmp(choixAlgo, ALLtemp)
     end
 end
 %%
-clear choix OD AR AH ALL filename o O n N;
+clear choix OD AR AH ALL o O n N;

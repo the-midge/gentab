@@ -27,9 +27,9 @@ D='D';
 ND='ND';
 
 OUT='OUT';
-choixAlgo=input('Choix? ');
+% choixAlgo=input('Choix? ');
 
-
+choixAlgo=ND;
 %% Onset Detection
 if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('1:	DayTripper - 8s');
@@ -77,23 +77,12 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         if(strcmp(choixAlgo, ND))
             close all
         end
-        notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf));
+        notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss));
         tempo = 0;
         
         [~, file, ~]=fileparts(audioFilename);
         filename = strcat('DATA/', file, '/expected.txt');
         [txFDetection(k), txDetectionManquante(k), txReussite(k), ecartMoyen(k)] = evaluateOD(filename, notesDet);
-        
-        %         AllOnsetFunctions;
-        %         plot(t, onsetRes)
-        %         legend('Pseudo complex domain',...
-        %                'Spectral flux',...
-        %                'Phase Deviation',...
-        %                'Complex Domain',...
-        %                'Rectified Complex Domain')
-        %         title(audioFilename);
-        %         
-        %         clear onsetRes;
     end
     
     [txFDetection', txDetectionManquante', txReussite']
