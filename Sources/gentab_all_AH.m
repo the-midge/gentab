@@ -79,9 +79,9 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
             x=x(1:Fs*8,1);
         end
         
-        if(strcmp(choixAlgo, D))
-            figure(k),       
-        end
+%         if(strcmp(choixAlgo, D))
+%             figure(k),       
+%         end
         OnsetDetection;   
         if(strcmp(choixAlgo, ND))
 %             close all
@@ -93,11 +93,11 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         tempo = 0;
         [~, file, ~]=fileparts(audioFilename);
         filename = strcat('DATA/', file, '/expected.txt');
-        [confTons, confOctaves]=evaluateAH(filename, notesDet, 0);
-        tauxTons(k)=	sum(diag(confTons))/sum(sum(confTons))*100;
-        tauxOctaves(k)=	sum(diag(confOctaves))/sum(sum(confOctaves))*100;
-        disp(['Taux de succès tons: ' num2str(sum(diag(confTons))/sum(sum(confTons))*100) '%']);
-        disp(['Taux de succès octaves: ' num2str(sum(diag(confOctaves))/sum(sum(confOctaves))*100) '%']);
+        [confTons(:,:,k), confOctaves(:,:,k)]=evaluateAH(filename, notesDet, strcmp(choixAlgo, D));
+        tauxTons(k)=	sum(diag(confTons(:,:,k)))/sum(sum(confTons(:,:,k)))*100;
+        tauxOctaves(k)=	sum(diag(confOctaves(:,:,k)))/sum(sum(confOctaves(:,:,k)))*100;
+        disp(['Taux de succès tons: ' num2str(sum(diag(confTons(:,:,k)))/sum(sum(confTons(:,:,k)))*100) '%']);
+        disp(['Taux de succès octaves: ' num2str(sum(diag(confOctaves(:,:,k)))/sum(sum(confOctaves(:,:,k)))*100) '%']);
         
         toc
 

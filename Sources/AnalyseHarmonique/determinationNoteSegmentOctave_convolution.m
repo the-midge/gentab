@@ -9,9 +9,8 @@ function [ note ] = determinationNoteSegmentOctave_convolution(x, Fs)
     tableNotes=tableNotes(:,:,3);
     tableNotes=tableNotes(:);
     bankOfSines= sin(2*pi*tableNotes*(0:1/Fs:len/Fs));
-    
 
-    for kTon=1:48;
+    for kTon=1:48
         temp=conv(x, bankOfSines(kTon,:));
         ton(kTon+1)=sum(temp.^2).*length(bankOfSines(kTon,:)); % Normalisation par le nombre d'échantillon dans le sinus
     end

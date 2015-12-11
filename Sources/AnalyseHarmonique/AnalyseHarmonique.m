@@ -13,7 +13,7 @@
 
 clear notesJouees;
 for index= [1:length(segments)]
-    segment=segments{index}.*hamming(length(segments{index}));
+    segment=segments{index};
     notesJouees{index} = determinationNoteSegmentOctave_convolution(segment, Fs);
 %     notesJouees(index,:) = determinationNoteSegmentOctave_MultiPitch(segment ,Fs);
     aux =determinationNoteSegmentOctave_Harmonic_Product_Spectrum(segment , Fs);
