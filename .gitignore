@@ -4,3 +4,5 @@ Docs\Plannification.mpp
 *.mid
 config.txt
 *.rej
+Sources\testCompiler\*
+Sources\testC++\*
