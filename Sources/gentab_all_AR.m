@@ -74,10 +74,10 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
             close all
         end
         
-        [segments, bornes]=segmentation(x, length(sf), sampleIndexOnsets, Fs);
-        [durees, tempo, features(:,k), ~] = AnalyseRythmique(sf, bornes, FsSF, Fs, 0);
+        [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs);
+        [durees, tempo, features(:,k), ~] = AnalyseRythmique(oss, bornes, FsOSS, Fs, 0);
         durees=round(durees);
-        notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(sf), durees);
+        notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), durees);
         tempos(k) = tempo;
         
         [~, file, ~]=fileparts(audioFilename);

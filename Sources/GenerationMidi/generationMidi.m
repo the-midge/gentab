@@ -37,7 +37,7 @@ notes = zeros(nbNotes, 6); % matrice de pretraitement
 for j = 1:nbNotes
     notes(j, 1) = 0; % Track par defaut : 1
     notes(j, 2) = 1; % Channel par defaut : 1
-    notes(j, 3) = (notesDet(j).ton +10) + notesDet(j).octave*12; % numero de note
+    notes(j, 3) = notesDet(j).convertMIDI()+12; % numero de note
     notes(j, 4) = 95; % velocity par defaut : 95
         
     if(j == 1) % instant "on" de la note
