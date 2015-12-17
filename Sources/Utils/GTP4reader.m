@@ -122,15 +122,13 @@ classdef GTP4reader < handle
                 trackName=Reader.readByteLen(40);
                 trackName   = deblank(char(trackName'));
                 nStrings    =Reader.readInt();
-                tuning      =Reader.readIntLen(6);
+                tuning      =Reader.readIntLen(7);
                 port        =Reader.readInt();
                 channel     =Reader.readInt();
                 channelE    =Reader.readInt();
                 nFrets      =Reader.readInt();
                 capoHeight  =Reader.readInt();
-                Reader.readInt();% WTF
                 color       =Reader.readByteLen(4);
-                % A lot of these data seems dummy!
                 trackHeader(k,:) = {{trackName};...
                                     tuning    ;...
                                     color     ;...

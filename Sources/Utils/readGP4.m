@@ -1,15 +1,5 @@
 close all 
-FID = fopen('D:\GenTab\Sources\DATA\DayTripper\Day Tripper.gp4');
-% lenVersion=fread(FID, 1);
-% version=fread(FID, lenVersion, 'uint8=>char')'
-% [title, subTitle, interpret, copyright, authorTab, instructions, notice, lyricks]=readInfo(FID)
-% fread(FID,15);
-% tempo=fread(FID,1)
-% fread(FID,3);
-% key=fread(FID,1, 'int8')
-% fread(FID,32);
-% nbTrack=fread(FID,1)
-% nbMeasures=fread(FID,1)
+FID = fopen('D:\GenTab\Sources\DATA\template.gp4');
 stream = fread(FID);
 reader = GTP4reader(stream);
 [version, ~]=reader.readVersion();

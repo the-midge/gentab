@@ -169,4 +169,4 @@ mesures = mesures';
 dureesCorrigees = mesures(:)';
 dureesCorrigees(find(dureesCorrigees == 0)) = [];
 
-clear mesureTemporaire mesures somme;
+clear mesureTemporaire somme;
