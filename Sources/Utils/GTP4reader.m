@@ -216,19 +216,18 @@ classdef GTP4reader < handle
                 flags = dec2bin(Reader.readByte(),8);
                 if flags(3)=='1'
                     type = Reader.readByte();
-                    Reader.readByte();  % Normal
+%                     Reader.readByte();  % Normal
                     isRest=0;
-
                 end
                 if flags(8)=='1'
                    duration=Reader.readByte();
                    nUplet=Reader.readByte();
                 end
-    %             if flags(4)=='1'
-    %                dynamic=Reader.readByte();
-    %             else
-    %                 dynamic = 6;
-    %             end
+                if flags(4)=='1'
+                   dynamic=Reader.readByte();
+                else
+                    dynamic = 6;
+                end
                 if flags(3)=='1'
                    fretNumber=Reader.readByte(); 
                 end

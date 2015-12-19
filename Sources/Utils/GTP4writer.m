@@ -143,6 +143,11 @@ classdef GTP4writer < handle
             if isRest
                 Writer.writeByte(2);
             end
+            if hasDot
+                duree=0.5*note.duree;
+            else
+                duree=note.duree;
+            end
             duration= ceil(2-log2(note.duree)); 
             Writer.writeByte(duration);  %GP4 style: -2=ronde, 0=noire, 1=croche, ...
 
@@ -186,30 +191,15 @@ classdef GTP4writer < handle
 %             isRest=1;
             if strings == -1
                 Writer.writeByte(0);
-                stringFlags=zeros(1,8);
-                stringFlags=bin2dec(num2str(stringFlags));
-                Writer.writeByte(stringFlags);
             else
-                tempStringFlags=double(dec2bin(strings,8))-48;
                 stringFlags=zeros(1,8);
-                stringFlags(find(sum(tempStringFlags,1)>0))=1;
+                stringFlags(8-strings)=1;
                 stringFlags=bin2dec(num2str(stringFlags));
                 Writer.writeByte(stringFlags);
                 for k=1:length(strings)% If it is not a rest we do not enter this
-                    Writer.writeByte(bin2dec(num2str([0 0 1 0 0 0 0 0])));
-    %                 flags = dec2bin(Writer.writeByte(),8);
+                    Writer.writeByte(bin2dec(num2str([0 0 1 1 0 0 0 0])));
                     Writer.writeByte(1);
-                    Writer.writeByte(0);  % Normal
-
-    %                 if flags(8)=='1'
-    %                    duration=Writer.writeByte();
-    %                    nUplet=Writer.writeByte();
-    %                 end
-        %             if flags(4)=='1'
-        %                dynamic=Writer.writeByte();
-        %             else
-        %                 dynamic = 6;
-        %             end
+                    Writer.writeByte(6);  % Normal
                     fretNumber=Writer.writeByte(fret(k)); 
     %                 end
     %                 if flags(1)=='1'
@@ -241,75 +231,66 @@ classdef GTP4writer < handle
 %             newIndex=Writer.index;
         end
         
-        function [ton, octave]=getTonOctave(Writer, string, fret)
-            switch string
-                case 7  %String E2
-                    if fret>=20
-                        octave=4;
-                    elseif fret>=8
-                        octave=3;
-                    else
-                        octave=2;
-                    end
-                    ton=mod(fret+7,12)+1;
-                case 6  %String A2
-                    if fret>=15
-                        octave=4;
-                    elseif fret>=3
-                        octave=3;
-                    else
-                        octave=2;
-                    end
-                    ton=mod(fret,12)+1;
-                case 5  %String D3
-                    if fret>=22
-                        octave=5;
-                    elseif fret>=10
-                        octave=4;
-                    else
-                        octave=3;
-                    end
-                    ton=mod(fret+5,12)+1;
-                case 4  %String G3
-                    if fret>=17
-                        octave=5;
-                    elseif fret>=5
-                        octave=4;
-                    else
-                        octave=3;
-                    end
-                    ton=mod(fret-2,12)+1;            
-                case 3  %String B3
-                    if fret>=13
-                        octave=5;
-                    elseif fret>=1
-                        octave=4;
-                    else
-                        octave=3;
-                    end
-                    ton=mod(fret+9,12)+1;           
-                case 2  %String E4
-                    if fret>=20
-                        octave=6;
-                    elseif fret>=8
-                        octave=5;
-                    else
-                        octave=4;
-                    end
-                    ton=mod(fret+7,12)+1; 
-            end
-        end
-        
-        % writing methods
-%         function [index]=write(Writer, index, integer)
-%             if nargin <2
-%                 index = Writer.index;
+%         function [ton, octave]=getTonOctave(Writer, string, fret)
+%             switch string
+%                 case 7  %String E2
+%                     if fret>=20
+%                         octave=4;
+%                     elseif fret>=8
+%                         octave=3;
+%                     else
+%                         octave=2;
+%                     end
+%                     ton=mod(fret+7,12)+1;
+%                 case 6  %String A2
+%                     if fret>=15
+%                         octave=4;
+%                     elseif fret>=3
+%                         octave=3;
+%                     else
+%                         octave=2;
+%                     end
+%                     ton=mod(fret,12)+1;
+%                 case 5  %String D3
+%                     if fret>=22
+%                         octave=5;
+%                     elseif fret>=10
+%                         octave=4;
+%                     else
+%                         octave=3;
+%                     end
+%                     ton=mod(fret+5,12)+1;
+%                 case 4  %String G3
+%                     if fret>=17
+%                         octave=5;
+%                     elseif fret>=5
+%                         octave=4;
+%                     else
+%                         octave=3;
+%                     end
+%                     ton=mod(fret-2,12)+1;            
+%                 case 3  %String B3
+%                     if fret>=13
+%                         octave=5;
+%                     elseif fret>=1
+%                         octave=4;
+%                     else
+%                         octave=3;
+%                     end
+%                     ton=mod(fret+9,12)+1;           
+%                 case 2  %String E4
+%                     if fret>=20
+%                         octave=6;
+%                     elseif fret>=8
+%                         octave=5;
+%                     else
+%                         octave=4;
+%                     end
+%                     ton=mod(fret+7,12)+1; 
 %             end
-%             integer = int8(Writer.stream(index));
-%             index=index(end)+1;
-%             Writer.index=index;
 %         end
         
+        % writing methods
        function [integer, index]=writeIntLen(Writer, index, len)
             if nargin <3
                 len=index;

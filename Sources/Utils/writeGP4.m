@@ -22,11 +22,10 @@ authorTab='tabAuthor';
 instructions='';
 notice='comments or notice';
 Lyricks='Lyricks';
-tempo=120;
 key=0;
 octave=0;
 tripletFeel=0;
-nMeasures=4;
+nMeasures=size(mesures,2);
 nTracks=1;
 measureHeaders=[4 4];
 trackHeaders=[];
@@ -46,4 +45,9 @@ idxNote=1;
 for k=1:nMeasures
     [idxNote]=writer.writeMeasure(mesures(k,:), notesDet, idxNote);
 end
+len=fwrite(FID, writer.stream);
+if len~=length(writer.stream)
+    error('Erreur à l''écriture');
+end
+
 fclose(FID);
