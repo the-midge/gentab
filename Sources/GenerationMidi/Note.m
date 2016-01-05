@@ -167,6 +167,15 @@ classdef Note < handle
                 disp(['    ', num2str(note.ton(i)), num2str(note.octave(i))]) ;
              end
          end
+         
+         function midiNote= convertMIDI(note)
+             if note.ton==0
+                 midiNote=0;
+             else
+                 midiNote=mod(-5+note.ton,12)+note.octave*12;
+                 midiNote(midiNote<0)=0;
+             end
+         end
     end       
 end
 
