@@ -4,6 +4,8 @@
 %  load('..\DATA\Voodoo_Child\durees_brutes_voodoo_child.mat')
 % 
 addpath('../utils')
+
+clear mesureTemporaire mesures somme col colPart depassementMesure derniereNote dureeMesure echecCorrection ind out somme vectEchec;
 % 
 % durees = dureesBrutes(1:end);
 %% Algo de correction de la duree des notes suivant un decoupage en mesure 4:4
@@ -13,7 +15,7 @@ addpath('../utils')
 
 % TODO : gerer les eventuelles liaisons de prolongation (enjambement de la
 %        barre de mesure)
-
+tic
 generatePeigneGaussienne; % On genere les probabilités de duree de notes
 
 peigneGaussienne(:, 17:18) = 0; % on ajoute les durées 17 et 18 avec une probabilité de 0 pour gerer les depassements de duree > 16
@@ -168,9 +170,6 @@ vectEchec = vectEchec';
 mesures = mesures';
 dureesCorrigees = mesures(:)';
 dureesCorrigees(find(dureesCorrigees == 0)) = [];
+toc
 
-<<<<<<< HEAD
-% clear mesureTemporaire mesures somme;
-=======
-clear mesureTemporaire somme;
->>>>>>> d12708e5af5ae604529ed4a7f145c4a9dc809d6b
+
