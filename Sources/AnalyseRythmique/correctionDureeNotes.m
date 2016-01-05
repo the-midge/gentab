@@ -3,7 +3,7 @@
 % 
 %  load('..\DATA\Voodoo_Child\durees_brutes_voodoo_child.mat')
 % 
-% addpath('../utils')
+addpath('../utils')
 % 
 % durees = dureesBrutes(1:end);
 %% Algo de correction de la duree des notes suivant un decoupage en mesure 4:4
@@ -169,4 +169,4 @@ mesures = mesures';
 dureesCorrigees = mesures(:)';
 dureesCorrigees(find(dureesCorrigees == 0)) = [];
 
-clear mesureTemporaire mesures somme;
+% clear mesureTemporaire mesures somme;
