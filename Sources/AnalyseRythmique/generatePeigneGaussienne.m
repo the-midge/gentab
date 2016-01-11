@@ -40,14 +40,14 @@ MIN = facteur;
 MAX = 2*facteur*centres(end);
 
 largeurs_droites=floor((edgeHistogramme(2:end)-centres)*facteur/2)*2*2;
-largeurs_droites(largeurs_droites<=0)=2;
-largeurs_droites([7 (9:11),(13:15)])=2;
+largeurs_droites(largeurs_droites<=0)=0;
+largeurs_droites([7 (9:11),(13:15)])=0;
 largeurs_seuil_droit=zeros(size(largeurs_droites));
 largeurs_seuil_droit(largeurs_droites<facteur)=facteur-largeurs_droites(largeurs_droites<facteur);
 
 largeurs_gauches=floor((centres-edgeHistogramme(1:end-1))*facteur/2)*2*2;
-largeurs_gauches([7 (9:11),(13:15)])=2;
-largeurs_gauches(largeurs_gauches<=0)=2;
+largeurs_gauches([7 (9:11),(13:15)])=0;
+largeurs_gauches(largeurs_gauches<=0)=0;
 largeurs_seuil_gauche=zeros(size(largeurs_gauches));
 largeurs_seuil_gauche(largeurs_gauches<facteur)=facteur-largeurs_gauches(largeurs_gauches<facteur);
 
@@ -55,7 +55,11 @@ seuilMinimal=0.01;
 for k = 1:16
 win_gauche=gausswin(largeurs_gauches(k)*2, 3);
 win_droite=gausswin(largeurs_droites(k)*2, 3);
-peigneGaussienne(:,k)=[zeros(MIN+centres(k)*facteur-largeurs_gauches(k)-largeurs_seuil_gauche(k),1); ones(largeurs_seuil_gauche(k),1)*seuilMinimal; win_gauche(1:largeurs_gauches(k)); win_droite(largeurs_droites(k)-1:end); ones(largeurs_seuil_droit(k),1)*seuilMinimal; zeros(MAX+MIN-centres(k)*facteur-largeurs_droites(k)-largeurs_seuil_droit(k),1)];
+if ismember(k, [7 (9:11),(13:15)])
+    peigneGaussienne(:,k)=zeros(MAX+2*MIN+2,1);
+else
+    peigneGaussienne(:,k)=[zeros(MIN+centres(k)*facteur-largeurs_gauches(k)-largeurs_seuil_gauche(k),1); ones(largeurs_seuil_gauche(k),1)*seuilMinimal; win_gauche(1:largeurs_gauches(k)); win_droite(largeurs_droites(k)-1:end); ones(largeurs_seuil_droit(k),1)*seuilMinimal; zeros(MAX+MIN-centres(k)*facteur-largeurs_droites(k)-largeurs_seuil_droit(k),1)];
+end
 end
 peigneGaussienne=bsxfun(@rdivide, peigneGaussienne, sum(peigneGaussienne,2));
 abscisse = (1:length(peigneGaussienne))/facteur-1;

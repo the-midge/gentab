@@ -147,12 +147,12 @@ end
 %% Analyse rythmique
 if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
 
-    [durees, tempo] = AnalyseRythmique(oss, bornes, FsOSS, Fs, 0);
+    [durees, tempo, silences, sampleIndexOffsets] = AnalyseRythmique(oss, bornes, FsOSS, Fs, sampleIndexOnsets, sampleIndexOffsets, 0);
     correctionDureeNotes;
 %     dureesCorrigees = durees;
 elseif strcmp(choixAlgo, ALLtemp)
     tempo = input('Tempo? ');
-    [durees] = AnalyseRythmique(oss, bornes, FsOSS, Fs, 0, tempo);
+    [durees] = AnalyseRythmique(oss, bornes, FsOSS, Fs, sampleIndexOnsets, sampleIndexOffsets, 0, tempo);
     correctionDureeNotes;
 %     dureesCorrigees=durees;
 end
