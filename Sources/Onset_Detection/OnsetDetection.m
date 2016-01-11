@@ -168,6 +168,15 @@ end
 
 silences = zeros(size(oss));
 silences(sampleIndexOffsets) = 1;
+
+indOn = [sampleIndexOnsets];
+indOn(:, 2) = 0;
+indOff = [sampleIndexOffsets];
+indOff(:, 2) = 1;
+
+indOnOff = [indOn ; indOff];
+indOnOff = sortrows(indOnOff,1);
+
 %% Postprocessing
 sampleIndexOnsets=sampleIndexOnsets-ecart_samples;% Correction de l'écart temporel apporté par la combinaision des deux fonctions d'onsets.
 visualOnsets=zeros(size(oss));
@@ -178,7 +187,7 @@ visualOnsets(round(sampleIndexOnsets))=1;
 % if(length(seuil)==1)
 %     figure(1), plot(t, [oss max(oss)*visualOnsets seuil seuilGlobal max(oss)*silences])
 % else
-%      figure(1), plot(t, [oss max(oss)*visualOnsets seuil])  
+%      figure(1), plot(t, [oss max(oss)*visualOnsets seuil max(oss)*silences])  
 % end
 
 clear N h degreLissage indexPremierPic indexDernierPic amplitudeOnsets rapportMoyenneLocale ecartMinimal sensibilite;

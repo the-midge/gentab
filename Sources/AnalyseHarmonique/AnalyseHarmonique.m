@@ -12,10 +12,22 @@
 % [b(6,:), a(6,:)]=butter(2, [tableNotes(9,4,2)/(Fs/2) tableNotes(9,4,2)*2/(Fs/2)]);
 
 clear notesJouees;
-for index= [1:length(segments)]
+for index= [1:length(segments)]    
     segment=segments{index};
     notesJouees{index} = determinationNoteSegmentOctave_convolution(segment, Fs);
 %     notesJouees(index,:) = determinationNoteSegmentOctave_MultiPitch(segment ,Fs);
     aux =determinationNoteSegmentOctave_Harmonic_Product_Spectrum(segment , Fs);
     notesJouees{index}(3)=[aux(3)];
 end
+
+notesJoueesSilences = notesJouees;
+
+ins = find(indOnOff(:, 2) == 1);
+
+for ind = 1:length(ins)
+    notesJoueesSilences = [notesJoueesSilences(1:ins(ind) -1), 'R  ', notesJoueesSilences(ins(ind):end)];
+    length(notesJoueesSilences)
+end
+
+
+    

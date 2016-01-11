@@ -3,7 +3,7 @@
 % 
 %  load('..\DATA\Voodoo_Child\durees_brutes_voodoo_child.mat')
 % 
-addpath('../utils')
+addpath('../Utils')
 
 clear mesureTemporaire mesures somme col colPart depassementMesure derniereNote dureeMesure echecCorrection ind out somme vectEchec;
 % 
