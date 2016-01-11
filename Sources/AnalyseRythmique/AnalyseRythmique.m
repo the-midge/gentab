@@ -111,7 +111,9 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, indexOnsets, ind
             silences=[currNote; silences];
         end
     end
-    silences=silences+(1:length(silences))';
+    if ~isempty(silences)
+        silences=silences+(1:length(silences))';
+    end
     %% No correction
 %     probasEcart = peigneGaussienne(indiceEcartsPourPeigne,:);
 %     [~, durees] = max(probasEcart')

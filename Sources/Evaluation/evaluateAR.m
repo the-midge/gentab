@@ -1,15 +1,15 @@
-function [confDurees, ecartTempo]=evaluateAR(filename, noteDet, tempo, display)
+function [confDurees, ecartTempo]=evaluateAR(filename, notesDet, tempo, display)
 %evaluateAR.m
 %
 %   USAGE:   
-%       [confDurees]=evaluateAR(filename, noteDet, tempo, display)
+%       [confDurees]=evaluateAR(filename, notesDet, tempo, display)
 %   ATTRIBUTS:    
 %       confDurees: Matrice de confusion des durées de notes
 %       ecartTempo: écart en % du tempo
 %
 %       filename: nom et chemin absolu du fichier où sont stockées les
 %       valeurs attendues
-%       noteDet:   notes détectées par l'application
+%       notesDet:   notes détectées par l'application
 %       tempo: tempo détecté par l'application
 %       display: affiche une un histogramme
 %   DESCRIPTION:
@@ -84,25 +84,38 @@ indiceExp = 0;
 detInExp = 0;
 expInDet = 0;
 
-for k=1:length(noteDet)
-    onsetsDet(k)=noteDet(k).indice;
+silences=[];
+onsetsDet=[];
+for k=1:length(notesDet)
+    if notesDet(k).ton~=1 % Cette note est un silence
+        onsetsDet=[onsetsDet notesDet(k).indice];
+    else
+        silences=[silences; k];
+    end
 end
 
 k=1;
 dureesAComparer=[];
-while indiceDet < length(noteDet)
-    if indiceDet < length(noteDet)
+while indiceDet < length(notesDet)
+    if indiceDet < length(notesDet)
         indiceDet=indiceDet+1;
     end   
     
-    newDetInExp = findClosest(onsetsExp, noteDet(indiceDet).indice);
+    newDetInExp = findClosest(onsetsExp, notesDet(indiceDet).indice);
     indiceExp = newDetInExp;
     newExpInDet = findClosest(onsetsDet, noteExp(indiceExp).indice);
    
     if newExpInDet-newDetInExp == expInDet-detInExp && newExpInDet> expInDet
-        dureesAComparer(k,:)=[noteDet(indiceDet).duree noteExp(indiceExp).duree];
-        k=k+1;
-        confDurees(noteDet(indiceDet).duree,noteExp(indiceExp).duree) = confDurees(noteDet(indiceDet).duree,noteExp(indiceExp).duree) + 1;
+        if indiceDet<length(notesDet) % On n'évalue jamais la dernière note
+            if ismember(indiceDet+1, silences)
+                duree = notesDet(indiceDet).duree+notesDet(indiceDet+1).duree;
+            else
+                duree = notesDet(indiceDet).duree;
+            end
+            dureesAComparer(k,:)=[duree noteExp(indiceExp).duree];
+            k=k+1;
+            confDurees(duree,noteExp(indiceExp).duree) = confDurees(duree,noteExp(indiceExp).duree) + 1;
+        end
     end
     detInExp = newDetInExp;
     expInDet = newExpInDet;
@@ -114,8 +127,8 @@ mask=eye(16);
 plotconfusion(mask(dureesAComparer(:,2),:)', mask(dureesAComparer(:,1),:)');
 PTFS = nnplots.title_font_size;
 titleStyle = {'fontweight','bold','fontsize',PTFS};
-xlabel('Tons Cibles',titleStyle{:});
-ylabel('Tons Détectés',titleStyle{:});
+xlabel('Durées Cibles',titleStyle{:});
+ylabel('Durées Détectés',titleStyle{:});
 title(['Matrice de confusion des durees'],titleStyle{:});
 
 % %%   Affichage de la matrice de confusion des durees

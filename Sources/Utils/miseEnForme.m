@@ -1,9 +1,9 @@
-function [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, durees, notesJouees)
+function [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, silences, durees, notesJouees)
 %miseEnForme.m
 %   USAGE:
-%       [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, durees, notesJouee)
-%       [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, durees)
-%       [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, notesJouee)
+%       [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, silences, durees, notesJouee)
+%       [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, silences, durees)
+%       [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, silences, notesJouee)
 %       [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF)
 
 %	ATTRIBUTS:    
@@ -21,7 +21,7 @@ function [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, durees, notesJouee
 %	BUT:    
 %       Mettre en forme les données avant génération de sortie
 
-    if nargin==3
+    if nargin==4
         if isa(durees, 'cell')
             notesJouees = durees;
             clear durees;
@@ -29,17 +29,29 @@ function [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, durees, notesJouee
     end
 
     if ~exist('durees', 'var')
-        durees=ones(length(sampleIndexOnsets)-1, 1);
+        durees=ones(length(sampleIndexOnsets)+length(silences), 1);
     end
 
     if ~exist('notesJouees', 'var')
         notesJouees{1}='E 2';
-        notesJouees=repmat(notesJouees, length(sampleIndexOnsets)-1,1);
+        notesJouees=repmat(notesJouees, length(sampleIndexOnsets)+length(silences),1);
     end
 
-    for k = 1:length(durees)
-       notesDet(k)=Note(round(sampleIndexOnsets(k)*FsSF), durees(k), notesJouees{k}); 
+    l=1; k=1;
+    if isempty(silences)
+        maxL=length(sampleIndexOnsets)+1;
+    else
+        maxL=length(durees)+1;
     end
-
+    while(k<length(sampleIndexOnsets)+~isempty(silences))
+        if ismember(l, silences) || l>maxL
+            notesDet(l)=Note(round((sampleIndexOnsets(k-1)+50)*FsSF), durees(l), 'R 0');
+            l=l+1;
+        else
+            notesDet(l)=Note(round(sampleIndexOnsets(k)*FsSF), durees(l), notesJouees{k});
+            l=l+1;
+            k=k+1;
+        end
+    end
 end
 

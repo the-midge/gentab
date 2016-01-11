@@ -87,9 +87,9 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
 %             close all
         end
         
-        [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs);
+        [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs, sampleIndexOffsets(end));
         AnalyseHarmonique
-        notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), notesJouees);
+        notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), silences, notesJouees);
         tempo = 0;
         [~, file, ~]=fileparts(audioFilename);
         filename = strcat('DATA/', file, '/expected.txt');
