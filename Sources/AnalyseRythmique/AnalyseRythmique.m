@@ -1,4 +1,4 @@
-function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
+function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, indexOnsets, indexOffsets, display, tempo)
 %   analyseRythmique.m
 %
 %   USAGE: 
@@ -14,6 +14,8 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
 %       FsOSS: Fréquence d'échantillonnage après la fonction d'osnet
 %       detection
 %       Fs : Fréquence d'échantillonnage du morceau
+%       indexOnsets: Index des instants où une note démarre.
+%       indexOffsets: Index des instants où un silence est détecté
 %       
 %       display: si vrai, affiche deux graphe représentant la répartition
 %       des durées de notes.
@@ -29,7 +31,7 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
 %       musicale potentielle. La largeur des ces intervalles dépend de la
 %       probabilité pour une note d'appartenir à une certaine classe.      
 
-    if nargin < 4
+    if nargin < 7
         display = false;
     end
 
@@ -67,14 +69,49 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
         end %Sinon on ne fait rien
         tempo=round(tempo);
     end
+    
     %% Détermination des durées de notes avec le bon tempo (normalement)
     ecartRef=60/tempo; %coefficient de normalisation des écarts
     indiceEcartsPourPeigne = findClosest(abscisse,ecart/ecartRef*4); % abscisse de indiceEcartsPourPeigne = dureesBrutes
     
     % Correction
     dureesBrutes = abscisse(indiceEcartsPourPeigne);
-    durees = dureesBrutes;
     
+    % Intégration des silences
+    % note2split: note a séparer car l'onset est suivi d'un offset
+    note2split=[];
+    for k = 1:length(indexOnsets)-1
+        if(indexOnsets(k+1)>indexOffsets(find(indexOffsets>indexOnsets(k), 1)))
+            note2split=[note2split; k];
+        end
+    end
+    % séparation
+    durees = dureesBrutes;
+    silences = [];
+    for k=length(note2split):-1:1
+        currNote=note2split(k);
+        dureeCurrNote= dureesBrutes(currNote);
+        if dureeCurrNote < edgeHistogramme(2)
+            indexOffsets(currNote)=[];  % On supprime ce silence, la note est trop courte pour être divisée
+        elseif dureeCurrNote >= edgeHistogramme(2) && dureeCurrNote < edgeHistogramme(3)
+            durees(currNote)=1;
+            durees=[durees(1:currNote) dureeCurrNote-1 durees(currNote+1:end)];
+            silences=[currNote; silences];
+        elseif dureeCurrNote >= edgeHistogramme(3) && dureeCurrNote < edgeHistogramme(5)
+            durees(currNote)=2;
+            durees=[durees(1:currNote) dureeCurrNote-2 durees(currNote+1:end)];
+            silences=[currNote; silences];
+        elseif dureeCurrNote >= edgeHistogramme(5) && dureeCurrNote < edgeHistogramme(12)
+            durees(currNote)=4;
+            durees=[durees(1:currNote) dureeCurrNote-4 durees(currNote+1:end)];
+            silences=[currNote; silences];
+        elseif dureeCurrNote >= edgeHistogramme(12) && dureeCurrNote < edgeHistogramme(end)
+            durees(currNote)=8;
+            durees=[durees(1:currNote) dureeCurrNote-8 durees(currNote+1:end)];
+            silences=[currNote; silences];
+        end
+    end
+    silences=silences+(1:length(silences))';
     %% No correction
 %     probasEcart = peigneGaussienne(indiceEcartsPourPeigne,:);
 %     [~, durees] = max(probasEcart')
@@ -95,7 +132,7 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, display, tempo)
     if nargout == 4
          varargout{1}=durees;
         varargout{2}=tempo;
-        varargout{3}=features_normalized;
-        varargout{4}=0;
+        varargout{3}=silences;
+        varargout{4}=indexOffsets;
     end
 end

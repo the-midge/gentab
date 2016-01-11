@@ -75,7 +75,7 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         end
         
         [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs);
-        [durees, tempo, features(:,k), ~] = AnalyseRythmique(oss, bornes, FsOSS, Fs, 0);
+        [durees, tempo, silences, sampleIndexOffsets] = AnalyseRythmique(oss, bornes, FsOSS, sampleIndexOnsets, sampleIndexOffsets,  Fs, 0);
         durees=round(durees);
         notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), durees);
         tempos(k) = tempo;

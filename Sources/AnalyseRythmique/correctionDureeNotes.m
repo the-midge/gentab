@@ -3,7 +3,7 @@
 % 
 %  load('..\DATA\Voodoo_Child\durees_brutes_voodoo_child.mat')
 % 
-addpath('../utils')
+addpath('../Utils')
 
 clear mesureTemporaire mesures somme col colPart depassementMesure derniereNote dureeMesure echecCorrection ind out somme vectEchec;
 % 
@@ -15,7 +15,6 @@ clear mesureTemporaire mesures somme col colPart depassementMesure derniereNote 
 
 % TODO : gerer les eventuelles liaisons de prolongation (enjambement de la
 %        barre de mesure)
-tic
 generatePeigneGaussienne; % On genere les probabilités de duree de notes
 
 peigneGaussienne(:, 17:18) = 0; % on ajoute les durées 17 et 18 avec une probabilité de 0 pour gerer les depassements de duree > 16
@@ -170,6 +169,3 @@ vectEchec = vectEchec';
 mesures = mesures';
 dureesCorrigees = mesures(:)';
 dureesCorrigees(find(dureesCorrigees == 0)) = [];
-toc
-
-
