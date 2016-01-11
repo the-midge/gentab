@@ -27,9 +27,8 @@ D='D';
 ND='ND';
 
 OUT='OUT';
-% choixAlgo=input('Choix? ');
+choixAlgo=input('Choix? ');
 
-choixAlgo=ND;
 %% Onset Detection
 if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('1:	DayTripper - 8s');
@@ -73,13 +72,15 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         if(strcmp(choixAlgo, D))
             figure(k),       
         end
-        OnsetDetection;   
+        OnsetDetection;  
+        plot(t, [oss max(oss)*visualOnsets seuil seuilGlobal max(oss)*silences]);
         if(strcmp(choixAlgo, ND))
             close all
         end
         notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss));
         tempo = 0;
         
+        clear silences oss seuil seuilGlobal;
         [~, file, ~]=fileparts(audioFilename);
         filename = strcat('DATA/', file, '/expected.txt');
         [txFDetection(k), txDetectionManquante(k), txReussite(k), ecartMoyen(k)] = evaluateOD(filename, notesDet);

@@ -28,9 +28,6 @@ degreLissage=round(Fs/h/10);
 % Pseudo-complex domain
 pseudoComplexDomain=getOnsets(stftRes,70,1500,Fs,N);
 
-% Phase deviation
-% CD_out = phase_deviation(stftRes,70,1500,Fs,N);
-
 % Spectral flux
 specFlux = spectralflux(stftRes);
 
@@ -44,7 +41,6 @@ specFlux=filtfilt(ones(degreLissage,1)/degreLissage, 1, specFlux);  % Lissage du
 % Normalisation 0 < oss < 100
 pseudoComplexDomain = pseudoComplexDomain.*100/max(pseudoComplexDomain);
 specFlux = specFlux.*100/max(specFlux);
-% CD_out=CD_out.*100/max(CD_out);
 % Combination des fonctions d'onset
 FsOSS=(size(stftRes,2)/(length(x)/Fs));   %Rapport entre le nombre d'échantillon du signal stft et ceux du signal "réel" x.
 ecart_ms = 50; w1 = 0.8; w2 = 1.2; %Paramètres de pondération de la combinaison
@@ -109,8 +105,8 @@ moyenneGlobale = mean(oss);
 
 % Seuil minimal à atteindre pour détecter un pic.
 % un seuil global fixe a 50% de la moyenne donne de bons resultats
-PourcentSeuilGlogal = 50;
-seuilGlobal(1:size(oss), 1) = moyenneGlobale*PourcentSeuilGlogal/100;
+PourcentSeuilGlobal = 65;
+seuilGlobal(1:size(oss), 1) = moyenneGlobale*PourcentSeuilGlobal/100;
 
 %% Paramètres détection de pics
 ecartMinimal= round(60/240*FsOSS);   %ecart correspondant à 240 bpm
@@ -118,20 +114,7 @@ ecartMinimal= round(60/240*FsOSS);   %ecart correspondant à 240 bpm
 %% Détection des pics
 [amplitudeOnsets, sampleIndexOnsets]=ovldFindpeaks(oss, 'MINPEAKHEIGHT', seuil, 'MINPEAKDISTANCE', floor(ecartMinimal/2), 'THRESHOLD',0);
 
-% suppression des premiers pics jusqu'au premier pic à dépasser la moitiée de la moyenne
-% globale (à terme moyenne locale long terme)
-indexPremierPic=1;
-while(amplitudeOnsets(indexPremierPic)<moyenneGlobale*PourcentSeuilGlogal/100)
-    indexPremierPic=indexPremierPic+1;
-end
-% suppression des derniers pics jusqu'au premier pic à dépasser la moitiée de la moyenne
-% globale (à terme moyenne locale long terme)
-indexDernierPic=length(amplitudeOnsets);
-while(amplitudeOnsets(indexDernierPic)< moyenneGlobale*PourcentSeuilGlogal/100)
-    indexDernierPic=indexDernierPic-1;
-end
-
-sampleIndexOnsets=sampleIndexOnsets(indexPremierPic:indexDernierPic);
+sampleIndexOnsets(find(oss(sampleIndexOnsets)<moyenneGlobale*PourcentSeuilGlobal/100))=[];
 
 % %% Méthode annexe, globalement la même chose ...
 % difference=[1; -1];
@@ -141,71 +124,59 @@ sampleIndexOnsets=sampleIndexOnsets(indexPremierPic:indexDernierPic);
 % sampleIndexOnsets(oss(sampleIndexOnsets)<seuil(sampleIndexOnsets)*0.85)=[];
 % sampleIndexOnsets(oss(sampleIndexOnsets)<mean(oss)*0.5)=[];
 
-%% OFFSET
+%% OFFSET Detection
 
-% % Coefficients d'un filtre de dérivée.
-% a=1; b=[1 -1];
-%  
-% % derivee du seuil
-% d_seuil = filter(b, a, seuil);
-% % normalisation 0 < d_seuil < 100
-% facteurNorm = 100/max(d_seuil(2:end));
-% d_seuil(1) = 0;
-% d_seuil = d_seuil.*facteurNorm;
-% 
-% % derivee seconde du seuil
-% dd_seuil = filter(b, a, d_seuil);
-% % normalisation 0 < dd_seuil < 100
-% facteurNorm = 100/max(dd_seuil(2:end));
-% dd_seuil(1) = 0;
-% dd_seuil = dd_seuil.*facteurNorm;
-% 
-% sil = -d_seuil;
-% 
-% % find peaks with defaults
-% 
-% d = oss-sil;
-% % At the moment of crossing, the sign will change:
-% s = diff(sign(d));
-% % Now just find the point where it changes
-% [~, locs] = findpeaks(s);
-% 
-% coefSeuilSilence = 2;
-% 
-% seuil_silence = std(oss)/coefSeuilSilence;
-% locs(oss(locs) > seuil_silence) = [];
-%  
-% 
-% silence = zeros(size(t));
-% silence(locs) = 1;
-%      
-%      
-% 
-% % visualisation des variations
-% figure(43), clf
-% plot(t, [sil oss]); hold on;
-% % offset values of peak heights for plotting
-% plot(t(locs),oss(locs),'k^','markerfacecolor', [1 0 0]);    
+% Coefficients d'un filtre de dérivée.
+a=1; b=[1 -1];
+ 
+% derivee du seuil
+d_seuil = filter(b, a, seuil);
+d_seuil(1) = 0;
 
+[pks, sampleIndexOffsets]=findpeaks(-d_seuil, 'MINPEAKHEIGHT', mean(-d_seuil)+std(d_seuil));
+
+% Suppression des silences faussement détecté
+
+% dernier silence
+sampleIndexOffsets(sampleIndexOffsets<sampleIndexOnsets(1)) = [];
+last_silence = find(sampleIndexOffsets>sampleIndexOnsets(end), 1, 'first');
+if ~isempty(last_silence)
+    if last_silence ~= length(sampleIndexOffsets)
+        sampleIndexOffsets(last_silence+1:end)=[];
+    end
+end
+% offsets sur un onset
+sampleIndexOffsets(find(ismember(sampleIndexOffsets,sampleIndexOnsets)))=[];
+sampleIndexOffsets(find(ismember(sampleIndexOffsets,sampleIndexOnsets-1)))=[];
+sampleIndexOffsets(find(ismember(sampleIndexOffsets,sampleIndexOnsets+1)))=[];
+
+% non dérivabilité de la fonction seuil
+
+offsetToRm = find(sampleIndexOffsets==(nbSampleMoyenneLocale-1));
+sampleIndexOffsets(offsetToRm)=[];
+offsetToRm = find(sampleIndexOffsets==(length(oss)-nbSampleMoyenneLocale));
+sampleIndexOffsets(offsetToRm)=[];
+
+% double silences
+for l = length(sampleIndexOffsets):-1:2
+    lastOnset = find(sampleIndexOnsets<sampleIndexOffsets(l), 1, 'last');
+    if(sampleIndexOnsets(lastOnset)<sampleIndexOffsets(l-1))
+        sampleIndexOffsets(l)=[];
+    end
+    clear lastOnset;
+end
+
+silences = zeros(size(oss));
+silences(sampleIndexOffsets) = 1;
 %% Postprocessing
 sampleIndexOnsets=sampleIndexOnsets-ecart_samples;% Correction de l'écart temporel apporté par la combinaision des deux fonctions d'onsets.
-% Recherche du moment ou l'attaque commence (ou le dernier moment où la dérivée de oss  est nulle avant l'onset)
-% ossPrim=diff(oss);
-% for index= 2:length(sampleIndexOnsets)
-%     if sampleIndexOnsets(index)>70
-%         sampleIndexOnsets(index)=sampleIndexOnsets(index)-findClosest(ossPrim(sampleIndexOnsets(index):-1:sampleIndexOnsets(index)-70),0);
-%     else
-%         sampleIndexOnsets(index)=sampleIndexOnsets(index)-findClosest(ossPrim(sampleIndexOnsets(index):-1:1),0);
-%     end
-% end
-
 visualOnsets=zeros(size(oss));
 visualOnsets(round(sampleIndexOnsets))=1;
 %% Fin de l'algorithme
 
 % Visualisation des résultats
 % if(length(seuil)==1)
-%     figure(1), plot(t, [oss max(oss)*visualOnsets ones(size(oss))*seuil seuilGlobal max(oss)*silence])
+%     figure(1), plot(t, [oss max(oss)*visualOnsets seuil seuilGlobal max(oss)*silences])
 % else
 %      figure(1), plot(t, [oss max(oss)*visualOnsets seuil])  
 % end
