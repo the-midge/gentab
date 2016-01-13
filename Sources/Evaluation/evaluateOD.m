@@ -79,22 +79,25 @@ indiceDet = 0;
 indiceExp = 0;
 detInExp = 0;
 expInDet = 0;
-    
+  %%  
+onsetsDet=[];
 for k=1:length(noteDet)
-    onsetsDet(k)=noteDet(k).indice;
+    if noteDet(k).ton~=1 % Cette note est un silence
+        onsetsDet=[onsetsDet noteDet(k).indice];
+    end
 end
-
-while indiceDet < length(noteDet)
-    if indiceDet < length(noteDet)
+%%
+while indiceDet < length(onsetsDet)
+    if indiceDet < length(onsetsDet)
         indiceDet=indiceDet+1;
     end   
     
-    newDetInExp = findClosest(onsetsExp, noteDet(indiceDet).indice);
+    newDetInExp = findClosest(onsetsExp, onsetsDet(indiceDet));
     indiceExp = newDetInExp;
     newExpInDet = findClosest(onsetsDet, noteExp(indiceExp).indice);
     
     if newExpInDet-newDetInExp == expInDet-detInExp && newExpInDet> expInDet
-        ecarts(indiceExp)=abs(noteExp(indiceExp).indice-noteDet(indiceDet).indice);
+        ecarts(indiceExp)=abs(noteExp(indiceExp).indice-onsetsDet(indiceDet));
     elseif newDetInExp == detInExp
         nbOnsetsExcedentaires = nbOnsetsExcedentaires+1;
     elseif indiceExp-detInExp >1

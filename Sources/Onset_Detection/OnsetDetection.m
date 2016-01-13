@@ -189,5 +189,5 @@ visualOnsets(round(sampleIndexOnsets))=1;
 % else
 %      figure(1), plot(t, [oss max(oss)*visualOnsets seuil max(oss)*silences])  
 % end
-
+silences=[];
 clear N h degreLissage indexPremierPic indexDernierPic amplitudeOnsets rapportMoyenneLocale ecartMinimal sensibilite;

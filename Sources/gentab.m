@@ -141,12 +141,11 @@ end
     
 %% Segmentation
 if(~strcmp(choixAlgo, OUT) & ~strcmp(choixAlgo, OD)) % Dans tout les cas sauf une sortie ou OD
-        [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs);
+        [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs, sampleIndexOffsets(end));
 end
 
 %% Analyse rythmique
 if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
-
     [durees, tempo, silences, sampleIndexOffsets] = AnalyseRythmique(oss, bornes, FsOSS, Fs, sampleIndexOnsets, sampleIndexOffsets, 0);
     correctionDureeNotes;
 %     dureesCorrigees = durees;
@@ -170,15 +169,15 @@ end
 
 %% Mise en forme des résultats
 if strcmp(choixAlgo, OD)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss));
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), silences);
     tempo = 0;
 elseif strcmp(choixAlgo, AH)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), notesJouees);
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), silences, notesJouees);
     tempo = 0;
 elseif strcmp(choixAlgo, AR)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), dureesCorrigees);
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), silences, dureesCorrigees);
 elseif strcmp(choixAlgo, ALL) | strcmp(choixAlgo, ALLtemp)
-    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), dureesCorrigees, notesJouees);  
+    notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), silences, dureesCorrigees, notesJouees);  
 end
 
 %% Évaluation des résultats

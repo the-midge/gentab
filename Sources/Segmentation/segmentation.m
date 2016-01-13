@@ -1,4 +1,4 @@
-function [segments, bornes]=segmentation(x, lenOd, indOnsets, Fs)
+function [segments, bornes]=segmentation(x, lenOd, indOnsets, Fs, lastOffset)
 % segmentation.m
 % 
 %   USAGE: 
@@ -28,12 +28,13 @@ tX=(0:1/Fs:(length(x)-1)/Fs)'; %Vecteur temps du signal d'origine
 
 
 for i=[1:length(indOnsets)]    %Pour chaque attaque détectée,
-    [~, bornes(i, 1)]=min(abs(tX-indOnsets(i)/FsSF)); %On ajoute la valeur la plus proche de celle reconstituée via FsSF
-    
-    % Utiliser findClosest ici?
-    
+    [~, bornes(i, 1)]=min(abs(tX-indOnsets(i)/FsSF)); %On ajoute la valeur la plus proche de celle reconstituée via FsSF    
 end %a priori pas de vectorisation de cet algorithme possible
-
+if lastOffset<indOnsets(end)
+    bornes(i+1, 1)=length(x);
+else
+    [~, bornes(i+1, 1)]=min(abs(tX-lastOffset/FsSF));
+end
 
 % La première note se situe entre les bornes 1 et 2 car le premier segment 
 % est nécéssairement un silence (entre le début et la première attaque).
