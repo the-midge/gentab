@@ -26,7 +26,8 @@ disp('8:	Johnny B Good - 47s');
 disp('9:	Voodoo Child - 40s');
 disp('10:	Kashmir - 33s');
 disp('11:	Time is Running Out - 24s');
-disp('12:	Blackbird - 24s');
+disp('12:	48 notes - divers rythmes - 4m14s');
+disp('13:   Can''t Stop - 22s');
 disp('0: Sortie');
 
 choixEchantillon=input('Choix? '); %Attend une action utilisateur
@@ -93,8 +94,13 @@ switch choixEchantillon
         [x,Fs]=audioread(audioFilename);
         x=sum(x,2);
     case 12
-        disp('Blackbird');
-        audioFilename='Blackbird.wav';
+        disp('48 notes - divers rythmes');
+        audioFilename='48_dddd_cc_n_n.wav';
+        [x,Fs]=audioread(audioFilename);
+        x=sum(x,2);
+    case 13
+        disp('Can''t Stop');
+        audioFilename='Cant-stop.wav';
         [x,Fs]=audioread(audioFilename);
         x=sum(x,2);
     case 0
@@ -141,7 +147,7 @@ end
     
 %% Segmentation
 if(~strcmp(choixAlgo, OUT) & ~strcmp(choixAlgo, OD)) % Dans tout les cas sauf une sortie ou OD
-        [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs, sampleIndexOffsets(end));
+        [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs, sampleIndexOffsets(length(sampleIndexOffsets)));
 end
 
 %% Analyse rythmique
@@ -151,7 +157,7 @@ if(strcmp(choixAlgo, AR) | strcmp(choixAlgo, ALL));
 %     dureesCorrigees = durees;
 elseif strcmp(choixAlgo, ALLtemp)
     tempo = input('Tempo? ');
-    [durees] = AnalyseRythmique(oss, bornes, FsOSS, Fs, sampleIndexOnsets, sampleIndexOffsets, 0, tempo);
+    [durees, tempo, silences, sampleIndexOffsets] = AnalyseRythmique(oss, bornes, FsOSS, Fs, sampleIndexOnsets, sampleIndexOffsets, 0, tempo);
     correctionDureeNotes;
 %     dureesCorrigees=durees;
 end

@@ -22,7 +22,7 @@ ND='ND';
 OUT='OUT';
 choixAlgo=input('Choix? ');
 
-nMorceaux = 10;
+nMorceaux = 11;
 %% Onset Detection
 if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('1: DayTripper - 8s');
@@ -35,7 +35,7 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('8: Voodoo Child - 40s');    
     disp('9:	Kashmir - 33s');
     disp('10:   Time is Running Out - 24s'); 
-    
+    disp('11:	48 notes - divers rythmes - 4m14s');
     h1 = waitbar(0,'Analyse Harmonique...');
     for k=1:nMorceaux
         tic
@@ -69,7 +69,10 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
                 disp(audioFilename);
             case 10
                 audioFilename='Time_Running_Out.wav';
-                disp(audioFilename);
+                disp(audioFilename);            
+            case 11
+                audioFilename='48_dddd_cc_n_n.wav';
+                disp(audioFilename);            
         end
         waitbar((k-1)/(nMorceaux-1),h1,strcat(num2str(k-1), '/', num2str(nMorceaux), ': ', audioFilename));
 
