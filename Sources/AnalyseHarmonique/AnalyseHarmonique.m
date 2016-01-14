@@ -14,8 +14,9 @@
 clear notesJouees;
 for index= [1:length(segments)]    
     segment=segments{index};
-    notesJouees{index} = determinationNoteSegmentOctave_convolution(segment, Fs);
+   % notesJouees{index} = determinationNoteSegmentOctave_convolution(segment, Fs);
 %     notesJouees(index,:) = determinationNoteSegmentOctave_MultiPitch(segment ,Fs);
+<<<<<<< 7e48ce279363fd4e1c33a177d1a597099971785f
     aux =determinationNoteSegmentOctave_Harmonic_Product_Spectrum(segment , Fs);
     notesJouees{index}(3)=[aux(3)];
 end
@@ -31,3 +32,9 @@ end
 
 
     
+=======
+  %  aux =determinationNoteSegmentOctave_Harmonic_Product_Spectrum(segment , Fs);
+  notesJouees{index}=determinationNote_HPS_Harmonic_method_combined(segment, Fs)
+    %notesJouees{index}(3)=[aux(3)];
+end
+>>>>>>> 26f9ac064de267666ac4cff801fb02c757b7d831
