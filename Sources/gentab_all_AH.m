@@ -87,7 +87,7 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
 %             close all
         end
         
-        [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs, sampleIndexOffsets(end));
+        [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs, sampleIndexOffsets(length(sampleIndexOffsets)));
         AnalyseHarmonique
         notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), silences, notesJouees);
         tempo = 0;

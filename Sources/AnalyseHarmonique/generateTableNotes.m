@@ -32,7 +32,7 @@ function [Y] = generateTableNotes(indiceMin, indiceMax, fBase, doStem)
 %       Cette fonction génère une table en 3 dimensions constituée de la façon
 %       suivante:
 %           - La table est une superposition de 12 matrices
-%           - Une des dimension correspond donc aux 12 demi-tons possibles de la
+%           - Une des dimensions correspond donc aux 12 demi-tons possibles de la
 %           gamme chromatique européenne (Du E au D#). 
 %           - Les matrices correspondent dans un sens aux différentes octaves
 %           pour lesquelles on calcule les notes. Dans l'autre sens, on trouve
