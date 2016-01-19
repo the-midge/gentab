@@ -38,7 +38,7 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, indexOnsets, ind
     ecart=diff(bornes)/Fs; % écart entre deux bornes en secondes
     generatePeigneGaussienne;
     
-    if ~exist('tempo', 'var')
+    if nargin<8
         %% Détermination de la densité de probabilité des tempos
         determinationTempoV3; % Les résultats sont globalement bon mais il peut y avoir un écart d'un facteur 2.
 
@@ -92,7 +92,7 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, indexOnsets, ind
         currNote=note2split(k);
         dureeCurrNote= dureesBrutes(currNote);
         if dureeCurrNote < edgeHistogramme(2)
-            indexOffsets(currNote)=[];  % On supprime ce silence, la note est trop courte pour être divisée
+            indexOffsets(k)=[];  % On supprime ce silence, la note est trop courte pour être divisée
         elseif dureeCurrNote >= edgeHistogramme(2) && dureeCurrNote < edgeHistogramme(3)
             durees(currNote)=1;
             durees=[durees(1:currNote) dureeCurrNote-1 durees(currNote+1:end)];

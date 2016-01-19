@@ -35,10 +35,10 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('8: Voodoo Child - 40s');    
     disp('9:	Kashmir - 33s');
     disp('10:   Time is Running Out - 24s'); 
-    
-    for k=2:10
+    disp('11:	48 notes - divers rythmes - 4m14s');
+    for m=2:11
 
-        switch(k)
+        switch(m)
             case 1                
                 audioFilename='DayTripper.wav';
             case 2
@@ -59,15 +59,17 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
                 audioFilename='Kashmir.wav';
             case 10
                 audioFilename='Time_Running_Out.wav';
+            case 11
+                audioFilename='48_dddd_cc_n_n.wav';
         end
         [x,Fs]=audioread(audioFilename);
         x=x(:,1);
-        if( k==1)   % Cas particulier de Day Tripper
+        if( m==1)   % Cas particulier de Day Tripper
             x=x(1:Fs*8,1);
         end
         
         if(strcmp(choixAlgo, D))
-            figure(k),       
+            figure(m),       
         end
         OnsetDetection;   
         if(strcmp(choixAlgo, ND))
@@ -78,19 +80,19 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         [durees, tempo, silences, sampleIndexOffsets] = AnalyseRythmique(oss, bornes, FsOSS, Fs, sampleIndexOnsets, sampleIndexOffsets, 0);
         correctionDureeNotes
         notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), silences, dureesCorrigees);
-        tempos(k) = tempo;
+        temposDetecte(m) = tempo;
         
         [~, file, ~]=fileparts(audioFilename);
         filename = strcat('DATA/', file, '/expected.txt');
 
-        [ecartTempo(k), tempoExp(k)]=evaluateTempo(filename, tempo); 
+        [ecartTempo(m), tempoExp(m)]=evaluateTempo(filename, tempo); 
 
     end
     
-    [tempos', tempoExp', ecartTempo']
-    [MIN, worst] = min(tempos);
-    MEAN = mean(tempos);
-    [MAX, best] = max(tempos);
+    [temposDetecte', tempoExp', ecartTempo']
+    [MIN, worst] = min(temposDetecte);
+    MEAN = mean(temposDetecte);
+    [MAX, best] = max(temposDetecte);
   
 %     disp(['Worst is n°', num2str(worst), ' with ', num2str(MIN), '%']);
 %     disp(['Best is n°', num2str(best), ' with ', num2str(MAX), '%']);

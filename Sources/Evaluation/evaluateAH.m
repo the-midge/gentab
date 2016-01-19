@@ -75,7 +75,7 @@ for k=1:nbNotesExp
            rowNames = {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};   % temp
            for j=1:13
                if strcmp(rowNames{j}, characteres(idxNote(i):idxNote(i)+1)) ~= 0
-                  ton(i)=j; % note attendue
+                  ton(i)=j-1; % note attendue
                end
            end
        end

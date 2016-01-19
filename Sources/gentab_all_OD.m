@@ -41,7 +41,8 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('8:	Voodoo Child - 40s');
     disp('9:	Kashmir - 33s');
     disp('10:   Time is Running Out - 24s');
-    for k=1:10
+    disp('11:	48 notes - divers rythmes - 4m14s');
+    for k=1:11
         switch(k)
             case 1                
                 audioFilename='DayTripper.wav';
@@ -63,6 +64,8 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
                 audioFilename='Kashmir.wav';
             case 10
                 audioFilename='Time_Running_Out.wav';
+            case 11
+                audioFilename='48_dddd_cc_n_n.wav';
         end
         [x,Fs]=audioread(audioFilename);
         x=x(:,1);
@@ -77,7 +80,7 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         if(strcmp(choixAlgo, ND))
             close all
         end
-        notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss));
+        notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), []);
         tempo = 0;
         
         clear silences oss seuil seuilGlobal;
