@@ -6,3 +6,4 @@ config.txt
 *.rej
 Sources\testCompiler\*
 Sources\testC++\*
+Sources/Application/build-GenTab-Desktop_Qt_5_5_1_MinGW_32bit-*
