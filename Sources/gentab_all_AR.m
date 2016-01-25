@@ -5,7 +5,7 @@
 %
 
 
-close all
+% close all
 beep off
 
 addpath(genpath('../Sources'))
@@ -36,7 +36,7 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
     disp('9:	Kashmir - 33s');
     disp('10:   Time is Running Out - 24s'); 
     disp('11:	48 notes - divers rythmes - 4m14s');
-    for m=2:11
+    for m=2:10
 
         switch(m)
             case 1                
@@ -68,25 +68,27 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
             x=x(1:Fs*8,1);
         end
         
-        if(strcmp(choixAlgo, D))
-            figure(m),       
-        end
+%         if(strcmp(choixAlgo, D))
+%             figure(m),       
+%         end
         OnsetDetection;   
         if(strcmp(choixAlgo, ND))
             close all
         end
         
-        [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs, sampleIndexOffsets(end));
-        [durees, tempo, silences, sampleIndexOffsets] = AnalyseRythmique(oss, bornes, FsOSS, Fs, sampleIndexOnsets, sampleIndexOffsets, 0);
+        [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs, sampleIndexOffsets(length(sampleIndexOffsets)));
+        [durees, temposDetecte(m), silences, sampleIndexOffsets] = AnalyseRythmique(oss, bornes, FsOSS, Fs, sampleIndexOnsets, sampleIndexOffsets, 0);
         correctionDureeNotes
+%         dureesCorrigees=round(durees);
         notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), silences, dureesCorrigees);
-        temposDetecte(m) = tempo;
+%         temposDetecte(m) = tempo;
         
         [~, file, ~]=fileparts(audioFilename);
         filename = strcat('DATA/', file, '/expected.txt');
 
-        [ecartTempo(m), tempoExp(m)]=evaluateTempo(filename, tempo); 
-
+        [ecartTempo(m), tempoExp(m)]=evaluateTempo(filename, temposDetecte(m)); 
+        [confDurees]=evaluateAR(filename, notesDet, temposDetecte(m), 0);
+        succesDurees(m)=sum(diag(confDurees))/sum(sum(confDurees))*100;
     end
     
     [temposDetecte', tempoExp', ecartTempo']

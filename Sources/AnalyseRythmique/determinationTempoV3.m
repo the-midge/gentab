@@ -45,7 +45,7 @@ EAC(1:round(length(A)/4),:) = A(1:4:end,:);
 
 %% B.4 Sélection des pics
 Pacc = zeros(10,M);
-maxBPM = 180; minBPM = 50;
+maxBPM = 200; minBPM = 50;
 min_lag = floor(60*FsOSS/maxBPM);
 max_lag = floor(60*FsOSS/minBPM);
 nPeaksMax = 10;
@@ -76,7 +76,7 @@ Lm=60*FsOSS./(Pacc(Lm+(0:10:length(Lm)*10-1)')-1);
 %% C. Accumulation et estimation générale
 %   1) Gaussiennes
 x=(1:maxBPM);
-sigma=8;
+sigma=4;
 abscisseTempo= bsxfun(@minus, x, Lm);
 Gm=exp(-abscisseTempo.^2/(2*sigma^2))/(sigma*sqrt(2*pi));
 indicesMinima= findClosest(x, Lm+2.33*sigma);

@@ -43,7 +43,7 @@ function [ notesDet ] = miseEnForme(sampleIndexOnsets,  FsSF, silences, durees, 
     else
         maxL=length(durees)+1;
     end
-    while(k<length(sampleIndexOnsets)+~isempty(silences))
+    while(k<length(sampleIndexOnsets)+~isempty(silences) && l<length(durees))
         if ismember(l, silences) || l>maxL
             notesDet(l)=Note(round((sampleIndexOnsets(k-1)+50)*FsSF), durees(l), 'R 0');
             l=l+1;

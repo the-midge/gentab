@@ -45,7 +45,7 @@ y=length(segFftWin);
 % segFftWin=abs(segFftWin(11:(length(segFftWin)/2-15380)));
 axe_freq = (0:y/2-1)*Fs/y;
 segFftWin=abs(segFftWin(1:(length(segFftWin)/2)));
-figure,plot(axe_freq,segFftWin)
+% figure,plot(axe_freq,segFftWin)
                                                   
 hps1=downsample(segFftWin,1);
 hps2=downsample(segFftWin,2);

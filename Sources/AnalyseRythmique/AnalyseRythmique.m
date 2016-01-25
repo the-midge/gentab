@@ -43,30 +43,42 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, indexOnsets, ind
         determinationTempoV3; % Les résultats sont globalement bon mais il peut y avoir un écart d'un facteur 2.
 
         % Séléection des candidats
-        [~, temposCandidats]=findpeaks(C, 'SORTSTR', 'descend');
+        [~, temposCandidats]=findpeaks(C, 'SORTSTR', 'descend', 'MINPEAKHEIGHT', max(C)/4);
 
+        
         for tau=1:length(temposCandidats)
         % Détermination des durées de notes
-            ecartRef=60/temposCandidats(tau); %coefficient de normalisation des écarts
+            currCandidat = temposCandidats(tau);
+            ecartRef=60/currCandidat; %coefficient de normalisation des écarts
             indiceEcartsPourPeigne = findClosest(abscisse,ecart/ecartRef*4);
             probas=peigneGaussienne(indiceEcartsPourPeigne,:);
             [probasMax(:,tau), durees] = max(probas');
+            featureProcessing;
+            featuresTotaux(tau,:)=features;
         end
-       
-        % Choix du meilleur tempo candidat
-        mu_Tau=mean(probasMax);
-        [~, tauMeilleur]=max(mu_Tau);
-        tempo=temposCandidats(tauMeilleur);      
         
+        load('.\AnalyseRythmique\ApprentissageTempo\MU_SIGMA.mat');
+        featuresNormalized=[ones(size(featuresTotaux(:,1))) bsxfun(@rdivide, bsxfun(@minus,  featuresTotaux(:,3:end), MU), SIGMA)];
+        load('.\AnalyseRythmique\ApprentissageTempo\theta.mat');
+        tauMeilleur= predict(theta, featuresNormalized);
+        % Choix du meilleur tempo candidat
+%         mu_Tau=mean(probasMax);
+%         [~, tauMeilleur]=max(mu_Tau);
+% %         load('theta.mat');
+%         p=predict(theta, features(:,3:end));
+        tempo=temposCandidats(tauMeilleur);
+        
+        
+%         figure, plot(C)
         %% Doublement ou division via la SVM
-        doubleOrHalve;
-        load nnTrained
-        [probDoubleOrHalve]=sim(nnTrained, features_normalized)*100 ;   %Probabilité (%) qu'il faille diviser par 2, ne rien faire ou doubler le tempo trouvé).
-        if(probDoubleOrHalve(1)>25)  %Si la proba de diviser est supérieure à 25% on divise
-            tempo=tempo/2;
-        elseif(probDoubleOrHalve(3)>66) %Si la proba de double est supérieure à 66% on double
-            tempo=2*tempo;
-        end %Sinon on ne fait rien
+%         doubleOrHalve;
+%         load nnTrained
+%         [probDoubleOrHalve]=sim(nnTrained, features_normalized)*100 ;   %Probabilité (%) qu'il faille diviser par 2, ne rien faire ou doubler le tempo trouvé).
+%         if(probDoubleOrHalve(1)>25)  %Si la proba de diviser est supérieure à 25% on divise
+%             tempo=tempo/2;
+%         elseif(probDoubleOrHalve(3)>66) %Si la proba de double est supérieure à 66% on double
+%             tempo=2*tempo;
+%         end %Sinon on ne fait rien
         tempo=round(tempo);
     end
     
@@ -114,6 +126,10 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, indexOnsets, ind
     if ~isempty(silences)
         silences=silences+(1:length(silences))';
     end
+    
+%     if (length(silences)+length(indexOnsets))==length(durees)
+%         disp('Erreur AR');
+%     end
     %% No correction
 %     probasEcart = peigneGaussienne(indiceEcartsPourPeigne,:);
 %     [~, durees] = max(probasEcart')
@@ -128,6 +144,9 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, indexOnsets, ind
     end
     
     varargout{1}=durees;
+    if nargout==1
+        varargout{1}=featuresTotaux;
+    end
     if nargout==2        
         varargout{2}=tempo;
     end
