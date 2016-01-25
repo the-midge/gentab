@@ -201,7 +201,7 @@ end
 if display
     figure(2)
     mask=eye(13);
-    plotconfusion(mask(tonsAComparer(:,2),:)', mask(tonsAComparer(:,1),:)');
+    plotconfusion(mask(tonsAComparer(:,2)+1,:)', mask(tonsAComparer(:,1)+1,:)');
     PTFS = nnplots.title_font_size;
     titleStyle = {'fontweight','bold','fontsize',PTFS};
     xlabel('Tons Cibles',titleStyle{:});
@@ -222,7 +222,7 @@ if display
     title(['Matrice de confusion des octaves'],titleStyle{:});
 end
 mask=eye(13);
-[~, confTons, ~, ~]=confusion(mask(tonsAComparer(:,2),:)', mask(tonsAComparer(:,1),:)');
+[~, confTons, ~, ~]=confusion(mask(tonsAComparer(:,2)+1,:)', mask(tonsAComparer(:,1)+1,:)');
 mask=[0 zeros(1,5); zeros(5,1), eye(5)];
 [~, confOctaves, ~, ~]=confusion(mask(octavesAComparer(:,2),:)', mask(octavesAComparer(:,1),:)');
 %%   Affichage de la matrice de confusion des tons (texte)

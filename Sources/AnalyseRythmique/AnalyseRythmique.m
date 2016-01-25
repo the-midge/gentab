@@ -44,7 +44,7 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, indexOnsets, ind
 
         % Séléection des candidats
         [~, temposCandidats]=findpeaks(C, 'SORTSTR', 'descend', 'MINPEAKHEIGHT', max(C)/4);
-
+        temposCandidats(temposCandidats<56)=[];
         
         for tau=1:length(temposCandidats)
         % Détermination des durées de notes
