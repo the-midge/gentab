@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>dos_final.png</file>
+        <file>guitar.jpeg</file>
+        <file>quatro_final.png</file>
+        <file>tres_final.png</file>
+        <file>uno_final.png</file>
+    </qresource>
+</RCC>
