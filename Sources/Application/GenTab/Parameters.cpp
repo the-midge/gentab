@@ -2,6 +2,7 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QStringList>
 
 Parameters::Parameters()
 {
@@ -93,6 +94,28 @@ void Parameters::readConfigFile()
     }
 }
 
+bool Parameters::setExportFileName(QString newExportFileName)
+{
+    QFile exportFile(newExportFileName);
+    if(exportFile.exists())
+    {
+        _qsExportFileName=newExportFileName;
+        return true;
+    }else
+        return false;
+}
+
+bool Parameters::setAudioFileName(QString newAudioFileName)
+{
+    QFile exportFile(newAudioFileName);
+    if(exportFile.exists())
+    {
+        _qsAudioFileName=newAudioFileName;
+        return true;
+    }else
+        return false;
+}
+
 QString Parameters::getAudacityPath()
 {
     QString windowsDefaultPath = QDir::toNativeSeparators("C:/Program Files (x86)/Audacity/audacity.exe");
@@ -131,4 +154,46 @@ QString Parameters::getGuitarProPath()
     }else{
         return windowsDefaultPath;
     }
+}
+
+QString Parameters::getMatlabPath()
+{
+    QString windowsDefaultPath = QDir::toNativeSeparators("C:/Program Files/MATLAB");
+    if(!QFile::exists(windowsDefaultPath))
+    {
+        // Displays a QDialog so that the user can specify its audacity location
+        QMessageBox msgBox;
+        msgBox.setText("This application requires the software Audacity to be installed on your computer.");
+        msgBox.setInformativeText("Please specify where it is located or download it from: ");
+        msgBox.setStandardButtons(QMessageBox::Open);
+        msgBox.setDefaultButton(QMessageBox::Open);
+        msgBox.exec();
+        return QFileDialog::getOpenFileName(&msgBox, QString("Locate Matlab"),
+                                                       QDir::rootPath(),
+                                                        QString("Application (*.exe)"));
+    }else{
+        return windowsDefaultPath;
+    }
+}
+
+void Parameters::runGentabScript()
+{
+    QStringList qslMatlabInstructions;
+    qslMatlabInstructions << "fileName=" + _qsExportFileName
+                          << "exportDir=" + _qsGeneratedTabsPath
+                          << "audioFileName=" + _qsAudioFileName
+                          << "run('" + _qsGentabPath + QDir::separator() + "gentab_stand_alone.m');";
+    QString qsMatlabInstruction = qslMatlabInstructions.join(';');
+
+    QStringList qslWindowsInstructions;
+    qslWindowsInstructions << _qsMatlabPath + QDir::toNativeSeparators("/bin/matlab.exe")
+                           << "-nodisplay"
+                           << "-nosplash"
+                           << "-nodesktop"
+                           << "-minimize"
+                           << "-r"
+                           << qsMatlabInstruction;
+    QString qsWindowsInstruction = qslWindowsInstructions.join(' ');
+
+
 }

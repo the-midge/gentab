@@ -207,6 +207,7 @@ elseif strcmp(choixAlgo, ALL) | strcmp(choixAlgo, ALLtemp)
     o='o'; O='O'; n='n'; N='N';
     choix=input('Générer un fichier MIDI (o/n)? ');
     if strcmp(choix, 'o') || strcmp(choix, 'O')
+        out = strcat('Data/', file, '/', file, '.mid')
         generationMidi;
         os=computer;
         s2='MACI64';
