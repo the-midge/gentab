@@ -235,7 +235,8 @@ void Parameters::runGentabScript(Format format)
     qslMatlabInstructions << "fileName=" + _qsExportFileName
                           << "exportDir=" + _qsGeneratedTabsPath
                           << "audioFileName=" + _qsAudioFileName
-                          << "run('" + _qsGentabPath + QDir::separator() + "gentab_stand_alone.m');";
+                          << "run('" + _qsGentabPath + QDir::separator() + "gentab_stand_alone.m')"
+                          << "exit;";
     QString qsMatlabInstruction = qslMatlabInstructions.join(';');
 
     if(this->_os==Windows)

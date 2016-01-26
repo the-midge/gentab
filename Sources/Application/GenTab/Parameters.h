@@ -35,14 +35,15 @@ public:
     QString _qsRecordedAudioFilesPath;
     QString _qsGeneratedTabsPath;
 
-    QString _qsAudacityPath;
-    QString _qsGuitarProPath;
-    QString _qsMatlabPath;
-
     QString _qsUserPath;
     QString _qsGentabPath;
 
     OS _os;
+private:
+    QString _qsAudacityPath;
+    QString _qsGuitarProPath;
+    QString _qsMatlabPath;
+
 };
 
 #endif // PARAMETERS_H

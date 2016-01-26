@@ -20,8 +20,11 @@ public:
     
 private slots:
     void openAudacity();
-    void selectPath();
+    void newAudacityProject();
     void onGenerateFileClicked();
+    void onAudacityProjectTextChanged(QString newText);
+    void exploreAudacity();
+
 private:
     Ui::MainWindow *ui;
     Parameters _param;

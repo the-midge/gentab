@@ -20,10 +20,15 @@ MainWindow::MainWindow(QWidget *parent) :
     _param(Parameters())
 {
     ui->setupUi(this);
-
+    this->setWindowIcon(QIcon(":/Guitar-icon.png"));
+    this->statusBar()->hide();
+    this->menuBar()->hide();
     connect(ui->pushButtonOpenAudacityProject,SIGNAL(clicked()), this, SLOT(openAudacity()));
-    connect(ui->pushButtonExploreAudacityProject,SIGNAL(clicked()), this, SLOT(selectPath()));
+    connect(ui->pushButtonNewAudacityProject,SIGNAL(clicked()), this, SLOT(newAudacityProject()));
+    connect(ui->pushButtonExploreAudacityProject,SIGNAL(clicked()), this, SLOT(exploreAudacity()));
+
     connect(ui->pushButtonSaveFilename, SIGNAL(clicked()), this, SLOT(onGenerateFileClicked()));
+    connect(ui->audacityProjectLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onAudacityProjectTextChanged(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -33,54 +38,28 @@ MainWindow::~MainWindow()
 
 void MainWindow::openAudacity()
 {
-   // Ouverture du fichier tampon
-    QTextEdit * zoneTexte=new QTextEdit;
-    ui->verticalLayout_5->addWidget(zoneTexte);
-    
-    zoneTexte->setGeometry(100,100,400,200);
-    zoneTexte->setReadOnly(true);
-    zoneTexte->setTextColor(Qt::blue);
-    
-    QString texte;
-    QFile fichier("/Users/apple/Desktop/projetTampon.aup");
-    
-    if(fichier.open(QIODevice::ReadOnly))
-       {
-           texte="Le fichier tampon a bien été ouvert!";
-           fichier.close();
-       }
-       else texte="Impossible d'ouvrir le fichier!";
-       
-    
-    zoneTexte->setText(texte);
-    zoneTexte->show();
-    
-    // Copie du chemin du nouveau projet
-    
-    if(!QFile::exists("chemin du fichier avec l'extension"))
-        QMessageBox::critical(NULL,"Erreur","Ce fichier existe déjà.");
-    
-    
-    //QFile fichier("tampon.txt");
-    
-    
-    //QDesktopServices::openUrl(QUrl::fromLocalFile("/Applications/Audacity/Audacity.app"));
-    
+    if(this->ui->audacityProjectLineEdit->text().isEmpty() || !QFile::exists(this->ui->audacityProjectLineEdit->text()))
+    {
+        return;
+    }
+
+    QDesktopServices::openUrl(QUrl::fromLocalFile(this->ui->audacityProjectLineEdit->text()));// ouvre le fichier audacity
 }
 
-void MainWindow::selectPath()
+void MainWindow::newAudacityProject()
 {
-    QTextEdit * zoneTexte=new QTextEdit;
-    ui->verticalLayout_5->addWidget(zoneTexte);
+//    QTextEdit * zoneTexte=new QTextEdit;
+//    ui->verticalLayout_5->addWidget(zoneTexte);
     
-    zoneTexte->setGeometry(100,100,400,200);
-    zoneTexte->setReadOnly(true);
-    zoneTexte->setTextColor(Qt::blue);
+//    zoneTexte->setGeometry(100,100,400,200);
+//    zoneTexte->setReadOnly(true);
+//    zoneTexte->setTextColor(Qt::blue);
     
     QString texte;
-    QFile fichier("/Users/apple/Desktop/projetTampon.aup");
-    QString path=QFileDialog::getSaveFileName(this,"Enregistrer sous...",QDir::currentPath(),"Audacity project(*.aup)"); // path est le nom du chemin du nouveau fichier Audacity
-    
+    QString originalFile=_param._qsGentabPath + QDir::separator() + "projetTampon.aup";
+    QFile fichier(originalFile);
+    QString path=QFileDialog::getSaveFileName(this,"Enregistrer sous...",_param._qsAudacityProjectsPath,"Audacity project(*.aup)"); // path est le nom du chemin du nouveau fichier Audacity
+
     if(fichier.open(QIODevice::ReadOnly))
     {
         texte=path;
@@ -95,21 +74,21 @@ void MainWindow::selectPath()
     //zoneTexte->setText(name);
     //zoneTexte->show();
 
-    QFile::copy("/Users/apple/Desktop/projetTampon.aup",path); // copie le fichier tampon dans le repertoire path
+    QFile::copy(originalFile,path); // copie le fichier tampon dans le repertoire path
     //Qstring result=path+name
     QFileInfo fich(path);
     QString nomRepertoire=fich.canonicalPath();
     
-    zoneTexte->setText(nomRepertoire);
-    zoneTexte->show();
+//    zoneTexte->setText(nomRepertoire);
+//    zoneTexte->show();
     
     QFileInfo fi(path);
-    QString nomUtilisateur=fi.baseName(); // le nom donné par l'utilisateur au projet audacity
+    QString nomUtilisateur=fich.baseName(); // le nom donné par l'utilisateur au projet audacity
     QString nomDossier=nomUtilisateur+"_data"; // le nom que doit avoir le dossier data pour pouvoir ouvrir le projet
     QString pathnomDossier=nomRepertoire+"/"+nomDossier;
     QDir().mkdir(pathnomDossier); // créer le dossier data
     
-
+    this->ui->audacityProjectLineEdit->setText(path);
     
     QDesktopServices::openUrl(QUrl::fromLocalFile(path)); // ouvre le fichier audacity
     
@@ -126,4 +105,20 @@ void MainWindow::onGenerateFileClicked()
     else
         format = MIDI;
     _param.runGentabScript(format);
+}
+
+void MainWindow::onAudacityProjectTextChanged(QString newText)
+{
+    QFile fichier(newText);
+    if(fichier.exists() && newText.endsWith(".aup"))
+        this->ui->pushButtonOpenAudacityProject->setEnabled(true);
+    else
+        this->ui->pushButtonOpenAudacityProject->setDisabled(true);
+}
+
+void MainWindow::exploreAudacity()
+{
+    QString path=QFileDialog::getOpenFileName(this,"Open...",_param._qsAudacityProjectsPath,"Audacity project(*.aup)"); // path est le nom du chemin du nouveau fichier Audacity
+    if(!path.isEmpty() && path.endsWith(".aup"))
+        this->ui->audacityProjectLineEdit->setText(path);
 }
