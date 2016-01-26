@@ -6,11 +6,18 @@
 
 Parameters::Parameters()
 {
+    if(QSysInfo::windowsVersion()==QSysInfo::WV_None)
+        this->_os = MacOSx;
+    else
+        this->_os = Windows;
+
     readConfigFile();
     if(_qsAudacityPath.isEmpty())
         _qsAudacityPath=getAudacityPath();
     if(_qsGuitarProPath.isEmpty())
         _qsGuitarProPath=getGuitarProPath();
+    if(_qsMatlabPath.isEmpty())
+        _qsMatlabPath=getMatlabPath();
 }
 
 
@@ -21,6 +28,10 @@ void Parameters::installUserFolders()
     _qsAudacityProjectsPath = userGentabPath + QDir::separator() + "Audacity Projects";
     _qsRecordedAudioFilesPath = userGentabPath + QDir::separator() + "Recorded Audio Files";
     _qsGeneratedTabsPath = userGentabPath + QDir::separator() + "Generated Tabs";
+
+    _qsAudacityProjectsPath=QDir::toNativeSeparators(_qsAudacityProjectsPath);
+    _qsRecordedAudioFilesPath=QDir::toNativeSeparators(_qsRecordedAudioFilesPath);
+    _qsGeneratedTabsPath=QDir::toNativeSeparators(_qsGeneratedTabsPath);
 
     QDir userDir(_qsUserPath);
     if(userDir.mkdir(userGentabPath))
@@ -47,7 +58,8 @@ void Parameters::writeConfigFile()
            << _qsRecordedAudioFilesPath.append('\n')
            << _qsGeneratedTabsPath.append('\n')
            << _qsAudacityPath.append('\n')
-           << _qsGuitarProPath.append('\n');
+           << _qsGuitarProPath.append('\n')
+           << _qsMatlabPath.append('\n');
 
     stream.flush();
 }
@@ -64,6 +76,12 @@ void Parameters::readConfigFile()
     if(!(checkFile.exists() && checkFile.isFile()))
     {
         installUserFolders();
+        if(_qsAudacityPath.isEmpty())
+            _qsAudacityPath=getAudacityPath();
+        if(_qsGuitarProPath.isEmpty())
+            _qsGuitarProPath=getGuitarProPath();
+        if(_qsMatlabPath.isEmpty())
+            _qsMatlabPath=getMatlabPath();
         writeConfigFile();
     }else{
         QFile configFile(configFilePath);
@@ -88,6 +106,9 @@ void Parameters::readConfigFile()
             case 5:
                 _qsGuitarProPath = in.readLine();
                 break;
+            case 6:
+                _qsMatlabPath = in.readLine();
+                break;
             }
             i++;
         }
@@ -97,12 +118,11 @@ void Parameters::readConfigFile()
 bool Parameters::setExportFileName(QString newExportFileName)
 {
     QFile exportFile(newExportFileName);
-    if(exportFile.exists())
+    if(exportFile.exists())// Check if an file with the same name already exists
     {
+    }else
         _qsExportFileName=newExportFileName;
         return true;
-    }else
-        return false;
 }
 
 bool Parameters::setAudioFileName(QString newAudioFileName)
@@ -118,65 +138,98 @@ bool Parameters::setAudioFileName(QString newAudioFileName)
 
 QString Parameters::getAudacityPath()
 {
-    QString windowsDefaultPath = QDir::toNativeSeparators("C:/Program Files (x86)/Audacity/audacity.exe");
-    if(!QFile::exists(windowsDefaultPath))
+    if(this->_os==Windows)
     {
-        // Displays a QDialog so that the user can specify its audacity location
-        QMessageBox msgBox;
-        msgBox.setText("This application requires the software Audacity to be installed on your computer.");
-        msgBox.setInformativeText("Please specify where it is located or download it from: ");
-        msgBox.setStandardButtons(QMessageBox::Open);
-        msgBox.setDefaultButton(QMessageBox::Open);
-        msgBox.exec();
-        return QFileDialog::getOpenFileName(&msgBox, QString("Locate Audacity"),
-                                                       QDir::rootPath(),
-                                                        QString("Application (*.exe)"));
-    }else{
-        return windowsDefaultPath;
+        QString windowsDefaultPath = QDir::toNativeSeparators("C:/Program Files (x86)/Audacity/audacity.exe");
+        if(!QFile::exists(windowsDefaultPath))
+        {
+            // Displays a QDialog so that the user can specify its audacity location
+            QMessageBox msgBox;
+            msgBox.setText("This application requires the software Audacity to be installed on your computer.");
+            msgBox.setInformativeText("Please specify where it is located or download it from: ");
+            msgBox.setStandardButtons(QMessageBox::Open);
+            msgBox.setDefaultButton(QMessageBox::Open);
+            msgBox.exec();
+            return QFileDialog::getOpenFileName(&msgBox, QString("Locate Audacity"),
+                                                QDir::rootPath(),
+                                                QString("Application (*.exe)"));
+        }else{
+            return windowsDefaultPath;
+        }
+    }else
+    {
+        // Same thing but with Mac default path
     }
+    return QString("Error");
 }
 
 QString Parameters::getGuitarProPath()
 {
-    QString windowsDefaultPath = QDir::toNativeSeparators("C:/Program Files (x86)/Guitar Pro 5/GP5.exe");
-    if(!QFile::exists(windowsDefaultPath))
+    if(this->_os==Windows)
     {
-        // Displays a QDialog so that the user can specify its audacity location
-        QMessageBox msgBox;
-        msgBox.setText("This application requires the software Audacity to be installed on your computer.");
-        msgBox.setInformativeText("Please specify where it is located or download it from: ");
-        msgBox.setStandardButtons(QMessageBox::Open);
-        msgBox.setDefaultButton(QMessageBox::Open);
-        msgBox.exec();
-        return QFileDialog::getOpenFileName(&msgBox, QString("Locate GuitarPro"),
-                                                       QDir::rootPath(),
-                                                        QString("Application (*.exe)"));
+        QString windowsDefaultPath = QDir::toNativeSeparators("C:/Program Files (x86)/Guitar Pro 5/GP5.exe");
+        if(!QFile::exists(windowsDefaultPath))
+        {
+            // Displays a QDialog so that the user can specify its audacity location
+            QMessageBox msgBox;
+            msgBox.setText("This application requires the software Audacity to be installed on your computer.");
+            msgBox.setInformativeText("Please specify where it is located or download it from: ");
+            msgBox.setStandardButtons(QMessageBox::Open);
+            msgBox.setDefaultButton(QMessageBox::Open);
+            msgBox.exec();
+            return QFileDialog::getOpenFileName(&msgBox, QString("Locate GuitarPro"),
+                                                           QDir::rootPath(),
+                                                            QString("Application (*.exe)"));
+        }else{
+            return windowsDefaultPath;
+        }
     }else{
-        return windowsDefaultPath;
+        // Same thing but with Mac default path
     }
+    return QString("Error");
 }
 
 QString Parameters::getMatlabPath()
 {
-    QString windowsDefaultPath = QDir::toNativeSeparators("C:/Program Files/MATLAB");
-    if(!QFile::exists(windowsDefaultPath))
+    if(this->_os==Windows)
     {
-        // Displays a QDialog so that the user can specify its audacity location
-        QMessageBox msgBox;
-        msgBox.setText("This application requires the software Audacity to be installed on your computer.");
-        msgBox.setInformativeText("Please specify where it is located or download it from: ");
-        msgBox.setStandardButtons(QMessageBox::Open);
-        msgBox.setDefaultButton(QMessageBox::Open);
-        msgBox.exec();
-        return QFileDialog::getOpenFileName(&msgBox, QString("Locate Matlab"),
-                                                       QDir::rootPath(),
-                                                        QString("Application (*.exe)"));
+//        QRegExp rx("R(\\d+)(.)");
+//        rx.indexIn();
+//        QStringList list = rx.capturedTexts();
+
+        QString windowsDefaultPath = QDir::toNativeSeparators("C:/Program Files/MATLAB");
+        QDir mainDir(windowsDefaultPath);
+        mainDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
+        mainDir.setNameFilters(QStringList("R*"));  // The foler is under the form R201X(a|b)
+        QStringList subfolders = mainDir.entryList();
+        QStringList fullPath;
+        fullPath << windowsDefaultPath
+                 << subfolders.at(0)
+                 << "bin"
+                 << "matlab.exe";
+        windowsDefaultPath = fullPath.join(QDir::separator());
+        if(!QFile::exists(windowsDefaultPath))
+        {
+            // Displays a QDialog so that the user can specify its audacity location
+            QMessageBox msgBox;
+            msgBox.setText("This application requires the software Audacity to be installed on your computer.");
+            msgBox.setInformativeText("Please specify where it is located or download it from: ");
+            msgBox.setStandardButtons(QMessageBox::Open);
+            msgBox.setDefaultButton(QMessageBox::Open);
+            msgBox.exec();
+            return QFileDialog::getOpenFileName(&msgBox, QString("Locate Matlab"),
+                                                QDir::rootPath(),
+                                                QString("Application (*.exe)"));
+        }else{
+            return windowsDefaultPath;
+        }
     }else{
-        return windowsDefaultPath;
+        // Same thing but with Mac default path
     }
+    return QString("Error");
 }
 
-void Parameters::runGentabScript()
+void Parameters::runGentabScript(Format format)
 {
     QStringList qslMatlabInstructions;
     qslMatlabInstructions << "fileName=" + _qsExportFileName
@@ -185,15 +238,18 @@ void Parameters::runGentabScript()
                           << "run('" + _qsGentabPath + QDir::separator() + "gentab_stand_alone.m');";
     QString qsMatlabInstruction = qslMatlabInstructions.join(';');
 
-    QStringList qslWindowsInstructions;
-    qslWindowsInstructions << _qsMatlabPath + QDir::toNativeSeparators("/bin/matlab.exe")
-                           << "-nodisplay"
-                           << "-nosplash"
-                           << "-nodesktop"
-                           << "-minimize"
-                           << "-r"
-                           << qsMatlabInstruction;
-    QString qsWindowsInstruction = qslWindowsInstructions.join(' ');
-
-
+    if(this->_os==Windows)
+    {
+        QStringList qslWindowsInstructions;
+        qslWindowsInstructions << _qsMatlabPath + QDir::toNativeSeparators("/bin/matlab.exe")
+//                               << "-nodisplay"
+//                               << "-nosplash"
+//                               << "-nodesktop"
+//                               << "-minimize"
+                               << "-r"
+                               << qsMatlabInstruction;
+        QString qsWindowsInstruction = qslWindowsInstructions.join(' ');
+    }else{
+        // Same thing but with Mac cmd line
+    }
 }

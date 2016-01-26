@@ -7,4 +7,4 @@ config.txt
 Sources\testCompiler\*
 Sources\testC++\*
 Sources/Application/build-GenTab-Desktop_Qt_5_5_1_MinGW_32bit-*
-Sources/Application/GenTab/GenTab.pro*
+Sources/Application/GenTab/GenTab.pro.user*

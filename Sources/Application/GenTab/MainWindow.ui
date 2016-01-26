@@ -166,6 +166,13 @@ p, li { white-space: pre-wrap; }
                </spacer>
               </item>
               <item>
+               <widget class="QLineEdit" name="waveFileLineEdit">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QPushButton" name="pushButtonExploreWaveFile">
                 <property name="enabled">
                  <bool>true</bool>
@@ -312,6 +319,19 @@ p, li { white-space: pre-wrap; }
                  </spacer>
                 </item>
                 <item>
+                 <widget class="QLineEdit" name="filenameLineEdit">
+                  <property name="inputMask">
+                   <string notr="true"/>
+                  </property>
+                  <property name="dragEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="clearButtonEnabled">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <widget class="QPushButton" name="pushButtonExploreFilename">
                   <property name="enabled">
                    <bool>true</bool>
@@ -449,6 +469,13 @@ p, li { white-space: pre-wrap; }
                  </size>
                 </property>
                </spacer>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="audacityProjectLineEdit">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButtonExploreAudacityProject">
@@ -592,6 +619,9 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="text">
                    <string>     MIDI</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>

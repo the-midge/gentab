@@ -16,12 +16,14 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    _param(Parameters())
 {
     ui->setupUi(this);
+
     connect(ui->pushButtonOpenAudacityProject,SIGNAL(clicked()), this, SLOT(openAudacity()));
     connect(ui->pushButtonExploreAudacityProject,SIGNAL(clicked()), this, SLOT(selectPath()));
-
+    connect(ui->pushButtonSaveFilename, SIGNAL(clicked()), this, SLOT(onGenerateFileClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -112,4 +114,16 @@ void MainWindow::selectPath()
     QDesktopServices::openUrl(QUrl::fromLocalFile(path)); // ouvre le fichier audacity
     
    
+}
+
+void MainWindow::onGenerateFileClicked()
+{
+    _param.setAudioFileName(ui->waveFileLineEdit->text());
+    _param.setExportFileName(ui->filenameLineEdit->text());
+    Format format;
+    if(ui->buttonGP4->isChecked())
+        format = GP4;
+    else
+        format = MIDI;
+    _param.runGentabScript(format);
 }

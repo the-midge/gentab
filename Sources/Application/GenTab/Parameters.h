@@ -6,6 +6,10 @@
 #include <QTextStream>
 #include <QIODevice>
 
+
+enum OS{Windows, MacOSx};
+enum Format{MIDI, GP4};
+
 class Parameters
 {
 public:
@@ -13,7 +17,7 @@ public:
     void readConfigFile();
     void installUserFolders();
     void writeConfigFile();
-    void runGentabScript();
+    void runGentabScript(Format format);
 
     bool setExportFileName(QString newExportFileName);
     bool setAudioFileName(QString newAudioFileName);
@@ -37,6 +41,8 @@ public:
 
     QString _qsUserPath;
     QString _qsGentabPath;
+
+    OS _os;
 };
 
 #endif // PARAMETERS_H
