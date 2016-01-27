@@ -17,7 +17,7 @@ public:
     void readConfigFile();
     void installUserFolders();
     void writeConfigFile();
-    void runGentabScript(Format format);
+    bool runGentabScript(Format format);
 
     bool setExportFileName(QString newExportFileName);
     bool setAudioFileName(QString newAudioFileName);

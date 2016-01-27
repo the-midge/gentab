@@ -147,7 +147,11 @@ end
     
 %% Segmentation
 if(~strcmp(choixAlgo, OUT) & ~strcmp(choixAlgo, OD)) % Dans tout les cas sauf une sortie ou OD
+    if ~isempty(sampleIndexOffsets)
         [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs, sampleIndexOffsets(length(sampleIndexOffsets)));
+    else
+                [segments, bornes]=segmentation(x, length(oss), sampleIndexOnsets, Fs, 0);
+    end
 end
 
 %% Analyse rythmique

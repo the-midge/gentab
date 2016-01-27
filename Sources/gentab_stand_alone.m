@@ -3,13 +3,12 @@
 % Ce script charge un fichier audio et exécute tout l'algorithme, sans
 % évaluation, sans affichage, avec génération du fichier de sortie. 
 
-% clear all
 close all
 clc
 beep off
 
-addpath(genpath('../Sources/'))
-[~, cheminFichier, ~]=getConfig();
+addpath(genpath('../GenTab/'))
+% [~, cheminFichier, ~]=getConfig();
 
 %% Chargement des données
 [x,Fs]=audioread(audioFilename);

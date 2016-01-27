@@ -3,7 +3,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStringList>
-
+#include <QDebug>
+#include <QProcess>
 Parameters::Parameters()
 {
     if(QSysInfo::windowsVersion()==QSysInfo::WV_None)
@@ -229,28 +230,35 @@ QString Parameters::getMatlabPath()
     return QString("Error");
 }
 
-void Parameters::runGentabScript(Format format)
+bool Parameters::runGentabScript(Format format)
 {
     QStringList qslMatlabInstructions;
-    qslMatlabInstructions << "fileName=" + _qsExportFileName
-                          << "exportDir=" + _qsGeneratedTabsPath
-                          << "audioFileName=" + _qsAudioFileName
-                          << "run('" + _qsGentabPath + QDir::separator() + "gentab_stand_alone.m')"
+    qslMatlabInstructions << "fileName='" + QDir::fromNativeSeparators(_qsExportFileName) + "'"
+                          << "exportDir='" + QDir::fromNativeSeparators(_qsGeneratedTabsPath) + "'"
+                          << "audioFilename='" + QDir::fromNativeSeparators(_qsAudioFileName) + "'"
+                          << "format=" + QString::number(format)
+                          << "run('" + QDir::fromNativeSeparators(_qsGentabPath) + "/gentab_stand_alone.m')"
                           << "exit;";
     QString qsMatlabInstruction = qslMatlabInstructions.join(';');
 
     if(this->_os==Windows)
     {
-        QStringList qslWindowsInstructions;
-        qslWindowsInstructions << _qsMatlabPath + QDir::toNativeSeparators("/bin/matlab.exe")
+
+        QStringList qslParameters;
+        qslParameters
 //                               << "-nodisplay"
 //                               << "-nosplash"
 //                               << "-nodesktop"
 //                               << "-minimize"
-                               << "-r"
-                               << qsMatlabInstruction;
-        QString qsWindowsInstruction = qslWindowsInstructions.join(' ');
+                                 << "-r"
+                                 << '"' + qsMatlabInstruction + '"';
+        QString qsProgram = "\"" + QDir::fromNativeSeparators(_qsMatlabPath) + "\"";
+        QProcess winProcess;
+        winProcess.start(qsProgram, qslParameters);
+        return winProcess.waitForFinished();
+
     }else{
         // Same thing but with Mac cmd line
+        return false;
     }
 }

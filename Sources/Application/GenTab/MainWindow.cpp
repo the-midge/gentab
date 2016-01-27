@@ -26,9 +26,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButtonOpenAudacityProject,SIGNAL(clicked()), this, SLOT(openAudacity()));
     connect(ui->pushButtonNewAudacityProject,SIGNAL(clicked()), this, SLOT(newAudacityProject()));
     connect(ui->pushButtonExploreAudacityProject,SIGNAL(clicked()), this, SLOT(exploreAudacity()));
+    connect(ui->audacityProjectLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onAudacityProjectTextChanged(QString)));
+
+    connect(ui->pushButtonExploreWaveFile, SIGNAL(clicked()), this, SLOT(onExploreWave()));
 
     connect(ui->pushButtonSaveFilename, SIGNAL(clicked()), this, SLOT(onGenerateFileClicked()));
-    connect(ui->audacityProjectLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onAudacityProjectTextChanged(QString)));
+    connect(ui->filenameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onFileNameChanged(QString)));
+    connect(ui->pushButtonExploreFilename, SIGNAL(clicked()), this, SLOT(onExploreFileName()));
 }
 
 MainWindow::~MainWindow()
@@ -99,12 +103,48 @@ void MainWindow::onGenerateFileClicked()
 {
     _param.setAudioFileName(ui->waveFileLineEdit->text());
     _param.setExportFileName(ui->filenameLineEdit->text());
-    Format format;
-    if(ui->buttonGP4->isChecked())
-        format = GP4;
+
+    QString extension;
+    if(getFormat() == GP4)
+        extension = ".gp4";
     else
-        format = MIDI;
-    _param.runGentabScript(format);
+        extension = ".mid";
+
+    QFileInfo fichierPropose(_param._qsExportFileName + extension);
+    bool warning =false;
+    if(fichierPropose.exists())
+    {
+        warning = true;
+    }else{
+        QFile fichierRecompose(_param._qsGeneratedTabsPath + '/' + _param._qsExportFileName + extension);
+        if(fichierRecompose.exists())
+            warning = true;
+        fichierPropose = fichierRecompose;
+    }
+
+    if(warning)
+    {
+        QMessageBox msgBox;
+        msgBox.setText("This file already exists.");
+        msgBox.setInformativeText("Do you want to erase it");
+        msgBox.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        int result = msgBox.exec();
+        if(result == QMessageBox::Cancel)
+            return;
+    }
+
+    if(_param.runGentabScript(getFormat()))
+    {
+        QMessageBox msgBox;
+        msgBox.setText("The generation is complete");
+        msgBox.setInformativeText("Do you want to open the ne file.");
+        msgBox.setStandardButtons(QMessageBox::Open | QMessageBox::Close);
+        msgBox.setDefaultButton(QMessageBox::Open);
+        int result = msgBox.exec();
+        if(result == QMessageBox::Open)
+            QDesktopServices::openUrl(QUrl::fromLocalFile(fichierPropose.absoluteFilePath()));
+    }
 }
 
 void MainWindow::onAudacityProjectTextChanged(QString newText)
@@ -116,9 +156,70 @@ void MainWindow::onAudacityProjectTextChanged(QString newText)
         this->ui->pushButtonOpenAudacityProject->setDisabled(true);
 }
 
+void MainWindow::onExploreWave()
+{
+    QString path=QFileDialog::getOpenFileName(this,"Open...",_param._qsRecordedAudioFilesPath,"WAV File(*.wav)");
+    if(!path.isEmpty() && path.endsWith(".wav"))
+    {
+        this->ui->waveFileLineEdit->setText(path);
+        this->ui->pushButtonOpenWaveFile->setEnabled(true);
+        if(!this->ui->filenameLineEdit->text().isEmpty())
+            this->ui->pushButtonSaveFilename->setEnabled(true);
+        else
+            this->ui->pushButtonSaveFilename->setEnabled(false);
+    }
+}
+
+void MainWindow::onFileNameChanged(QString qsNewFileName)
+{
+    QStringList qslTemp=qsNewFileName.split('.');
+    qsNewFileName=qslTemp.at(0);
+
+    if(!qsNewFileName.isEmpty())
+    {
+        this->ui->filenameLineEdit->setText(qsNewFileName);
+        if(!this->ui->waveFileLineEdit->text().isEmpty())
+            this->ui->pushButtonSaveFilename->setEnabled(true);
+    }else{
+        this->ui->filenameLineEdit->setText(qsNewFileName);
+        this->ui->pushButtonSaveFilename->setEnabled(false);
+    }
+}
+
 void MainWindow::exploreAudacity()
 {
     QString path=QFileDialog::getOpenFileName(this,"Open...",_param._qsAudacityProjectsPath,"Audacity project(*.aup)"); // path est le nom du chemin du nouveau fichier Audacity
     if(!path.isEmpty() && path.endsWith(".aup"))
         this->ui->audacityProjectLineEdit->setText(path);
+}
+
+void MainWindow::onExploreFileName()
+{
+    QString path=QFileDialog::getOpenFileName(this,"Open...",_param._qsGeneratedTabsPath,"Partition(*.gp4 *.mid)");
+    if(!path.isEmpty() && (path.endsWith(".gp4") || path.endsWith(".mid")))
+    {
+        QStringList qslTemp=path.split('.');
+        path=qslTemp.at(0);
+        QString extension = qslTemp.at(1);
+        setFormat(extension);
+        this->ui->filenameLineEdit->setText(path);
+    }
+}
+
+Format MainWindow::getFormat()
+{
+    Format format;
+    if(ui->buttonGP4->isChecked())
+        format = GP4;
+    else
+        format = MIDI;
+    return format;
+}
+
+void MainWindow::setFormat(QString extension)
+{
+    if(extension=="gp4")
+        this->ui->buttonGP4->setChecked(true);
+    else
+        this->ui->buttonMIDI->setChecked(true);
 }

@@ -21,11 +21,16 @@ public:
 private slots:
     void openAudacity();
     void newAudacityProject();
+    void onExploreWave();
     void onGenerateFileClicked();
     void onAudacityProjectTextChanged(QString newText);
+    void onFileNameChanged(QString qsNewFileName);
     void exploreAudacity();
+    void onExploreFileName();
 
 private:
+    Format getFormat();
+    void setFormat(QString extension);
     Ui::MainWindow *ui;
     Parameters _param;
 };

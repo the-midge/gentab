@@ -248,7 +248,7 @@ p, li { white-space: pre-wrap; }
               <item>
                <widget class="QPushButton" name="pushButtonOpenWaveFile">
                 <property name="enabled">
-                 <bool>true</bool>
+                 <bool>false</bool>
                 </property>
                 <property name="autoFillBackground">
                  <bool>false</bool>
@@ -490,6 +490,7 @@ p, li { white-space: pre-wrap; }
             </property>
             <property name="styleSheet">
              <string notr="true">background:url(:/uno_final.png);
+background-opacity: 0.6;
 background-repeat: no-repeat;</string>
             </property>
             <property name="text">
@@ -743,7 +744,7 @@ p, li { white-space: pre-wrap; }
                 <item>
                  <widget class="QPushButton" name="pushButtonSaveFilename">
                   <property name="enabled">
-                   <bool>true</bool>
+                   <bool>false</bool>
                   </property>
                   <property name="autoFillBackground">
                    <bool>false</bool>
