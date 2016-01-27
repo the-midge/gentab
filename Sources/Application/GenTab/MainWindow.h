@@ -21,12 +21,15 @@ public:
 private slots:
     void openAudacity();
     void newAudacityProject();
-    void onExploreWave();
     void onGenerateFileClicked();
     void onAudacityProjectTextChanged(QString newText);
+    void onWaveFileTextChanged(QString newText);
     void onFileNameChanged(QString qsNewFileName);
     void exploreAudacity();
+    void playWave();
+    void loadWave();
     void onExploreFileName();
+
 
 private:
     Format getFormat();

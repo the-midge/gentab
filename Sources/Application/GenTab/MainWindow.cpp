@@ -26,11 +26,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButtonOpenAudacityProject,SIGNAL(clicked()), this, SLOT(openAudacity()));
     connect(ui->pushButtonNewAudacityProject,SIGNAL(clicked()), this, SLOT(newAudacityProject()));
     connect(ui->pushButtonExploreAudacityProject,SIGNAL(clicked()), this, SLOT(exploreAudacity()));
-    connect(ui->audacityProjectLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onAudacityProjectTextChanged(QString)));
-
-    connect(ui->pushButtonExploreWaveFile, SIGNAL(clicked()), this, SLOT(onExploreWave()));
 
     connect(ui->pushButtonSaveFilename, SIGNAL(clicked()), this, SLOT(onGenerateFileClicked()));
+    connect(ui->audacityProjectLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onAudacityProjectTextChanged(QString)));
+    connect(ui->pushButtonPlayWaveFile,SIGNAL(clicked()), this, SLOT(playWave()));
+    connect(ui->pushButtonLoadWaveFile,SIGNAL(clicked()), this, SLOT(loadWave()));
     connect(ui->filenameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onFileNameChanged(QString)));
     connect(ui->pushButtonExploreFilename, SIGNAL(clicked()), this, SLOT(onExploreFileName()));
 }
@@ -52,51 +52,37 @@ void MainWindow::openAudacity()
 
 void MainWindow::newAudacityProject()
 {
-//    QTextEdit * zoneTexte=new QTextEdit;
-//    ui->verticalLayout_5->addWidget(zoneTexte);
-    
-//    zoneTexte->setGeometry(100,100,400,200);
-//    zoneTexte->setReadOnly(true);
-//    zoneTexte->setTextColor(Qt::blue);
-    
+
     QString texte;
     QString originalFile=_param._qsGentabPath + QDir::separator() + "projetTampon.aup";
     QFile fichier(originalFile);
     QString path=QFileDialog::getSaveFileName(this,"Enregistrer sous...",_param._qsAudacityProjectsPath,"Audacity project(*.aup)"); // path est le nom du chemin du nouveau fichier Audacity
 
-    if(fichier.open(QIODevice::ReadOnly))
-    {
-        texte=path;
-        fichier.close();
-    }
-    //zoneTexte->setText(texte);
-    //zoneTexte->show(); // affiche le path
-    
+
+
+
     QFileInfo fileInfo(path);
     QString name=fileInfo.fileName();
-    
-    //zoneTexte->setText(name);
-    //zoneTexte->show();
+
+
 
     QFile::copy(originalFile,path); // copie le fichier tampon dans le repertoire path
     //Qstring result=path+name
     QFileInfo fich(path);
     QString nomRepertoire=fich.canonicalPath();
-    
-//    zoneTexte->setText(nomRepertoire);
-//    zoneTexte->show();
-    
+
+
     QFileInfo fi(path);
     QString nomUtilisateur=fich.baseName(); // le nom donné par l'utilisateur au projet audacity
     QString nomDossier=nomUtilisateur+"_data"; // le nom que doit avoir le dossier data pour pouvoir ouvrir le projet
     QString pathnomDossier=nomRepertoire+"/"+nomDossier;
     QDir().mkdir(pathnomDossier); // créer le dossier data
-    
+
     this->ui->audacityProjectLineEdit->setText(path);
-    
+
     QDesktopServices::openUrl(QUrl::fromLocalFile(path)); // ouvre le fichier audacity
-    
-   
+
+
 }
 
 void MainWindow::onGenerateFileClicked()
@@ -156,36 +142,6 @@ void MainWindow::onAudacityProjectTextChanged(QString newText)
         this->ui->pushButtonOpenAudacityProject->setDisabled(true);
 }
 
-void MainWindow::onExploreWave()
-{
-    QString path=QFileDialog::getOpenFileName(this,"Open...",_param._qsRecordedAudioFilesPath,"WAV File(*.wav)");
-    if(!path.isEmpty() && path.endsWith(".wav"))
-    {
-        this->ui->waveFileLineEdit->setText(path);
-        this->ui->pushButtonOpenWaveFile->setEnabled(true);
-        if(!this->ui->filenameLineEdit->text().isEmpty())
-            this->ui->pushButtonSaveFilename->setEnabled(true);
-        else
-            this->ui->pushButtonSaveFilename->setEnabled(false);
-    }
-}
-
-void MainWindow::onFileNameChanged(QString qsNewFileName)
-{
-    QStringList qslTemp=qsNewFileName.split('.');
-    qsNewFileName=qslTemp.at(0);
-
-    if(!qsNewFileName.isEmpty())
-    {
-        this->ui->filenameLineEdit->setText(qsNewFileName);
-        if(!this->ui->waveFileLineEdit->text().isEmpty())
-            this->ui->pushButtonSaveFilename->setEnabled(true);
-    }else{
-        this->ui->filenameLineEdit->setText(qsNewFileName);
-        this->ui->pushButtonSaveFilename->setEnabled(false);
-    }
-}
-
 void MainWindow::exploreAudacity()
 {
     QString path=QFileDialog::getOpenFileName(this,"Open...",_param._qsAudacityProjectsPath,"Audacity project(*.aup)"); // path est le nom du chemin du nouveau fichier Audacity
@@ -223,3 +179,33 @@ void MainWindow::setFormat(QString extension)
     else
         this->ui->buttonMIDI->setChecked(true);
 }
+
+
+void MainWindow::playWave()
+{
+    QString fileName2=QFileDialog::getOpenFileName(this,tr("Open File"),_param._qsRecordedAudioFilesPath,tr("Fichier Wave (*.wav *.wave)"));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(fileName2));
+
+
+}
+
+void MainWindow::onWaveFileTextChanged(QString newText)
+{
+    QFile fichier(newText);
+    if(fichier.exists() && newText.endsWith(".wav"))
+        this->ui->pushButtonLoadWaveFile->setEnabled(true);
+    else
+        this->ui->pushButtonLoadWaveFile->setDisabled(true);
+}
+
+
+
+void MainWindow::loadWave()
+{
+    QString fileName2=QFileDialog::getOpenFileName(this,tr("Open File"),_param._qsRecordedAudioFilesPath,tr("Fichier Wave (*.wav *.wave)"));
+    if(!fileName2.isEmpty() && fileName2.endsWith(".wav"))
+        this->ui->waveFileLineEdit->setText(fileName2);
+
+
+}
+
