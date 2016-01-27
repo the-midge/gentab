@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->pushButtonSaveFilename, SIGNAL(clicked()), this, SLOT(onGenerateFileClicked()));
     connect(ui->audacityProjectLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onAudacityProjectTextChanged(QString)));
+    connect(ui->waveFileLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onWaveFileTextChanged(QString)));
     connect(ui->pushButtonPlayWaveFile,SIGNAL(clicked()), this, SLOT(playWave()));
     connect(ui->pushButtonLoadWaveFile,SIGNAL(clicked()), this, SLOT(loadWave()));
     connect(ui->filenameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onFileNameChanged(QString)));
@@ -84,6 +85,23 @@ void MainWindow::newAudacityProject()
 
 
 }
+
+void MainWindow::onFileNameChanged(QString qsNewFileName)
+{
+    QStringList qslTemp=qsNewFileName.split('.');
+    qsNewFileName=qslTemp.at(0);
+
+    if(!qsNewFileName.isEmpty())
+    {
+        this->ui->filenameLineEdit->setText(qsNewFileName);
+        if(!this->ui->waveFileLineEdit->text().isEmpty())
+            this->ui->pushButtonSaveFilename->setEnabled(true);
+    }else{
+        this->ui->filenameLineEdit->setText(qsNewFileName);
+        this->ui->pushButtonSaveFilename->setEnabled(false);
+    }
+}
+
 
 void MainWindow::onGenerateFileClicked()
 {
@@ -183,19 +201,20 @@ void MainWindow::setFormat(QString extension)
 
 void MainWindow::playWave()
 {
-    QString fileName2=QFileDialog::getOpenFileName(this,tr("Open File"),_param._qsRecordedAudioFilesPath,tr("Fichier Wave (*.wav *.wave)"));
-    QDesktopServices::openUrl(QUrl::fromLocalFile(fileName2));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(ui->waveFileLineEdit->text()));
 
 
 }
+
+
 
 void MainWindow::onWaveFileTextChanged(QString newText)
 {
     QFile fichier(newText);
     if(fichier.exists() && newText.endsWith(".wav"))
-        this->ui->pushButtonLoadWaveFile->setEnabled(true);
+        this->ui->pushButtonPlayWaveFile->setEnabled(true);
     else
-        this->ui->pushButtonLoadWaveFile->setDisabled(true);
+        this->ui->pushButtonPlayWaveFile->setDisabled(true);
 }
 
 
@@ -205,7 +224,6 @@ void MainWindow::loadWave()
     QString fileName2=QFileDialog::getOpenFileName(this,tr("Open File"),_param._qsRecordedAudioFilesPath,tr("Fichier Wave (*.wav *.wave)"));
     if(!fileName2.isEmpty() && fileName2.endsWith(".wav"))
         this->ui->waveFileLineEdit->setText(fileName2);
-
 
 }
 
