@@ -208,9 +208,9 @@ elseif strcmp(choixAlgo, ALL) | strcmp(choixAlgo, ALLtemp)
     [confDurees]=evaluateAR(filename, notesDet, tempo, 0);
 
     %% Generation et ouverture du Fichier MIDI avec Guitar Pro
-    o='o'; O='O'; n='n'; N='N';
-    choix=input('Générer un fichier MIDI (o/n)? ');
-    if strcmp(choix, 'o') || strcmp(choix, 'O')
+    M='M'; G='G'; exit='exit';
+    choix=input('Générer un fichier MIDI/GP4 (M/G/exit)? ');
+    if strcmp(choix, 'M')
         out = strcat('Data/', file, '/', file, '.mid')
         generationMidi;
         os=computer;
@@ -221,6 +221,10 @@ elseif strcmp(choixAlgo, ALL) | strcmp(choixAlgo, ALLtemp)
         lancementMIDI = strcat('start "" "', cheminGP, '" "', cheminFichier, file, '\', file, '.mid" ');
         end
         system(lancementMIDI);
+    elseif strcmp(choix, 'G')
+        out = strcat('Data/', file, '/', file, '.gp4');
+        generationGP4;
+        %Pas de lancement
     end
 end
 %%

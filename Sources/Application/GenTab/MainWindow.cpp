@@ -13,16 +13,22 @@
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QDir>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    _param(Parameters())
+    _param(Parameters()),
+    _fileWatcher(this),
+    _progressBar(this)
+
 {
     ui->setupUi(this);
+    _progressBar.setRange(0, 6);
+    _progressBar.setValue(0);
+    _progressBar.setTextVisible(false);
+    _progressBar.show();
     this->setWindowIcon(QIcon(":/Guitar-icon.png"));
-    this->statusBar()->hide();
-    this->menuBar()->hide();
     connect(ui->pushButtonOpenAudacityProject,SIGNAL(clicked()), this, SLOT(openAudacity()));
     connect(ui->pushButtonNewAudacityProject,SIGNAL(clicked()), this, SLOT(newAudacityProject()));
     connect(ui->pushButtonExploreAudacityProject,SIGNAL(clicked()), this, SLOT(exploreAudacity()));
@@ -34,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButtonLoadWaveFile,SIGNAL(clicked()), this, SLOT(loadWave()));
     connect(ui->filenameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onFileNameChanged(QString)));
     connect(ui->pushButtonExploreFilename, SIGNAL(clicked()), this, SLOT(onExploreFileName()));
+
+    connect(&_fileWatcher, SIGNAL(fileChanged(QString)), this, SLOT(onLogFileChanged(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -106,7 +114,8 @@ void MainWindow::onFileNameChanged(QString qsNewFileName)
 void MainWindow::onGenerateFileClicked()
 {
     _param.setAudioFileName(ui->waveFileLineEdit->text());
-    _param.setExportFileName(ui->filenameLineEdit->text());
+    QFileInfo exportFile(ui->filenameLineEdit->text());
+    _param.setExportFileName(exportFile.fileName());
 
     QString extension;
     if(getFormat() == GP4)
@@ -138,17 +147,13 @@ void MainWindow::onGenerateFileClicked()
             return;
     }
 
-    if(_param.runGentabScript(getFormat()))
-    {
-        QMessageBox msgBox;
-        msgBox.setText("The generation is complete");
-        msgBox.setInformativeText("Do you want to open the ne file.");
-        msgBox.setStandardButtons(QMessageBox::Open | QMessageBox::Close);
-        msgBox.setDefaultButton(QMessageBox::Open);
-        int result = msgBox.exec();
-        if(result == QMessageBox::Open)
-            QDesktopServices::openUrl(QUrl::fromLocalFile(fichierPropose.absoluteFilePath()));
-    }
+    QString fichierLogPath = fichierPropose.absoluteFilePath().remove(extension) + ".log";
+    QFile fichierLog(fichierLogPath);
+    fichierLog.open(QIODevice::ReadWrite);
+    _fileWatcher.addPath(fichierLogPath);
+
+    _param.runGentabScript(getFormat());
+    this->ui->mainLayout->addWidget(&_progressBar);
 }
 
 void MainWindow::onAudacityProjectTextChanged(QString newText)
@@ -198,7 +203,6 @@ void MainWindow::setFormat(QString extension)
         this->ui->buttonMIDI->setChecked(true);
 }
 
-
 void MainWindow::playWave()
 {
     QDesktopServices::openUrl(QUrl::fromLocalFile(ui->waveFileLineEdit->text()));
@@ -217,13 +221,63 @@ void MainWindow::onWaveFileTextChanged(QString newText)
         this->ui->pushButtonPlayWaveFile->setDisabled(true);
 }
 
-
-
 void MainWindow::loadWave()
 {
     QString fileName2=QFileDialog::getOpenFileName(this,tr("Open File"),_param._qsRecordedAudioFilesPath,tr("Fichier Wave (*.wav *.wave)"));
     if(!fileName2.isEmpty() && fileName2.endsWith(".wav"))
         this->ui->waveFileLineEdit->setText(fileName2);
-
 }
 
+void MainWindow::onLogFileChanged(QString logFile)
+{
+    QFile file(logFile);
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QString line;
+    int i=0;
+    while(!file.atEnd()){
+        line = file.readLine();
+        i++;
+    }
+    switch(i)
+    {
+    case 0:
+        qDebug() << "Initialisation, le script n'a pas commencé";
+        break;
+    case 1:
+        qDebug() << line;
+        break;
+    case 2:
+        qDebug() << line;
+        break;
+    case 3:
+        qDebug() << line;
+        break;
+    case 4:
+        qDebug() << line;
+        break;
+    case 5:
+        qDebug() << line;
+        break;
+    case 6:
+    {
+        qDebug() << line;
+        _progressBar.setValue(i);
+        _fileWatcher.removePath(logFile);
+        file.remove();
+        QMessageBox msgBox;
+        msgBox.setText("Generation succedeed.");
+        msgBox.setInformativeText("Do you want to open the new file");
+        msgBox.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        int result = msgBox.exec();
+        if(result == QMessageBox::Ok)
+            QDesktopServices::openUrl(QUrl::fromLocalFile(_param._qsGeneratedTabsPath + "/" + _param._qsExportFileName + ".mid"));
+    }
+        break;
+    default:
+        break;
+    }
+    _progressBar.setValue(i);
+
+    // line = last line
+}

@@ -3,7 +3,9 @@
 
 #include "Parameters.h"
 
+#include <QFileSystemWatcher>
 #include <QMainWindow>
+#include <QProgressBar>
 #include <QPushButton>
 
 namespace Ui {
@@ -29,13 +31,16 @@ private slots:
     void playWave();
     void loadWave();
     void onExploreFileName();
-
+    void onLogFileChanged(QString logFile);
 
 private:
     Format getFormat();
     void setFormat(QString extension);
     Ui::MainWindow *ui;
     Parameters _param;
+    QFileSystemWatcher _fileWatcher;
+    QProgressBar _progressBar;
+
 };
 
 #endif // MAINWINDOW_H
