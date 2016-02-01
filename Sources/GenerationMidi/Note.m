@@ -113,7 +113,7 @@ classdef Note < handle
             for i=1:length(tonstr)/2
                 for j=1:13
                    if strcmp(names{j}, tonstr(i,:)) ~= 0
-                      note.ton(i)=j-1; % note attendue
+                      note.ton(i)=j; % note attendue
                    end
                 end
             end
