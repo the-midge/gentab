@@ -75,7 +75,7 @@ for k=1:nbNotesExp
            rowNames = {'R ', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#', 'G ', 'G#'};   % temp
            for j=1:13
                if strcmp(rowNames{j}, characteres(idxNote(i):idxNote(i)+1)) ~= 0
-                  ton(i)=j-1; % note attendue
+                  ton(i)=j; % note attendue
                end
            end
        end
@@ -222,7 +222,7 @@ if display
     title(['Matrice de confusion des octaves'],titleStyle{:});
 end
 mask=eye(13);
-[~, confTons, ~, ~]=confusion(mask(tonsAComparer(:,2)+1,:)', mask(tonsAComparer(:,1)+1,:)');
+[~, confTons, ~, ~]=confusion(mask(tonsAComparer(:,2),:)', mask(tonsAComparer(:,1),:)');
 mask=[0 zeros(1,5); zeros(5,1), eye(5)];
 [~, confOctaves, ~, ~]=confusion(mask(octavesAComparer(:,2),:)', mask(octavesAComparer(:,1),:)');
 %%   Affichage de la matrice de confusion des tons (texte)
