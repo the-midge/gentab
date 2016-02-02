@@ -130,9 +130,9 @@ function [varargout] = analyseRythmique(oss, bornes, FsOSS, Fs, indexOnsets, ind
 %     if (length(silences)+length(indexOnsets))==length(durees)
 %         disp('Erreur AR');
 %     end
-    %% No correction
-%     probasEcart = peigneGaussienne(indiceEcartsPourPeigne,:);
-%     [~, durees] = max(probasEcart')
+    %% Decommenter si No correction
+    probasEcart = peigneGaussienne(indiceEcartsPourPeigne,:);
+    [~, durees] = max(probasEcart');
         
     %% Fin du programme
     if display

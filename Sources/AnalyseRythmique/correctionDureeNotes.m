@@ -1,11 +1,10 @@
-% clear all
-% clc
-% 
-%  load('..\DATA\Voodoo_Child\durees_brutes_voodoo_child.mat')
-% 
 clear mesureTemporaire mesures somme col colPart depassementMesure derniereNote dureeMesure echecCorrection ind out somme vectEchec;
-% 
-% durees = dureesBrutes(1:end);
+clc
+
+% durees = [4.3 4.2 4.9 4.6 4.4 4.7 2.2 2.3 2.2 2.1]
+% load('DATA/Voodoo_Child/durees_brutes_voodoo_child2.mat')
+% load('durees_brutes_voodoo_child2.mat')
+% durees = dureesBrutes; %% pour exemple rapport
 %% Algo de correction de la duree des notes suivant un decoupage en mesure 4:4
 % Suite a la generation des probabilites de chaque duree de note
 % (generatePeigneGaussienne), on determine en cas de conflit la duree la
@@ -30,10 +29,13 @@ numMesure = 1;
 col = 0;
 colPart = 0;
 l = 1;
+
+derniereNote = [];
 depassementMesure = 0; % booleen
 echecCorrection = 0;
 
 while(l <= length(durees))
+
     col = col +1;
     colPart = colPart + 1;
     
@@ -58,37 +60,37 @@ while(l <= length(durees))
         mesureTemporaire(4, colPart) = out(l, 3);  
     end
     
-    mesureTemporaire(5, colPart) = mesureTemporaire(2, colPart) + mesureTemporaire(4, colPart);
-    mesureTemporaire(6, colPart) = mesureTemporaire(2, colPart) - mesureTemporaire(4, colPart);
+%     mesureTemporaire(5, colPart) = mesureTemporaire(2, colPart) + mesureTemporaire(4, colPart);
+    mesureTemporaire(5, colPart) = mesureTemporaire(2, colPart) - mesureTemporaire(4, colPart);
     
     % on determine la duree de la mesure entiere
     somme = sum(mesures(numMesure, :));
     
     % On gere le cas où il y a dépassement de duree sur la mesure
-    while(somme > dureeMesure)
+    while(somme > dureeMesure && echecCorrection == 0)
         
         depassementMesure = 1;
         
-        [val ind] = min(mesureTemporaire(6, :));
+        [val ind] = min(mesureTemporaire(5, :));
 
-        if(ind == col)
+        if(mesureTemporaire(3, ind) < mesureTemporaire(1, ind))
             mesures(numMesure, ind) = mesureTemporaire(3, ind);
-            mesureTemporaire(6, ind) = 1;
-            
-            if((mesureTemporaire(6, :) == 1))
-                if(echecCorrection == 0)
-                    mesureTemporaire = [mesureTemporaire derniereNote];
-                    derniereNote = [];
-                    mesures(numMesure, 1:col) = mesureTemporaire(1, 1:colPart);
-                    l = l + 1;
-                    echecCorrection = 1;
-                end
-            end
+            mesureTemporaire(5, ind) = 1;
         else
             derniereNote = mesureTemporaire(:, colPart);
             mesureTemporaire(:, colPart) = [];
             mesures(numMesure, col) = 0;
             l = l - 1;
+        end
+
+        if((mesureTemporaire(5, :) == 1))
+            if(echecCorrection == 0)
+                mesureTemporaire = [mesureTemporaire derniereNote];
+                derniereNote = [];
+                mesures(numMesure, 1:col) = mesureTemporaire(1, 1:colPart);
+                l = l + 1;
+                echecCorrection = 1;
+            end
         end
         
         somme = sum(mesures(numMesure, :));
@@ -97,11 +99,18 @@ while(l <= length(durees))
     
     if(depassementMesure == 1)
         
-        while(somme < dureeMesure)
+        while(somme < dureeMesure && echecCorrection == 0)
 
-            [val ind] = min(mesureTemporaire(6, :));
-
-            if((mesureTemporaire(6, :) == 1))
+            depassementMesure = 0;
+            
+            [val ind] = min(mesureTemporaire(5, :));
+            
+            if(mesureTemporaire(3, ind) > mesureTemporaire(1, ind))
+                mesures(numMesure, ind) = mesureTemporaire(3, ind);
+            end
+                mesureTemporaire(5, ind) = 1;
+                
+            if((mesureTemporaire(5, :) == 1))
                 if(echecCorrection == 0)
                     mesureTemporaire = [mesureTemporaire derniereNote];
                     derniereNote = [];
@@ -109,15 +118,10 @@ while(l <= length(durees))
                     l = l + 1;
                     echecCorrection = 1;
                 end
-            else
-                mesures(numMesure, ind) = mesureTemporaire(3, ind);
-                mesureTemporaire(6, ind) = 1;
             end
 
             somme = sum(mesures(numMesure, :));
         end
-        
-        depassementMesure = 0;
     
         % Test de fin de traitement
         if((somme > dureeMesure))
