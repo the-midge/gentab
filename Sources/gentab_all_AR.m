@@ -91,8 +91,8 @@ if(~strcmp(choixAlgo, OUT)) % Dans tout les cas sauf une sortie
         [durees, temposDetecte(m), silences, sampleIndexOffsets] = AnalyseRythmique(oss, bornes, FsOSS, Fs, sampleIndexOnsets, sampleIndexOffsets, 0);
 %         [durees, temposDetecte(m), silences, sampleIndexOffsets] = AnalyseRythmique(oss, bornes, FsOSS, Fs, sampleIndexOnsets, sampleIndexOffsets, 0, tempo);
 
-%         correctionDureeNotes
-        durees = dureesCorrigees;
+        correctionDureeNotes
+%         durees = dureesCorrigees;
         notesDet = miseEnForme(sampleIndexOnsets,  length(x)/length(oss), silences, dureesCorrigees);
 %         temposDetecte(m) = tempo;
         
