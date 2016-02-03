@@ -14,6 +14,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QDebug>
+#include <QIntValidator>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -28,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent) :
     _progressBar.setValue(0);
     _progressBar.setTextVisible(false);
     _progressBar.show();
+
+    ui->imposedTempoLineEdit->setValidator(new QIntValidator(55, 180));
     this->setWindowIcon(QIcon(":/Guitar-icon.png"));
     connect(ui->pushButtonOpenAudacityProject,SIGNAL(clicked()), this, SLOT(openAudacity()));
     connect(ui->pushButtonNewAudacityProject,SIGNAL(clicked()), this, SLOT(newAudacityProject()));
@@ -113,15 +116,24 @@ void MainWindow::onFileNameChanged(QString qsNewFileName)
 
 void MainWindow::onGenerateFileClicked()
 {
+    this->_progressBar.reset();
     _param.setAudioFileName(ui->waveFileLineEdit->text());
     QFileInfo exportFile(ui->filenameLineEdit->text());
     _param.setExportFileName(exportFile.fileName());
 
+    // Retrieve extension
     QString extension;
     if(getFormat() == GP4)
         extension = ".gp4";
     else
         extension = ".mid";
+
+    // Retrieve imposed tempo
+    int imposedTempo=0;
+    if(ui->imposedTempoCheckBox->isChecked())
+    {
+       imposedTempo=ui->imposedTempoLineEdit->text().toInt() ;
+    }
 
     QFileInfo fichierPropose(_param._qsExportFileName + extension);
     bool warning =false;
@@ -152,7 +164,7 @@ void MainWindow::onGenerateFileClicked()
     fichierLog.open(QIODevice::ReadWrite);
     _fileWatcher.addPath(fichierLogPath);
 
-    _param.runGentabScript(getFormat());
+    _param.runGentabScript(getFormat(), imposedTempo);
     this->ui->mainLayout->addWidget(&_progressBar);
 }
 
@@ -253,8 +265,13 @@ void MainWindow::onLogFileChanged(QString logFile)
         qDebug() << line;
         break;
     case 4:
+    {
         qDebug() << line;
+        QString tempoFound =  line.mid(17);
+        tempoFound.chop(1);
+        ui->foundTempoLineEdit->setText(tempoFound);
         break;
+    }
     case 5:
         qDebug() << line;
         break;

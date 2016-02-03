@@ -168,7 +168,7 @@ background-repeat: no-repeat;
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="">
+           <widget class="QGroupBox" name="groupBox">
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
               <spacer name="verticalSpacer_2">
@@ -349,7 +349,7 @@ background-repeat: no-repeat;
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_7">
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QHBoxLayout" name="horizontalLayout_6">
                <item>
                 <widget class="QTextBrowser" name="texteExportation">
@@ -420,11 +420,130 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>300</width>
+                   <width>100</width>
                    <height>20</height>
                   </size>
                  </property>
                 </spacer>
+               </item>
+               <item>
+                <layout class="QGridLayout" name="gridLayout_2">
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="imposedTempoLineEdit">
+                   <property name="inputMask">
+                    <string notr="true"/>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
+                   <property name="placeholderText">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="foundTempoLabel">
+                   <property name="palette">
+                    <palette>
+                     <active>
+                      <colorrole role="WindowText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="255">
+                         <red>240</red>
+                         <green>240</green>
+                         <blue>240</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                     </active>
+                     <inactive>
+                      <colorrole role="WindowText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="255">
+                         <red>240</red>
+                         <green>240</green>
+                         <blue>240</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                     </inactive>
+                     <disabled>
+                      <colorrole role="WindowText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="255">
+                         <red>120</red>
+                         <green>120</green>
+                         <blue>120</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                     </disabled>
+                    </palette>
+                   </property>
+                   <property name="text">
+                    <string>Found Tempo:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="imposedTempoLabel">
+                   <property name="palette">
+                    <palette>
+                     <active>
+                      <colorrole role="WindowText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="255">
+                         <red>240</red>
+                         <green>240</green>
+                         <blue>240</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                     </active>
+                     <inactive>
+                      <colorrole role="WindowText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="255">
+                         <red>240</red>
+                         <green>240</green>
+                         <blue>240</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                     </inactive>
+                     <disabled>
+                      <colorrole role="WindowText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="255">
+                         <red>120</red>
+                         <green>120</green>
+                         <blue>120</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                     </disabled>
+                    </palette>
+                   </property>
+                   <property name="text">
+                    <string>Imposed Tempo:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="foundTempoLineEdit">
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QCheckBox" name="imposedTempoCheckBox">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
               </layout>
              </widget>
@@ -487,7 +606,7 @@ background-repeat: no-repeat;</string>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_12">
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QVBoxLayout" name="verticalLayout_4">
                <item>
                 <spacer name="verticalSpacer_3">
@@ -663,7 +782,7 @@ background-repeat: no-repeat;</string>
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="">
+           <widget class="QGroupBox" name="groupBox">
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
               <spacer name="verticalSpacer_14">

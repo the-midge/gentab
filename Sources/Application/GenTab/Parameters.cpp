@@ -305,13 +305,14 @@ QString Parameters::getMatlabPath()
     return QString("Error");
 }
 
-bool Parameters::runGentabScript(Format format)
+bool Parameters::runGentabScript(Format format, int imposedTempo)
 {
     QStringList qslMatlabInstructions;
     qslMatlabInstructions << "fileName='" + QDir::fromNativeSeparators(_qsExportFileName) + "'"
                           << "exportDir='" + QDir::fromNativeSeparators(_qsGeneratedTabsPath) + "'"
                           << "audioFilename='" + QDir::fromNativeSeparators(_qsAudioFileName) + "'"
                           << "format=" + QString::number(format)
+                          << "tempo=" + QString::number(imposedTempo)
                           << "run('" + QDir::fromNativeSeparators(_qsGentabPath) + "/gentab_stand_alone.m')"
                           << "exit;";
     QString qsMatlabInstruction = qslMatlabInstructions.join(';');
@@ -321,10 +322,10 @@ bool Parameters::runGentabScript(Format format)
 
         QStringList qslParameters;
         qslParameters
-//                               << "-nodisplay"
-//                               << "-nosplash"
-//                               << "-nodesktop"
-//                               << "-minimize"
+                               << "-nodisplay"
+                               << "-nosplash"
+                               << "-nodesktop"
+                               << "-minimize"
                                  << "-r"
                                  << '"' + qsMatlabInstruction + '"';
         QString qsProgram = "\"" + QDir::fromNativeSeparators(_qsMatlabPath) + "\"";
