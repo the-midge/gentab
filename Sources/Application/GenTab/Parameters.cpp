@@ -1,5 +1,5 @@
 #include "Parameters.h"
-
+#include <QSysInfo>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStringList>
@@ -7,9 +7,9 @@
 #include <QProcess>
 Parameters::Parameters()
 {
-    if(QSysInfo::windowsVersion()==QSysInfo::WV_None)
-        this->_os = MacOSx;
-    else
+//    if(QSysInfo::windowsVersion()==QSysInfo::WV_None)
+//        this->_os = MacOSx;
+//    else
         this->_os = Windows;
 
     readConfigFile();
@@ -72,15 +72,15 @@ void Parameters::readConfigFile()
 
     _qsUserPath = QDir::homePath();
     QString rootPath = QDir::rootPath();
-    if(QSysInfo::windowsVersion()==QSysInfo::WV_None){
-        this->_os = MacOSx;
-        _qsGentabPath = "/Users/apple/Desktop/GenTab/Sources/Application/GenTab";
-    }else{
+//    if(QSysInfo::windowsVersion()==QSysInfo::WV_None){
+//        this->_os = MacOSx;
+//        _qsGentabPath = "/Users/apple/Desktop/GenTab/Sources/Application/GenTab";
+//    }else{
         this->_os = Windows;
 
     _qsGentabPath = rootPath + "Program Files" + QDir::separator()
                                 + "GenTab";
-    }
+//    }
     
     QString configFilePath = QDir::toNativeSeparators(_qsGentabPath + QDir::separator() + "config.txt");
     QFileInfo checkFile(configFilePath);
